@@ -26,6 +26,7 @@ from api.groq_api import groq_api
 from api.gemini_api import gemini_api
 from api.microblog_api import microblog_api
 from api.classroom_api import classroom_api
+from api.moodmeal_api import moodmeal_api
 from hacks.joke import joke_api  # Import the joke API blueprint
 from api.post import post_api  # Import the social media post API
 #from api.announcement import announcement_api ##temporary revert
@@ -79,6 +80,7 @@ app.register_blueprint(classroom_api)
 app.register_blueprint(feedback_api)
 app.register_blueprint(joke_api)  # Register the joke API blueprint
 app.register_blueprint(post_api)  # Register the social media post API
+app.register_blueprint(moodmeal_api)  # Register the moodmeal API blueprint
 # app.register_blueprint(announcement_api) ##temporary revert
 
 # Jokes file initialization
