@@ -640,7 +640,7 @@ class UserAPI:
                 return {'message': 'Password is missing, or is less than 2 characters'}, 400
 
             # Auto-generate required fields for guest accounts
-            name = f"Guest_{uid}"
+            name = uid
             email = "?"
             sid = "?"
             school = "?"
