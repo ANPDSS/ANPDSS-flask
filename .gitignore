@@ -15,7 +15,3 @@ env.bak/
 venv.bak/
 
 # instance data, databases
-instance/volumes/
-instance/data.json
-instance/data.json.*.bak
-instance/data/jokes.json
