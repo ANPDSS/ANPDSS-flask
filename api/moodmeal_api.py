@@ -220,9 +220,22 @@ class MoodStatsAPI(Resource):
             'most_common_tags': [{'tag': tag, 'count': count} for tag, count in most_common_tags]
         })
 
+from api.moodmeal_gemini import generate_moodmeal_plan # adjust path if needed
+
+class MoodMealPlanAPI(Resource):
+    @token_required()
+    def post(self):
+        current_user = g.current_user
+        body = request.get_json(silent=True) or {}
+        mood_id = body.get("mood_id")
+
+        plan = generate_moodmeal_plan(user_id=current_user.id, mood_id=mood_id)
+        return plan, 200
 
 # Register API resources
 api.add_resource(PreferencesAPI, '/preferences')
 api.add_resource(MoodAPI, '/mood')
 api.add_resource(MoodByIdAPI, '/mood/<int:mood_id>')
 api.add_resource(MoodStatsAPI, '/mood/stats')
+api.add_resource(MoodMealPlanAPI, '/plan')
+
