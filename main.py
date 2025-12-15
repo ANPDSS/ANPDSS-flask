@@ -9,6 +9,7 @@ from flask import current_app
 from werkzeug.security import generate_password_hash
 from dotenv import load_dotenv
 from api.jwt_authorize import token_required
+from flask_cors import CORS
 
 
 # import "objects" from "this" project
@@ -322,3 +323,6 @@ if __name__ == "__main__":
     port = app.config['FLASK_PORT']
     print(f"** Server running: http://localhost:{port}")  # Pretty link
     app.run(debug=True, host=host, port=port, use_reloader=False)
+
+app = Flask(__name__)
+CORS(app, supports_credentials=True, origins=['http://localhost:4500', 'http://127.0.0.1:4500'])
