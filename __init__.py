@@ -68,6 +68,12 @@ app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SESSION_COOKIE_NAME'] = SESSION_COOKIE_NAME
 app.config['JWT_TOKEN_NAME'] = JWT_TOKEN_NAME
 
+# Cookie settings for cross-origin requests (needed for localhost:4500 -> localhost:8587)
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # Lax works for localhost cross-port
+app.config['SESSION_COOKIE_SECURE'] = False  # False for localhost HTTP (True for HTTPS in production)
+app.config['SESSION_COOKIE_HTTPONLY'] = False  # Allow JavaScript access for development
+app.config['SESSION_COOKIE_DOMAIN'] = None  # Don't set domain for localhost
+
 
 # Database settings
 dbName = 'user_management'

@@ -28,6 +28,7 @@ from api.gemini_api import gemini_api
 from api.microblog_api import microblog_api
 from api.classroom_api import classroom_api
 from api.moodmeal_api import moodmeal_api
+from api.location_api import location_api
 from hacks.joke import joke_api  # Import the joke API blueprint
 from api.post import post_api  # Import the social media post API
 #from api.announcement import announcement_api ##temporary revert
@@ -82,10 +83,16 @@ app.register_blueprint(feedback_api)
 app.register_blueprint(joke_api)  # Register the joke API blueprint
 app.register_blueprint(post_api)  # Register the social media post API
 app.register_blueprint(moodmeal_api)  # Register the moodmeal API blueprint
+app.register_blueprint(location_api)  # Register the location API blueprint
 # app.register_blueprint(announcement_api) ##temporary revert
 
-# Jokes file initialization
+# Database initialization
 with app.app_context():
+    # Create tables if they don't exist
+    db.create_all()
+    print("Database tables created/verified")
+
+    # Initialize jokes data
     initJokes()
 
 # Tell Flask-Login the view function name of your login route
