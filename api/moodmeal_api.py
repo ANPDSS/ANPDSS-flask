@@ -8,6 +8,7 @@ from api.jwt_authorize import token_required
 from model.moodmeal_preferences import MoodMealPreferences
 from model.moodmeal_mood import MoodMealMood
 from model.user import User
+from datetime import datetime
 
 moodmeal_api = Blueprint('moodmeal_api', __name__, url_prefix='/api/moodmeal')
 api = Api(moodmeal_api)
@@ -23,16 +24,16 @@ class PreferencesAPI(Resource):
 
         if not preferences:
             # Return default empty preferences if none exist
-            return jsonify({
+            return {
                 'user_id': current_user.id,
                 'dietary': [],
                 'allergies': [],
                 'cuisines': [],
                 'music': [],
                 'activities': []
-            })
+            }
 
-        return jsonify(preferences.read())
+        return preferences.read()
 
     @token_required()
     def post(self):
@@ -46,7 +47,7 @@ class PreferencesAPI(Resource):
         if preferences:
             # Update existing preferences
             preferences.update(body)
-            return jsonify(preferences.read())
+            return preferences.read()
         else:
             # Create new preferences
             new_preferences = MoodMealPreferences(
@@ -60,7 +61,7 @@ class PreferencesAPI(Resource):
 
             result = new_preferences.create()
             if result:
-                return jsonify(result.read()), 201
+                return result.read(), 201
             else:
                 return {'message': 'Failed to create preferences'}, 500
 
@@ -98,13 +99,13 @@ class MoodAPI(Resource):
 
         moods = query.all()
 
-        return jsonify([mood.read() for mood in moods])
+        return [mood.read() for mood in moods]
 
     @token_required()
     def post(self):
         """Create a new mood entry"""
         current_user = g.current_user
-        body = request.get_json()
+        body = request.get_json() or {}
 
         # Validate required fields
         if 'mood_score' not in body:
@@ -114,18 +115,32 @@ class MoodAPI(Resource):
         if not isinstance(mood_score, int) or mood_score < 0 or mood_score > 100:
             return {'message': 'mood_score must be an integer between 0 and 100'}, 400
 
+        # Parse timestamp string (optional) into a datetime object
+        timestamp = None
+        if 'timestamp' in body and body.get('timestamp'):
+            timestamp_str = body.get('timestamp')
+            try:
+                # expect 'YYYY-MM-DD HH:MM:SS'
+                timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %H:%M:%S')
+            except (ValueError, TypeError):
+                # fallback: try ISO 8601
+                try:
+                    timestamp = datetime.fromisoformat(timestamp_str)
+                except Exception:
+                    return {'message': 'timestamp must be a string in format YYYY-MM-DD HH:MM:SS or ISO 8601'}, 400
+
         # Create new mood entry
         new_mood = MoodMealMood(
             user_id=current_user.id,
             mood_score=mood_score,
             mood_tags=body.get('mood_tags', []),
             mood_category=body.get('mood_category'),
-            timestamp=body.get('timestamp')
+            timestamp=timestamp
         )
 
         result = new_mood.create()
         if result:
-            return jsonify(result.read()), 201
+            return result.read(), 201
         else:
             return {'message': 'Failed to create mood entry'}, 500
 
@@ -142,7 +157,7 @@ class MoodByIdAPI(Resource):
         if not mood:
             return {'message': 'Mood entry not found'}, 404
 
-        return jsonify(mood.read())
+        return mood.read()
 
     @token_required()
     def put(self, mood_id):
@@ -157,7 +172,7 @@ class MoodByIdAPI(Resource):
         result = mood.update(body)
 
         if result:
-            return jsonify(result.read())
+            return result.read()
         else:
             return {'message': 'Failed to update mood entry'}, 500
 
@@ -188,12 +203,12 @@ class MoodStatsAPI(Resource):
         moods = MoodMealMood.query.filter_by(_user_id=current_user.id).all()
 
         if not moods:
-            return jsonify({
+            return {
                 'total_entries': 0,
                 'average_mood': None,
                 'most_common_category': None,
                 'most_common_tags': []
-            })
+            }
 
         # Calculate statistics
         total_entries = len(moods)
@@ -213,12 +228,12 @@ class MoodStatsAPI(Resource):
                 tag_counts[tag] = tag_counts.get(tag, 0) + 1
         most_common_tags = sorted(tag_counts.items(), key=lambda x: x[1], reverse=True)[:5]
 
-        return jsonify({
+        return {
             'total_entries': total_entries,
             'average_mood': round(average_mood, 2),
             'most_common_category': most_common_category,
             'most_common_tags': [{'tag': tag, 'count': count} for tag, count in most_common_tags]
-        })
+        }
 
 from api.moodmeal_gemini import generate_moodmeal_plan # adjust path if needed
 
