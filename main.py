@@ -9,6 +9,7 @@ from flask import current_app
 from werkzeug.security import generate_password_hash
 from dotenv import load_dotenv
 from api.jwt_authorize import token_required
+from api.Outfit_location_api import outfit_location_api
 
 
 # import "objects" from "this" project
@@ -329,3 +330,6 @@ if __name__ == "__main__":
     port = app.config['FLASK_PORT']
     print(f"** Server running: http://localhost:{port}")  # Pretty link
     app.run(debug=True, host=host, port=port, use_reloader=False)
+
+# Register the blueprint (with your other blueprint registrations)
+app.register_blueprint(outfit_location_api)
