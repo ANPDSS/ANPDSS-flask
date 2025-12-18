@@ -41,7 +41,8 @@ cors = CORS(
        'https://pages.opencodingsociety.com',
        'https://anpdss.github.io',
    ],
-   methods=["GET", "POST", "PUT", "OPTIONS"]
+   methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+   allow_headers=["Content-Type", "X-Origin", "Authorization"]
 )
 
 

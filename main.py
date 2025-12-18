@@ -84,6 +84,7 @@ app.register_blueprint(joke_api)  # Register the joke API blueprint
 app.register_blueprint(post_api)  # Register the social media post API
 app.register_blueprint(moodmeal_api)  # Register the moodmeal API blueprint
 app.register_blueprint(location_api)  # Register the location API blueprint
+app.register_blueprint(outfit_location_api)
 # app.register_blueprint(announcement_api) ##temporary revert
 
 # Database initialization
@@ -331,5 +332,3 @@ if __name__ == "__main__":
     print(f"** Server running: http://localhost:{port}")  # Pretty link
     app.run(debug=True, host=host, port=port, use_reloader=False)
 
-# Register the blueprint (with your other blueprint registrations)
-app.register_blueprint(outfit_location_api)
