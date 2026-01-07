@@ -76,9 +76,8 @@ class MicroBlogAPI:
            except Exception as e:
                return {'message': f'Error creating micro blog post: {str(e)}'}, 500
       
-       @token_required()
        def get(self):
-           """Get micro blog posts with optional filtering"""
+           """Get micro blog posts with optional filtering (public endpoint)"""
            # Query parameters
            limit = request.args.get('limit', 200, type=int)
            topic_id = request.args.get('topicId', type=int)

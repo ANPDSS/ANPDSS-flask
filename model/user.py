@@ -333,6 +333,26 @@ class User(db.Model, UserMixin):
     def school(self, school):
         self._school = school
 
+    @property
+    def friends(self):
+        """Get list of friends for this user"""
+        try:
+            from model.friend import Friend
+            friend_ids = Friend.get_friends_for_user(self.id)
+            from model.user import User
+            friends_list = []
+            for friend_id in friend_ids:
+                friend = User.query.get(friend_id)
+                if friend:
+                    friends_list.append({
+                        'id': friend.id,
+                        'uid': friend.uid,
+                        'name': friend.name
+                    })
+            return friends_list
+        except Exception:
+            return []
+
     # CRUD create/add a new record to the table
     # returns self or None on error
     def create(self, inputs=None):
@@ -361,7 +381,8 @@ class User(db.Model, UserMixin):
             "grade_data": self.grade_data,
             "ap_exam": self.ap_exam,
             "password": self._password,  # Only for internal use, not for API
-            "school": self.school
+            "school": self.school,
+            "friends": self.friends  # List of friends
         }
         sections = self.read_sections()
         data.update(sections)

@@ -31,6 +31,8 @@ from api.moodmeal_api import moodmeal_api
 from api.location_api import location_api
 from hacks.joke import joke_api  # Import the joke API blueprint
 from api.post import post_api  # Import the social media post API
+from api.friend_api import friend_api  # Import the friend API
+from api.message_api import message_api  # Import the messaging API
 #from api.announcement import announcement_api ##temporary revert
 
 # database Initialization functions
@@ -46,7 +48,9 @@ from model.study import Study, initStudies
 from model.classroom import Classroom
 from model.post import Post, init_posts
 from model.microblog import MicroBlog, Topic, init_microblogs
-from hacks.jokes import initJokes 
+from model.friend import Friend, FriendRequest, init_friends
+from model.private_message import PrivateMessage, init_private_messages
+from hacks.jokes import initJokes
 # from model.announcement import Announcement ##temporary revert
 
 # server only Views
@@ -85,6 +89,8 @@ app.register_blueprint(post_api)  # Register the social media post API
 app.register_blueprint(moodmeal_api)  # Register the moodmeal API blueprint
 app.register_blueprint(location_api)  # Register the location API blueprint
 app.register_blueprint(outfit_location_api)
+app.register_blueprint(friend_api)  # Register the friend API blueprint
+app.register_blueprint(message_api)  # Register the messaging API blueprint
 # app.register_blueprint(announcement_api) ##temporary revert
 
 # Database initialization
