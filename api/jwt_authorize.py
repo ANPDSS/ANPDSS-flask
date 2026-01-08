@@ -22,6 +22,10 @@ def token_required(roles=None):
     def decorator(func_to_guard):
         @wraps(func_to_guard)
         def decorated(*args, **kwargs):
+            # Allow CORS preflight requests to pass without authentication
+            if request.method == 'OPTIONS':
+                return ('', 200)
+
             token = request.cookies.get(current_app.config["JWT_TOKEN_NAME"])
             if not token:
                 return {

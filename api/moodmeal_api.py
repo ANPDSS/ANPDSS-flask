@@ -243,8 +243,14 @@ class MoodMealPlanAPI(Resource):
         current_user = g.current_user
         body = request.get_json(silent=True) or {}
         mood_id = body.get("mood_id")
+        # Optional weather payload from the client (pass-through to Gemini prompt)
+        # Expected shape: a dict like the OpenWeather response (or a small subset)
+        weather = body.get("weather")
 
-        plan = generate_moodmeal_plan(user_id=current_user.id, mood_id=mood_id)
+        plan = generate_moodmeal_plan(user_id=current_user.id, mood_id=mood_id, weather=weather)
+        if isinstance(plan, dict) and plan.get("error"):
+            status = plan.get("status_code", 502)
+            return plan, status
         return plan, 200
 
 # Register API resources
@@ -253,4 +259,3 @@ api.add_resource(MoodAPI, '/mood')
 api.add_resource(MoodByIdAPI, '/mood/<int:mood_id>')
 api.add_resource(MoodStatsAPI, '/mood/stats')
 api.add_resource(MoodMealPlanAPI, '/plan')
-

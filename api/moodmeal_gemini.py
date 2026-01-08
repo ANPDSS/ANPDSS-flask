@@ -9,8 +9,6 @@ from dotenv import load_dotenv
 from model.moodmeal_mood import MoodMealMood
 from model.moodmeal_preferences import MoodMealPreferences
 
-import google.generativeai as genai
-
 # Load .env once
 load_dotenv()
 
@@ -57,7 +55,7 @@ def get_preferences_for_user(user) -> dict:
     return prefs.read()
 
 
-def build_gemini_prompt(mood: dict, preferences: dict) -> str:
+def build_gemini_prompt(mood: dict, preferences: dict, weather: dict | None = None) -> str:
     """
     Converts DB mood + preferences into a Gemini-ready prompt.
     Forces JSON-only output so we can parse reliably.
@@ -72,50 +70,64 @@ def build_gemini_prompt(mood: dict, preferences: dict) -> str:
     cuisines = preferences.get("cuisines") or []
     music = preferences.get("music") or []
     activities = preferences.get("activities") or []
+    # Normalize a short weather summary for the prompt
+    if weather:
+        # Try common OpenWeather keys if present
+        w_main = weather.get('weather') or weather.get('weather_main')
+        if isinstance(w_main, list) and w_main:
+            w_main = w_main[0].get('main') or w_main[0].get('description')
+        temp = None
+        if weather.get('main') and isinstance(weather.get('main'), dict):
+            temp = weather['main'].get('temp')
+        # fallback keys
+        temp = temp or weather.get('temp') or weather.get('temperature')
+        weather_summary = f"condition: {w_main}, temp: {temp}"
+    else:
+        weather_summary = "Unknown"
 
-    return f"""
-You are MoodMeal. Generate recommendations using the user's mood + preferences.
+    # Build the prompt header with variable values (always executed)
+    header = (
+        "You are MoodMeal. Generate recommendations using the user's mood + preferences.\n\n"
+        f"User mood:\n- mood_score: {mood_score}\n- mood_category: {mood_category}\n- mood_tags: {mood_tags}\n\n"
+        f"User preferences:\n- dietary: {dietary}\n- allergies: {allergies}\n- cuisines: {cuisines}\n- music: {music}\n- activities: {activities}\n\n"
+        f"Current weather (if provided):\n- {weather_summary}\n\n"
+        "Return ONLY valid JSON, no markdown, no explanation.\n\nSchema:\n"
+    )
 
-User mood:
-- mood_score: {mood_score}
-- mood_category: {mood_category}
-- mood_tags: {mood_tags}
-
-User preferences:
-- dietary: {dietary}
-- allergies: {allergies}
-- cuisines: {cuisines}
-- music: {music}
-- activities: {activities}
-
-Return ONLY valid JSON, no markdown, no explanation.
-
-Schema:
-{{
+    # Static schema string (keep braces literal here)
+    schema = '''{
   "meals": [
-    {{
+    {
       "title": "string",
       "why": "string",
       "time_minutes": 0,
       "difficulty": "easy|medium|hard"
-    }}
+    }
   ],
   "activities": [
-    {{
+    {
       "name": "string",
       "why": "string",
       "energy": "low|medium|high"
-    }}
+    }
   ],
   "music": [
-    {{
+    {
       "song": "string",
       "artist": "string",
       "why": "string"
-    }}
+    }
+  ],
+  "clothing": [
+    {
+      "item": "string",
+      "why": "string",
+      "layers": "single|light|medium|heavy"
+    }
   ]
-}}
-"""
+}'''
+
+    return header + schema
 
 
 def call_gemini_and_parse(prompt: str) -> dict:
@@ -123,22 +135,31 @@ def call_gemini_and_parse(prompt: str) -> dict:
     Calls Gemini and parses JSON output.
     Uses the newer google-genai client and a current model ID.
     """
-    import json
     import os
+    import httpx
     from google import genai
 
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
         raise RuntimeError("GEMINI_API_KEY is missing. Check your .env and load_dotenv().")
 
-    # Use stable API behavior by using the new client
-    client = genai.Client(api_key=api_key)
+    # Allow overriding the base URL if needed; otherwise use the default public endpoint.
+    base_url = os.getenv("GEMINI_API_BASE_URL") or "https://generativelanguage.googleapis.com/"
+    client = genai.Client(api_key=api_key, http_options={"base_url": base_url})
 
-    # Use a current model id from Gemini docs
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=prompt
-    )
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt
+        )
+    except httpx.ConnectError as exc:
+        raise RuntimeError(
+            f"Failed to reach Gemini (base_url={base_url}). "
+            "Check DNS/network access to generativelanguage.googleapis.com or any custom base URL."
+        ) from exc
+    except Exception as exc:
+        # Return a controlled error so the API can surface it to the client.
+        raise RuntimeError(f"Gemini request failed: {exc}") from exc
 
     text = (response.text or "").strip()
 
@@ -154,7 +175,7 @@ def call_gemini_and_parse(prompt: str) -> dict:
 
 
 
-def generate_moodmeal_plan(user_id: int, mood_id: int | None = None) -> dict:
+def generate_moodmeal_plan(user_id: int, mood_id: int | None = None, weather: dict | None = None) -> dict:
     """
     If mood_id is provided, use that mood entry.
     Otherwise use the latest mood entry for the user.
@@ -177,12 +198,25 @@ def generate_moodmeal_plan(user_id: int, mood_id: int | None = None) -> dict:
 
     prefs = get_preferences_for_user(g.current_user)
 
-    prompt = build_gemini_prompt(mood, prefs)
-    generated = call_gemini_and_parse(prompt)
+    prompt = build_gemini_prompt(mood, prefs, weather)
+    try:
+        generated = call_gemini_and_parse(prompt)
+    except RuntimeError as exc:
+        # Pass back a structured error so the API layer can set a proper status.
+        return {
+            "error": "gemini_request_failed",
+            "message": str(exc),
+            "user_id": user_id,
+            "mood_used": mood,
+            "preferences_used": prefs,
+            "weather_used": weather,
+            "status_code": 502
+        }
 
     return {
         "user_id": user_id,
         "mood_used": mood,
         "preferences_used": prefs,
+        "weather_used": weather,
         "generated": generated
     }
