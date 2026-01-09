@@ -14,7 +14,7 @@ load_dotenv()
 # Setup of key Flask object (app)
 app = Flask(__name__)
 
-# Configure Flask Port, default to 8587 which is same as Docker setup
+# Configure Flask Port, default to 8302
 app.config['FLASK_PORT'] = int(os.environ.get('FLASK_PORT') or 8302)
 
 # Configure Flask to handle JSON with UTF-8 encoding versus default ASCII
@@ -69,7 +69,7 @@ app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SESSION_COOKIE_NAME'] = SESSION_COOKIE_NAME
 app.config['JWT_TOKEN_NAME'] = JWT_TOKEN_NAME
 
-# Cookie settings for cross-origin requests (needed for localhost:4500 -> localhost:8587)
+# Cookie settings for cross-origin requests (needed for localhost:4500 -> localhost:8302)
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # Lax works for localhost cross-port
 app.config['SESSION_COOKIE_SECURE'] = False  # False for localhost HTTP (True for HTTPS in production)
 app.config['SESSION_COOKIE_HTTPONLY'] = False  # Allow JavaScript access for development
