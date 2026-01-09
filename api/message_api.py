@@ -26,6 +26,12 @@ class SendMessageAPI(Resource):
             if not receiver_id:
                 return {'message': 'Receiver ID is required'}, 400
 
+            # Convert receiver_id to integer
+            try:
+                receiver_id = int(receiver_id)
+            except (ValueError, TypeError):
+                return {'message': 'Invalid receiver ID'}, 400
+
             if not content:
                 return {'message': 'Message content cannot be empty'}, 400
 
@@ -59,6 +65,12 @@ class ConversationAPI(Resource):
         """Get conversation with a specific friend"""
         current_user = g.current_user
         try:
+            # Ensure friend_id is an integer (URL parameters are strings)
+            try:
+                friend_id = int(friend_id)
+            except (ValueError, TypeError):
+                return {'message': 'Invalid friend ID'}, 400
+
             # Verify friend exists
             friend = User.query.get(friend_id)
             if not friend:
@@ -98,13 +110,8 @@ class ConversationsListAPI(Resource):
         """Get all conversations for current user"""
         current_user = g.current_user
         try:
+            # Conversations are already sorted by the model method
             conversations = PrivateMessage.get_conversations_for_user(current_user.id)
-
-            # Sort by last message time (most recent first)
-            conversations.sort(
-                key=lambda x: x['last_message_time'],
-                reverse=True
-            )
 
             return {
                 'conversations': conversations,
@@ -137,6 +144,12 @@ class DeleteMessageAPI(Resource):
         """Delete a message (only sender can delete)"""
         current_user = g.current_user
         try:
+            # Ensure message_id is an integer
+            try:
+                message_id = int(message_id)
+            except (ValueError, TypeError):
+                return {'message': 'Invalid message ID'}, 400
+
             message = PrivateMessage.query.get(message_id)
 
             if not message:

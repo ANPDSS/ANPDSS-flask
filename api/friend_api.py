@@ -238,6 +238,12 @@ class FriendRequestAPI(Resource):
             if not receiver_id:
                 return {'message': 'Receiver ID is required'}, 400
 
+            # Convert receiver_id to integer
+            try:
+                receiver_id = int(receiver_id)
+            except (ValueError, TypeError):
+                return {'message': 'Invalid receiver ID'}, 400
+
             # Check if receiver exists
             receiver = User.query.get(receiver_id)
             if not receiver:
@@ -293,6 +299,12 @@ class FriendRequestActionAPI(Resource):
         """Accept or reject a friend request"""
         current_user = g.current_user
         try:
+            # Ensure request_id is an integer
+            try:
+                request_id = int(request_id)
+            except (ValueError, TypeError):
+                return {'message': 'Invalid request ID'}, 400
+
             data = request.get_json()
             action = data.get('action')  # 'accept' or 'reject'
 
@@ -344,6 +356,12 @@ class FriendRequestActionAPI(Resource):
         """Cancel a sent friend request"""
         current_user = g.current_user
         try:
+            # Ensure request_id is an integer
+            try:
+                request_id = int(request_id)
+            except (ValueError, TypeError):
+                return {'message': 'Invalid request ID'}, 400
+
             friend_request = FriendRequest.query.get(request_id)
 
             if not friend_request:
@@ -397,6 +415,12 @@ class UnfriendAPI(Resource):
         """Remove a friend"""
         current_user = g.current_user
         try:
+            # Ensure friend_id is an integer
+            try:
+                friend_id = int(friend_id)
+            except (ValueError, TypeError):
+                return {'message': 'Invalid friend ID'}, 400
+
             # Verify friend exists
             friend = User.query.get(friend_id)
             if not friend:

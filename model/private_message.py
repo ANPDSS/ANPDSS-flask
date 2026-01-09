@@ -139,6 +139,7 @@ class PrivateMessage(db.Model):
                     'partner_uid': msg.receiver._uid if msg._sender_id == user_id else msg.sender._uid,
                     'last_message': msg._content,
                     'last_message_time': msg._created_at,
+                    'last_message_time_raw': msg._created_at,  # Keep datetime for sorting
                     'unread_count': 0,
                     'total_messages': 0
                 }
@@ -153,13 +154,19 @@ class PrivateMessage(db.Model):
             if msg._created_at > conversations[partner_id]['last_message_time']:
                 conversations[partner_id]['last_message'] = msg._content
                 conversations[partner_id]['last_message_time'] = msg._created_at
+                conversations[partner_id]['last_message_time_raw'] = msg._created_at
 
-        # Format datetime objects to strings for JSON serialization
-        for conv in conversations.values():
+        # Convert to list and sort by datetime (most recent first)
+        conversation_list = list(conversations.values())
+        conversation_list.sort(key=lambda x: x['last_message_time_raw'], reverse=True)
+
+        # Format datetime objects to strings for JSON serialization and remove raw datetime
+        for conv in conversation_list:
             if conv['last_message_time']:
                 conv['last_message_time'] = conv['last_message_time'].strftime('%Y-%m-%d %H:%M:%S')
+            del conv['last_message_time_raw']  # Remove the raw datetime field
 
-        return list(conversations.values())
+        return conversation_list
 
     @staticmethod
     def mark_conversation_as_read(user_id, partner_id):
