@@ -6,8 +6,12 @@ WORKDIR /app
 
 # Install system dependencies and clean up apt cache
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    git \
+    gcc \
+    g++ \
+    build-essential \
+    libpq-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy application code into the container
 COPY . /app
