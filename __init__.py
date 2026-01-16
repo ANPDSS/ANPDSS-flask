@@ -15,7 +15,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # Configure Flask Port, default to 8302
-app.config['FLASK_PORT'] = int(os.environ.get('FLASK_PORT') or 8307)
+app.config['FLASK_PORT'] = int(os.environ.get('FLASK_PORT') or 8308)
 
 # Configure Flask to handle JSON with UTF-8 encoding versus default ASCII
 app.config['JSON_AS_ASCII'] = False  # Allow emojis, non-ASCII characters in JSON responses
