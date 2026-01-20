@@ -29,6 +29,7 @@ from api.microblog_api import microblog_api
 from api.classroom_api import classroom_api
 from api.moodmeal_api import moodmeal_api
 from api.location_api import location_api
+from api.admin_api import admin_api
 from hacks.joke import joke_api  # Import the joke API blueprint
 from api.post import post_api  # Import the social media post API
 from api.friend_api import friend_api  # Import the friend API
@@ -88,6 +89,7 @@ app.register_blueprint(joke_api)  # Register the joke API blueprint
 app.register_blueprint(post_api)  # Register the social media post API
 app.register_blueprint(moodmeal_api)  # Register the moodmeal API blueprint
 app.register_blueprint(location_api)  # Register the location API blueprint
+app.register_blueprint(admin_api)  # Register the admin API blueprint for mood meal dashboard
 app.register_blueprint(outfit_location_api)
 app.register_blueprint(friend_api)  # Register the friend API blueprint
 app.register_blueprint(message_api)  # Register the messaging API blueprint
