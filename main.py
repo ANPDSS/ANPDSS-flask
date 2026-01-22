@@ -40,6 +40,7 @@ from api.message_api import message_api  # Import the messaging API
 from model.user import User, initUsers
 from model.user import Section;
 from model.github import GitHubUser
+from model.moodmeal_mood import MoodMealMood
 from model.feedback import Feedback
 from api.analytics import get_date_range
 # from api.grade_api import grade_api
@@ -165,8 +166,13 @@ def index():
 @app.route('/users/table2')
 @login_required
 def u2table():
-    users = User.query.all()
-    return render_template("u2table.html", user_data=users)
+    users = User.query.order_by(User.id).all()
+    # Build latest mood mapping for each user (or None)
+    latest_moods = {}
+    for u in users:
+        mood = MoodMealMood.query.filter_by(_user_id=u.id).order_by(MoodMealMood._timestamp.desc()).first()
+        latest_moods[u.id] = mood.read() if mood else None
+    return render_template("u2table.html", user_data=users, latest_moods=latest_moods)
 
 @app.route('/sections/')
 @login_required
