@@ -29,6 +29,7 @@ from api.microblog_api import microblog_api
 from api.classroom_api import classroom_api
 from api.moodmeal_api import moodmeal_api
 from api.location_api import location_api
+from api.admin_api import admin_api
 from hacks.joke import joke_api  # Import the joke API blueprint
 from api.post import post_api  # Import the social media post API
 from api.friend_api import friend_api  # Import the friend API
@@ -39,6 +40,7 @@ from api.message_api import message_api  # Import the messaging API
 from model.user import User, initUsers
 from model.user import Section;
 from model.github import GitHubUser
+from model.moodmeal_mood import MoodMealMood
 from model.feedback import Feedback
 from api.analytics import get_date_range
 # from api.grade_api import grade_api
@@ -88,6 +90,7 @@ app.register_blueprint(joke_api)  # Register the joke API blueprint
 app.register_blueprint(post_api)  # Register the social media post API
 app.register_blueprint(moodmeal_api)  # Register the moodmeal API blueprint
 app.register_blueprint(location_api)  # Register the location API blueprint
+app.register_blueprint(admin_api)  # Register the admin API blueprint for mood meal dashboard
 app.register_blueprint(outfit_location_api)
 app.register_blueprint(friend_api)  # Register the friend API blueprint
 app.register_blueprint(message_api)  # Register the messaging API blueprint
@@ -163,8 +166,13 @@ def index():
 @app.route('/users/table2')
 @login_required
 def u2table():
-    users = User.query.all()
-    return render_template("u2table.html", user_data=users)
+    users = User.query.order_by(User.id).all()
+    # Build latest mood mapping for each user (or None)
+    latest_moods = {}
+    for u in users:
+        mood = MoodMealMood.query.filter_by(_user_id=u.id).order_by(MoodMealMood._timestamp.desc()).first()
+        latest_moods[u.id] = mood.read() if mood else None
+    return render_template("u2table.html", user_data=users, latest_moods=latest_moods)
 
 @app.route('/sections/')
 @login_required

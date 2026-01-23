@@ -19,10 +19,10 @@ RUN pip install --upgrade pip && \
 
 # Environment variables
 ENV FLASK_ENV=production \
-    GUNICORN_CMD_ARGS="--workers=5 --threads=2 --bind=0.0.0.0:8307 --timeout=30 --access-logfile -"
+    GUNICORN_CMD_ARGS="--workers=5 --threads=2 --bind=0.0.0.0:8309 --timeout=30 --access-logfile -"
 
 # Expose port
-EXPOSE 8307
+EXPOSE 8309
 
 # Start server
 CMD ["gunicorn", "main:app"]

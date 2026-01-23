@@ -4,7 +4,7 @@
       server_name moodlife.opencodingsociety.com;
 
       location / {
-          proxy_pass http://localhost:8307;
+          proxy_pass http://localhost:8309;
 
           # Preflighted requests
           if ($request_method = OPTIONS) {
