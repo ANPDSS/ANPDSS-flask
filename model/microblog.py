@@ -29,8 +29,8 @@ class MicroBlog(db.Model):
    _user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
    _topic_id = db.Column(db.Integer, db.ForeignKey('topics.id'), nullable=True)  # You'll need a topics table
   
-   # Content (280 character limit like Twitter)
-   _content = db.Column(db.String(280), nullable=False)
+   # Content
+   _content = db.Column(db.Text, nullable=False)
   
    # JSON field for flexible data storage
    _data = db.Column(JSON, nullable=True)
@@ -54,9 +54,6 @@ class MicroBlog(db.Model):
            topic_id: Optional topic/category ID
            data: Optional JSON data for frontend flexibility
        """
-       if len(content) > 280:
-           raise ValueError("Content must be 280 characters or less")
-          
        self._user_id = user_id
        self._content = content
        self._topic_id = topic_id
@@ -111,8 +108,6 @@ class MicroBlog(db.Model):
        """Update micro blog content and/or data"""
        try:
            if content is not None:
-               if len(content) > 280:
-                   raise ValueError("Content must be 280 characters or less")
                self._content = content
               
            if data is not None:
@@ -139,8 +134,6 @@ class MicroBlog(db.Model):
 
    def add_reply(self, user_id, reply_content):
        """Add a reply to the JSON data structure, including userName for display."""
-       if len(reply_content) > 280:
-           raise ValueError("Reply content must be 280 characters or less")
       
        if not self._data:
            self._data = {}
@@ -449,9 +442,7 @@ class Topic(db.Model):
        """Check if user can post more messages in this topic"""
        if not self._is_active:
            return False
-      
-       current_count = self.get_user_post_count(user_id)
-       return current_count < self._max_posts_per_user
+       return True
   
    def get_recent_posts(self, limit=10, user_id=None):
        """Get recent posts for this topic"""

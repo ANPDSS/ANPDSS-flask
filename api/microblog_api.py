@@ -32,9 +32,6 @@ class MicroBlogAPI:
            if not content:
                return {'message': 'Content is required'}, 400
           
-           if len(content) > 280:
-               return {'message': 'Content must be 280 characters or less'}, 400
-          
            # Optional fields
            topic_id = body.get('topicId')
            topic_path = body.get('topicPath')  # New field for page path
