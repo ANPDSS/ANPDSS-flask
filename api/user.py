@@ -355,7 +355,9 @@ class UserAPI:
                             algorithm="HS256"
                         )
                         # Return JSON response with cookie
-                        is_production = not (request.host.startswith('localhost') or request.host.startswith('127.0.0.1'))
+                        # Determine production/secure deployment more reliably:
+                        # prefer explicit app config or detect if request is over HTTPS
+                        is_production = (current_app.config.get('ENV') == 'production') or request.is_secure or request.scheme == 'https'
                         
                         # Create JSON response
                         response_data = {
@@ -369,7 +371,9 @@ class UserAPI:
                         resp = jsonify(response_data)
                         
                         # Set cookie
+                        # Choose cookie attributes based on whether the request is secure/production.
                         if is_production:
+                            # For cross-site frontend on HTTPS, SameSite=None and Secure=True are required
                             resp.set_cookie(
                                 current_app.config["JWT_TOKEN_NAME"],
                                 token,
@@ -380,6 +384,7 @@ class UserAPI:
                                 samesite='None'
                             )
                         else:
+                            # Local development: allow easier JS access to cookie
                             resp.set_cookie(
                                 current_app.config["JWT_TOKEN_NAME"],
                                 token,
