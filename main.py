@@ -334,5 +334,5 @@ app.cli.add_command(custom_cli)
 # this runs the flask application on the development server
 if __name__ == "__main__":
       # change name for testing
-      app.run(debug=True, host="0.0.0.0", port="8307")
+      app.run(debug=True, host="0.0.0.0", port="8309")
 
