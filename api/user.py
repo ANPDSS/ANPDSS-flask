@@ -381,7 +381,8 @@ class UserAPI:
                                 secure=True,
                                 httponly=True,
                                 path='/',
-                                samesite='None'
+                                samesite='None',
+                                domain='.opencodingsociety.com'  # Allow cookie across subdomains
                             )
                         else:
                             # Local development: allow easier JS access to cookie
@@ -438,7 +439,8 @@ class UserAPI:
                         secure=True,
                         httponly=True,
                         path='/',
-                        samesite='None'
+                        samesite='None',
+                        domain='.opencodingsociety.com'  # Allow cookie across subdomains
                     )
                 else:
                     resp.set_cookie(

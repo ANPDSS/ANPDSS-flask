@@ -18,68 +18,94 @@ api = Api(friend_api)
 class FriendRecommendationAlgorithm:
     """
     Advanced friend recommendation algorithm based on similar mood patterns
+    and shared preferences (music, activities, cuisines)
     """
 
     @staticmethod
-    def calculate_similarity_score(user_moods, other_moods):
-        """
-        Calculate similarity score between two users based on their mood patterns
-
-        Algorithm:
-        - Compare average mood scores (60% weight)
-        - Compare mood categories overlap (40% weight)
-        """
-        if not user_moods or not other_moods:
+    def calculate_list_overlap(list1, list2):
+        """Calculate overlap between two lists as a ratio (0-1)"""
+        if not list1 or not list2:
             return 0.0
+        set1, set2 = set(list1), set(list2)
+        intersection = len(set1.intersection(set2))
+        union = len(set1.union(set2))
+        return intersection / union if union > 0 else 0.0
 
-        # Calculate average mood scores
-        user_avg_score = sum([m.mood_score for m in user_moods]) / len(user_moods)
-        other_avg_score = sum([m.mood_score for m in other_moods]) / len(other_moods)
+    @staticmethod
+    def calculate_similarity_score(user_moods, other_moods, user_prefs, other_prefs):
+        """
+        Calculate similarity score between two users based on mood patterns and preferences
 
-        # Calculate mood score similarity (closer scores = higher similarity)
-        score_diff = abs(user_avg_score - other_avg_score)
-        score_similarity = max(0, 1 - (score_diff / 100))  # Normalize to 0-1
+        Algorithm weights:
+        - Mood score similarity: 25%
+        - Mood category overlap: 15%
+        - Music preferences overlap: 20%
+        - Activities overlap: 20%
+        - Cuisines overlap: 20%
+        """
+        scores = {}
 
-        # Calculate mood category overlap
-        user_categories = set([m.mood_category for m in user_moods if m.mood_category])
-        other_categories = set([m.mood_category for m in other_moods if m.mood_category])
+        # Mood-based scoring (40% total)
+        if user_moods and other_moods:
+            # Average mood score similarity
+            user_avg_score = sum([m.mood_score for m in user_moods]) / len(user_moods)
+            other_avg_score = sum([m.mood_score for m in other_moods]) / len(other_moods)
+            score_diff = abs(user_avg_score - other_avg_score)
+            scores['mood_score'] = max(0, 1 - (score_diff / 100))
 
-        if user_categories and other_categories:
-            category_overlap = len(user_categories.intersection(other_categories)) / len(user_categories.union(other_categories))
+            # Mood category overlap
+            user_categories = set([m.mood_category for m in user_moods if m.mood_category])
+            other_categories = set([m.mood_category for m in other_moods if m.mood_category])
+            if user_categories and other_categories:
+                scores['mood_category'] = len(user_categories.intersection(other_categories)) / len(user_categories.union(other_categories))
+            else:
+                scores['mood_category'] = 0.0
         else:
-            category_overlap = 0.0
+            scores['mood_score'] = 0.0
+            scores['mood_category'] = 0.0
 
-        # Weighted final score: 60% score similarity, 40% category overlap
-        final_score = (score_similarity * 0.6) + (category_overlap * 0.4)
+        # Preferences-based scoring (60% total)
+        if user_prefs and other_prefs:
+            scores['music'] = FriendRecommendationAlgorithm.calculate_list_overlap(
+                user_prefs.music, other_prefs.music
+            )
+            scores['activities'] = FriendRecommendationAlgorithm.calculate_list_overlap(
+                user_prefs.activities, other_prefs.activities
+            )
+            scores['cuisines'] = FriendRecommendationAlgorithm.calculate_list_overlap(
+                user_prefs.cuisines, other_prefs.cuisines
+            )
+        else:
+            scores['music'] = 0.0
+            scores['activities'] = 0.0
+            scores['cuisines'] = 0.0
 
-        return final_score
+        # Weighted final score
+        final_score = (
+            scores['mood_score'] * 0.25 +
+            scores['mood_category'] * 0.15 +
+            scores['music'] * 0.20 +
+            scores['activities'] * 0.20 +
+            scores['cuisines'] * 0.20
+        )
+
+        return final_score, scores
 
     @staticmethod
     def get_recommendations(user_id, limit=10):
         """
-        Get friend recommendations for a user based on mood similarity
+        Get friend recommendations for a user based on mood similarity and shared preferences
 
         Algorithm:
-        1. Get user's recent moods (last 30 entries)
-        2. Find all users with mood data
+        1. Get user's recent moods (last 30 entries) and preferences
+        2. Find all users with mood data or preferences
         3. Exclude existing friends and pending requests
-        4. Calculate mood similarity scores
-        5. Return top matches sorted by score
+        4. Calculate combined similarity scores
+        5. Return top matches sorted by score with detailed compatibility info
         """
-        from datetime import datetime, timedelta
-
-        # Get current user's recent moods (last 30 entries)
+        # Get current user's data
         user_moods = MoodMealMood.query.filter_by(_user_id=user_id).order_by(MoodMealMood._timestamp.desc()).limit(30).all()
-
-        if not user_moods:
-            # User has no mood data, return random active users
-            users = User.query.filter(User.id != user_id).limit(limit).all()
-            return [{
-                'user': user,
-                'score': 0.0,
-                'shared_mood_categories': [],
-                'avg_mood_score': None
-            } for user in users]
+        user_prefs = MoodMealPreferences.query.filter_by(_user_id=user_id).first()
 
         # Get existing friends to exclude
         friend_ids = Friend.get_friends_for_user(user_id)
@@ -98,39 +124,71 @@ class FriendRecommendationAlgorithm:
         for req in received_requests:
             excluded_ids.add(req.sender_id)
 
-        # Get all users with mood data
-        all_user_ids = db.session.query(MoodMealMood._user_id).distinct().all()
-        all_user_ids = [uid[0] for uid in all_user_ids if uid[0] not in excluded_ids]
+        # Get all users with mood data OR preferences
+        mood_user_ids = set([uid[0] for uid in db.session.query(MoodMealMood._user_id).distinct().all()])
+        pref_user_ids = set([uid[0] for uid in db.session.query(MoodMealPreferences._user_id).distinct().all()])
+        all_user_ids = mood_user_ids.union(pref_user_ids)
+        all_user_ids = [uid for uid in all_user_ids if uid not in excluded_ids]
+
+        # If user has no data, return users who do have data
+        if not user_moods and not user_prefs:
+            users = User.query.filter(User.id.in_(all_user_ids)).limit(limit).all()
+            return [{
+                'user': user,
+                'score': 0.0,
+                'shared_mood_categories': [],
+                'avg_mood_score': None,
+                'shared_music': [],
+                'shared_activities': [],
+                'shared_cuisines': []
+            } for user in users]
 
         # Calculate similarity scores
         recommendations = []
         for other_user_id in all_user_ids:
-            # Get other user's recent moods
+            # Get other user's data
             other_moods = MoodMealMood.query.filter_by(_user_id=other_user_id).order_by(MoodMealMood._timestamp.desc()).limit(30).all()
+            other_prefs = MoodMealPreferences.query.filter_by(_user_id=other_user_id).first()
 
-            if not other_moods:
+            # Skip if other user has no data at all
+            if not other_moods and not other_prefs:
                 continue
 
-            score = FriendRecommendationAlgorithm.calculate_similarity_score(
-                user_moods, other_moods
+            score, score_breakdown = FriendRecommendationAlgorithm.calculate_similarity_score(
+                user_moods, other_moods, user_prefs, other_prefs
             )
 
-            if score > 0:  # Only include users with some similarity
+            # Include users with any similarity
+            if score > 0:
                 user = User.query.get(other_user_id)
                 if user:
                     # Calculate shared mood categories
-                    user_categories = set([m.mood_category for m in user_moods if m.mood_category])
-                    other_categories = set([m.mood_category for m in other_moods if m.mood_category])
-                    shared_categories = list(user_categories.intersection(other_categories))
+                    shared_categories = []
+                    other_avg_mood = None
+                    if user_moods and other_moods:
+                        user_categories = set([m.mood_category for m in user_moods if m.mood_category])
+                        other_categories = set([m.mood_category for m in other_moods if m.mood_category])
+                        shared_categories = list(user_categories.intersection(other_categories))
+                        other_avg_mood = round(sum([m.mood_score for m in other_moods]) / len(other_moods), 1)
 
-                    # Calculate other user's average mood
-                    other_avg_mood = sum([m.mood_score for m in other_moods]) / len(other_moods)
+                    # Calculate shared preferences
+                    shared_music = []
+                    shared_activities = []
+                    shared_cuisines = []
+                    if user_prefs and other_prefs:
+                        shared_music = list(set(user_prefs.music or []).intersection(set(other_prefs.music or [])))
+                        shared_activities = list(set(user_prefs.activities or []).intersection(set(other_prefs.activities or [])))
+                        shared_cuisines = list(set(user_prefs.cuisines or []).intersection(set(other_prefs.cuisines or [])))
 
                     recommendations.append({
                         'user': user,
                         'score': score,
+                        'score_breakdown': score_breakdown,
                         'shared_mood_categories': shared_categories,
-                        'avg_mood_score': round(other_avg_mood, 1)
+                        'avg_mood_score': other_avg_mood,
+                        'shared_music': shared_music[:5],  # Limit to top 5
+                        'shared_activities': shared_activities[:5],
+                        'shared_cuisines': shared_cuisines[:5]
                     })
 
         # Sort by score (highest first)
@@ -143,7 +201,7 @@ class FriendRecommendationAlgorithm:
 class FriendRecommendationsAPI(Resource):
     @token_required()
     def get(self):
-        """Get friend recommendations for current user based on mood similarity"""
+        """Get friend recommendations for current user based on mood and preference similarity"""
         current_user = g.current_user
         try:
             limit = request.args.get('limit', 10, type=int)
@@ -163,6 +221,11 @@ class FriendRecommendationsAPI(Resource):
                     'mood_compatibility': {
                         'shared_mood_categories': rec['shared_mood_categories'],
                         'avg_mood_score': rec['avg_mood_score']
+                    },
+                    'shared_interests': {
+                        'music': rec.get('shared_music', []),
+                        'activities': rec.get('shared_activities', []),
+                        'cuisines': rec.get('shared_cuisines', [])
                     }
                 }
                 result.append(user_data)
