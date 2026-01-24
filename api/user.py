@@ -355,9 +355,16 @@ class UserAPI:
                             algorithm="HS256"
                         )
                         # Return JSON response with cookie
-                        # Determine production/secure deployment more reliably:
-                        # prefer explicit app config or detect if request is over HTTPS
-                        is_production = (current_app.config.get('ENV') == 'production') or request.is_secure or request.scheme == 'https'
+                        # Determine production/secure deployment more reliably.
+                        # Honor `X-Forwarded-Proto` when behind a TLS-terminating proxy/load-balancer.
+                        forwarded_proto = request.headers.get('X-Forwarded-Proto') or request.environ.get('HTTP_X_FORWARDED_PROTO', '')
+                        is_production = (
+                            current_app.config.get('ENV') == 'production' or
+                            forwarded_proto == 'https' or
+                            request.is_secure or
+                            request.scheme == 'https' or
+                            current_app.config.get('FORCE_HTTPS')
+                        )
                         
                         # Create JSON response
                         response_data = {
@@ -372,18 +379,20 @@ class UserAPI:
                         
                         # Set cookie
                         # Choose cookie attributes based on whether the request is secure/production.
+                        # Allow overriding cookie domain via config (use backend host by default)
+                        cookie_domain = current_app.config.get('COOKIE_DOMAIN')
                         if is_production:
                             # For cross-site frontend on HTTPS, SameSite=None and Secure=True are required
-                            resp.set_cookie(
-                                current_app.config["JWT_TOKEN_NAME"],
-                                token,
+                            set_cookie_kwargs = dict(
                                 max_age=43200,  # 12 hours in seconds
                                 secure=True,
                                 httponly=True,
                                 path='/',
-                                samesite='None',
-                                domain='.opencodingsociety.com'  # Allow cookie across subdomains
+                                samesite='None'
                             )
+                            if cookie_domain:
+                                set_cookie_kwargs['domain'] = cookie_domain
+                            resp.set_cookie(current_app.config["JWT_TOKEN_NAME"], token, **set_cookie_kwargs)
                         else:
                             # Local development: allow easier JS access to cookie
                             resp.set_cookie(
@@ -430,18 +439,20 @@ class UserAPI:
                 
                 # Prepare a response indicating the token has been invalidated
                 resp = Response("Token invalidated successfully")
+                forwarded_proto = request.headers.get('X-Forwarded-Proto') or request.environ.get('HTTP_X_FORWARDED_PROTO', '')
                 is_production = not (request.host.startswith('localhost') or request.host.startswith('127.0.0.1'))
+                cookie_domain = current_app.config.get('COOKIE_DOMAIN')
                 if is_production:
-                    resp.set_cookie(
-                        current_app.config["JWT_TOKEN_NAME"],
-                        token,
+                    set_cookie_kwargs = dict(
                         max_age=0,  # Immediately expire the cookie
                         secure=True,
                         httponly=True,
                         path='/',
-                        samesite='None',
-                        domain='.opencodingsociety.com'  # Allow cookie across subdomains
+                        samesite='None'
                     )
+                    if cookie_domain:
+                        set_cookie_kwargs['domain'] = cookie_domain
+                    resp.set_cookie(current_app.config["JWT_TOKEN_NAME"], token, **set_cookie_kwargs)
                 else:
                     resp.set_cookie(
                         current_app.config["JWT_TOKEN_NAME"],
@@ -511,6 +522,23 @@ class UserAPI:
             user.update({'grade_data': grade_data})
             
             return jsonify({'message': 'Grade data updated successfully', 'uid': user.uid, 'grade_data': user.grade_data})
+
+    class _Debug(Resource):
+        """
+        Debug helper to return request headers and whether the JWT cookie is present.
+        Safe: does not return cookie value.
+        """
+        def get(self):
+            try:
+                headers = {k: v for k, v in request.headers.items()}
+                cookie_present = current_app.config.get('JWT_TOKEN_NAME') in request.cookies
+                return jsonify({
+                    'cookie_present': bool(cookie_present),
+                    'jwt_cookie_name': current_app.config.get('JWT_TOKEN_NAME'),
+                    'headers': headers
+                })
+            except Exception as e:
+                return {'error': str(e)}, 500
 
     class _APExam(Resource):
         """
@@ -694,3 +722,4 @@ class UserAPI:
     api.add_resource(_GradeData, '/grade_data')
     api.add_resource(_APExam, '/apexam')
     api.add_resource(_School, '/school')
+    api.add_resource(_Debug, '/debug/request')

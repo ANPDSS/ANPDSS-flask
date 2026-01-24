@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from dotenv import load_dotenv
 import os
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 # Load environment variables from .env file
@@ -104,6 +105,15 @@ app.config['SQLALCHEMY_BACKUP_URI'] = backupURI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+# Honor proxy headers when behind a load balancer (e.g., AWS ALB/ELB)
+# This ensures request.is_secure reflects X-Forwarded-Proto
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
+
+# Deployment helpers
+app.config['FORCE_HTTPS'] = os.environ.get('FORCE_HTTPS', '').lower() in ('1', 'true', 'yes')
+# Optional cookie domain for JWT cookie (set to your backend domain or parent domain if needed)
+app.config['COOKIE_DOMAIN'] = os.environ.get('COOKIE_DOMAIN') or None
 
 
 # Image upload settings
