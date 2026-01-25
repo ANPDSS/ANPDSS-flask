@@ -60,6 +60,61 @@
     </table>
 </div>
 
+{% if current_user.role == 'Admin' %}
+<div class="container mt-4">
+    <h2>API Tester (Admin)</h2>
+    <div id="apiTester" class="card p-3">
+        <div>
+            <h4>Gemini</h4>
+            <textarea id="geminiText" class="form-control" rows="3" placeholder="Text for Gemini..."></textarea>
+            <button id="geminiSend" class="btn btn-primary mt-2">Send to /api/gemini</button>
+            <button id="geminiHealth" class="btn btn-secondary mt-2">Check /api/gemini/health</button>
+            <pre id="geminiResult" class="mt-2" style="background:#f8f9fa; padding:10px; max-height:200px; overflow:auto"></pre>
+        </div>
+
+        <hr />
+
+        <div>
+            <h4>Weather</h4>
+            <input id="weatherZip" class="form-control" placeholder="ZIP code (e.g., 94103)" />
+            <button id="weatherGet" class="btn btn-primary mt-2">Get /api/outfit/weather/current</button>
+            <pre id="weatherResult" class="mt-2" style="background:#f8f9fa; padding:10px; max-height:200px; overflow:auto"></pre>
+        </div>
+
+        <hr />
+
+        <div>
+            <h4>Friends</h4>
+            <input id="searchQ" class="form-control" placeholder="Search users (min 2 chars)" />
+            <button id="searchBtn" class="btn btn-primary mt-2">Search /api/friend/search?q=</button>
+            <div class="mt-2">
+                <input id="sendReceiverId" class="form-control" placeholder="Receiver user id (number)" />
+                <button id="sendRequestBtn" class="btn btn-success mt-2">Send Friend Request (/api/friend/request)</button>
+            </div>
+            <div class="mt-2">
+                <button id="listRequestsBtn" class="btn btn-secondary">List My Friend Requests (/api/friend/request)</button>
+                <input id="actionRequestId" class="form-control mt-2" placeholder="Request id to accept/reject" />
+                <button id="acceptRequestBtn" class="btn btn-success mt-2">Accept (/api/friend/request/{id})</button>
+                <button id="rejectRequestBtn" class="btn btn-danger mt-2">Reject (/api/friend/request/{id})</button>
+            </div>
+            <pre id="friendsResult" class="mt-2" style="background:#f8f9fa; padding:10px; max-height:300px; overflow:auto"></pre>
+        </div>
+
+        <hr />
+
+        <div>
+            <h4>Messages</h4>
+            <input id="msgReceiverId" class="form-control" placeholder="Friend id to message" />
+            <textarea id="msgContent" class="form-control mt-2" rows="2" placeholder="Message content"></textarea>
+            <button id="sendMsgBtn" class="btn btn-primary mt-2">Send Message (/api/message/send)</button>
+            <input id="convFriendId" class="form-control mt-2" placeholder="Friend id to fetch conversation" />
+            <button id="getConvBtn" class="btn btn-secondary mt-2">Get Conversation (/api/message/conversation/{id})</button>
+            <pre id="messageResult" class="mt-2" style="background:#f8f9fa; padding:10px; max-height:300px; overflow:auto"></pre>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 <!-- jQuery, DataTables, and Bootstrap -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -72,6 +127,118 @@
             pageLength: 10,
             lengthChange: true
         });
+
+            // --- API Tester handlers (Admin only) ---
+            function showJSON(el, obj){
+                try { document.getElementById(el).textContent = JSON.stringify(obj, null, 2); }
+                catch(e){ document.getElementById(el).textContent = String(obj); }
+            }
+
+            // Gemini
+            document.getElementById('geminiSend')?.addEventListener('click', async () => {
+                const text = document.getElementById('geminiText').value;
+                showJSON('geminiResult', 'Sending...');
+                try{
+                    const res = await fetch('/api/gemini', { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body: JSON.stringify({text}) });
+                    const data = await res.json();
+                    showJSON('geminiResult', {status: res.status, data});
+                }catch(e){ showJSON('geminiResult', {error: String(e)}); }
+            });
+            document.getElementById('geminiHealth')?.addEventListener('click', async () => {
+                showJSON('geminiResult', 'Checking...');
+                try{
+                    const res = await fetch('/api/gemini/health', { method:'GET', credentials:'include' });
+                    const data = await res.json();
+                    showJSON('geminiResult', {status: res.status, data});
+                }catch(e){ showJSON('geminiResult', {error: String(e)}); }
+            });
+
+            // Weather (Outfit_location_api uses /weather/current)
+            document.getElementById('weatherGet')?.addEventListener('click', async () => {
+                const zip = document.getElementById('weatherZip').value;
+                showJSON('weatherResult', 'Loading...');
+                try{
+                    const url = `/api/outfit/weather/current?zip=${encodeURIComponent(zip)}`;
+                    const res = await fetch(url, { method:'GET', credentials:'include' });
+                    const data = await res.json();
+                    showJSON('weatherResult', {status: res.status, data});
+                }catch(e){ showJSON('weatherResult', {error: String(e)}); }
+            });
+
+            // Friend search
+            document.getElementById('searchBtn')?.addEventListener('click', async () => {
+                const q = document.getElementById('searchQ').value;
+                showJSON('friendsResult','Searching...');
+                try{
+                    const res = await fetch(`/api/friend/search?q=${encodeURIComponent(q)}`, { method:'GET', credentials:'include' });
+                    const data = await res.json();
+                    showJSON('friendsResult', {status: res.status, data});
+                }catch(e){ showJSON('friendsResult', {error: String(e)}); }
+            });
+
+            // Send friend request
+            document.getElementById('sendRequestBtn')?.addEventListener('click', async () => {
+                const receiver = document.getElementById('sendReceiverId').value;
+                showJSON('friendsResult','Sending...');
+                try{
+                    const res = await fetch('/api/friend/request', { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body: JSON.stringify({receiver_id: receiver}) });
+                    const data = await res.json();
+                    showJSON('friendsResult', {status: res.status, data});
+                }catch(e){ showJSON('friendsResult', {error: String(e)}); }
+            });
+
+            // List friend requests
+            document.getElementById('listRequestsBtn')?.addEventListener('click', async () => {
+                showJSON('friendsResult','Loading...');
+                try{
+                    const res = await fetch('/api/friend/request', { method:'GET', credentials:'include' });
+                    const data = await res.json();
+                    showJSON('friendsResult', {status: res.status, data});
+                }catch(e){ showJSON('friendsResult', {error: String(e)}); }
+            });
+
+            // Accept / Reject friend request
+            document.getElementById('acceptRequestBtn')?.addEventListener('click', async () => {
+                const id = document.getElementById('actionRequestId').value;
+                showJSON('friendsResult','Processing...');
+                try{
+                    const res = await fetch(`/api/friend/request/${encodeURIComponent(id)}`, { method:'PUT', credentials:'include', headers:{'Content-Type':'application/json'}, body: JSON.stringify({action:'accept'}) });
+                    const data = await res.json();
+                    showJSON('friendsResult', {status: res.status, data});
+                }catch(e){ showJSON('friendsResult', {error: String(e)}); }
+            });
+            document.getElementById('rejectRequestBtn')?.addEventListener('click', async () => {
+                const id = document.getElementById('actionRequestId').value;
+                showJSON('friendsResult','Processing...');
+                try{
+                    const res = await fetch(`/api/friend/request/${encodeURIComponent(id)}`, { method:'PUT', credentials:'include', headers:{'Content-Type':'application/json'}, body: JSON.stringify({action:'reject'}) });
+                    const data = await res.json();
+                    showJSON('friendsResult', {status: res.status, data});
+                }catch(e){ showJSON('friendsResult', {error: String(e)}); }
+            });
+
+            // Messages: send
+            document.getElementById('sendMsgBtn')?.addEventListener('click', async () => {
+                const receiver = document.getElementById('msgReceiverId').value;
+                const content = document.getElementById('msgContent').value;
+                showJSON('messageResult','Sending...');
+                try{
+                    const res = await fetch('/api/message/send', { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body: JSON.stringify({receiver_id: receiver, content}) });
+                    const data = await res.json();
+                    showJSON('messageResult', {status: res.status, data});
+                }catch(e){ showJSON('messageResult', {error: String(e)}); }
+            });
+
+            // Messages: get conversation
+            document.getElementById('getConvBtn')?.addEventListener('click', async () => {
+                const friendId = document.getElementById('convFriendId').value;
+                showJSON('messageResult','Loading...');
+                try{
+                    const res = await fetch(`/api/message/conversation/${encodeURIComponent(friendId)}`, { method:'GET', credentials:'include' });
+                    const data = await res.json();
+                    showJSON('messageResult', {status: res.status, data});
+                }catch(e){ showJSON('messageResult', {error: String(e)}); }
+            });
     });
 </script>
 
