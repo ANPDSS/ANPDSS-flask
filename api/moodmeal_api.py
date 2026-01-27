@@ -246,8 +246,10 @@ class MoodMealPlanAPI(Resource):
         # Optional weather payload from the client (pass-through to Gemini prompt)
         # Expected shape: a dict like the OpenWeather response (or a small subset)
         weather = body.get("weather")
+        # If refresh=True, Gemini will provide different recommendations
+        refresh = body.get("refresh", False)
 
-        plan = generate_moodmeal_plan(user_id=current_user.id, mood_id=mood_id, weather=weather)
+        plan = generate_moodmeal_plan(user_id=current_user.id, mood_id=mood_id, weather=weather, refresh=refresh)
         if isinstance(plan, dict) and plan.get("error"):
             status = plan.get("status_code", 502)
             return plan, status
