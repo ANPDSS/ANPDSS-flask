@@ -248,8 +248,10 @@ class MoodMealPlanAPI(Resource):
         weather = body.get("weather")
         # If refresh=True, Gemini will provide different recommendations
         refresh = body.get("refresh", False)
+        # Optional feedback from the user about what they want changed
+        feedback = body.get("feedback")
 
-        plan = generate_moodmeal_plan(user_id=current_user.id, mood_id=mood_id, weather=weather, refresh=refresh)
+        plan = generate_moodmeal_plan(user_id=current_user.id, mood_id=mood_id, weather=weather, refresh=refresh, feedback=feedback)
         if isinstance(plan, dict) and plan.get("error"):
             status = plan.get("status_code", 502)
             return plan, status

@@ -55,11 +55,12 @@ def get_preferences_for_user(user) -> dict:
     return prefs.read()
 
 
-def build_gemini_prompt(mood: dict, preferences: dict, weather: dict | None = None, refresh: bool = False) -> str:
+def build_gemini_prompt(mood: dict, preferences: dict, weather: dict | None = None, refresh: bool = False, feedback: str | None = None) -> str:
     """
     Converts DB mood + preferences into a Gemini-ready prompt.
     Forces JSON-only output so we can parse reliably.
     If refresh=True, instructs Gemini to provide different/alternative recommendations.
+    If feedback is provided, includes the user's specific feedback about what they want changed.
     """
     import random
 
@@ -99,10 +100,21 @@ def build_gemini_prompt(mood: dict, preferences: dict, weather: dict | None = No
             "Be creative and surprising with your recommendations.\n\n"
         )
 
+    # Add user feedback if provided
+    feedback_instruction = ""
+    if feedback and feedback.strip():
+        feedback_instruction = (
+            f"USER FEEDBACK: The user has provided specific feedback about what they want changed:\n"
+            f"\"{feedback.strip()}\"\n\n"
+            "Please take this feedback into account and adjust your recommendations accordingly. "
+            "Address their concerns and preferences directly.\n\n"
+        )
+
     # Build the prompt header with variable values (always executed)
     header = (
         "You are MoodMeal, a helpful wellness assistant. Generate personalized recommendations based on the user's mood and preferences.\n\n"
         f"{refresh_instruction}"
+        f"{feedback_instruction}"
         f"User mood:\n- mood_score: {mood_score}/100\n- mood_category: {mood_category}\n- mood_tags: {mood_tags}\n\n"
         f"User preferences:\n- dietary: {dietary}\n- allergies: {allergies}\n- cuisines: {cuisines}\n- music: {music}\n- activities: {activities}\n\n"
         f"Current weather (if provided):\n- {weather_summary}\n\n"
@@ -194,11 +206,12 @@ def call_gemini_and_parse(prompt: str) -> dict:
 
 
 
-def generate_moodmeal_plan(user_id: int, mood_id: int | None = None, weather: dict | None = None, refresh: bool = False) -> dict:
+def generate_moodmeal_plan(user_id: int, mood_id: int | None = None, weather: dict | None = None, refresh: bool = False, feedback: str | None = None) -> dict:
     """
     If mood_id is provided, use that mood entry.
     Otherwise use the latest mood entry for the user.
     If refresh=True, instructs Gemini to provide different recommendations.
+    If feedback is provided, includes the user's specific feedback in the prompt.
 
     Returns a plain dict (JSON-serializable), never a Flask Response.
     """
@@ -218,7 +231,7 @@ def generate_moodmeal_plan(user_id: int, mood_id: int | None = None, weather: di
 
     prefs = get_preferences_for_user(g.current_user)
 
-    prompt = build_gemini_prompt(mood, prefs, weather, refresh=refresh)
+    prompt = build_gemini_prompt(mood, prefs, weather, refresh=refresh, feedback=feedback)
     try:
         generated = call_gemini_and_parse(prompt)
     except RuntimeError as exc:
