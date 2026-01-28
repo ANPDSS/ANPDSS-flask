@@ -1,81 +1,366 @@
-import base64
-import os
-from werkzeug.utils import secure_filename
-from __init__ import app
+"""
+==============================================================================
+PROFILE PICTURE (PFP) MODEL & HELPER FUNCTIONS - model/pfp.py
+==============================================================================
 
-def pfp_base64_decode(user_id, user_pfp):
+This file handles profile pictures using BASE64 stored directly in the DATABASE.
+
+=== WHERE IS THE DATA STORED? ===
+
+DATABASE (user_management.db):
+├── Table: "pfps" (NEW TABLE - stores the actual base64 image data)
+│   ├── id (INTEGER PRIMARY KEY)
+│   ├── _user_id (INTEGER FOREIGN KEY → users.id)
+│   └── _base64_data (TEXT - stores the full base64 string)
+│
+└── Table: "users" (existing table)
+    └── _pfp column is NO LONGER USED for base64 storage
+
+=== FLOW DIAGRAM ===
+
+UPLOAD (Frontend → Database):
+┌──────────┐    base64 string    ┌───────────┐    calls    ┌─────────────┐
+│ Frontend │ ──────────────────► │ api/pfp.py│ ──────────► │ model/pfp.py│
+└──────────┘   PUT /api/id/pfp   └───────────┘             └─────────────┘
+                                                                  │
+                                                                  ▼
+                                                    ┌─────────────────────────┐
+                                                    │  ProfilePicture.save()  │
+                                                    │  Stores base64 in DB    │
+                                                    └─────────────────────────┘
+                                                                  │
+                                                                  ▼
+                                                    ┌─────────────────────────┐
+                                                    │   user_management.db    │
+                                                    │   Table: pfps           │
+                                                    │   _base64_data = "..."  │
+                                                    └─────────────────────────┘
+
+RETRIEVE (Database → Frontend):
+┌──────────┐   base64 string    ┌───────────┐    calls    ┌─────────────┐
+│ Frontend │ ◄───────────────── │ api/pfp.py│ ◄────────── │ model/pfp.py│
+└──────────┘  GET /api/id/pfp   └───────────┘             └─────────────┘
+                                                                  │
+                                                                  ▼
+                                                    ┌─────────────────────────┐
+                                                    │ ProfilePicture.get_by   │
+                                                    │ _user_id()              │
+                                                    │ Returns base64 from DB  │
+                                                    └─────────────────────────┘
+
+==============================================================================
+"""
+
+from __init__ import db, app
+from sqlalchemy.exc import IntegrityError
+
+
+class ProfilePicture(db.Model):
     """
-    Reads a user's profile picture from the server.
+    ===========================================================================
+    ProfilePicture Model - Stores base64 image data directly in the database
+    ===========================================================================
 
-    This function reads a user's profile picture from the server and returns the image as a base64 encoded string.
-    If the user does not have a profile picture set, the function returns None.
+    TABLE NAME: pfps
+
+    This table stores profile pictures as base64 encoded strings.
+    Each user can have ONE profile picture (one-to-one relationship with users).
+
+    COLUMNS:
+    - id: Primary key
+    - _user_id: Foreign key to users table (UNIQUE - one pfp per user)
+    - _base64_data: The actual base64 encoded image string (can be very large)
+
+    ===========================================================================
+    """
+    __tablename__ = 'pfps'
+
+    # Primary key
+    id = db.Column(db.Integer, primary_key=True)
+
+    # Foreign key to users table - UNIQUE ensures one PFP per user
+    _user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True, nullable=False)
+
+    # The base64 encoded image data - stored as TEXT (can hold large strings)
+    # Example: "iVBORw0KGgoAAAANSUhEUgAA..." (can be 100,000+ characters)
+    _base64_data = db.Column(db.Text, nullable=False)
+
+    # Relationship to User model
+    user = db.relationship('User', backref=db.backref('profile_picture', uselist=False))
+
+    def __init__(self, user_id, base64_data):
+        """
+        Create a new ProfilePicture record.
+
+        Parameters:
+        - user_id (int): The user's database ID
+        - base64_data (str): The base64 encoded image string
+        """
+        self._user_id = user_id
+        self._base64_data = base64_data
+
+    # ===== PROPERTIES =====
+
+    @property
+    def user_id(self):
+        return self._user_id
+
+    @property
+    def base64_data(self):
+        return self._base64_data
+
+    @base64_data.setter
+    def base64_data(self, value):
+        self._base64_data = value
+
+    # ===== CRUD OPERATIONS =====
+
+    def create(self):
+        """Save this profile picture to the database."""
+        try:
+            db.session.add(self)
+            db.session.commit()
+            return self
+        except IntegrityError:
+            db.session.rollback()
+            return None
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error creating profile picture: {e}")
+            return None
+
+    def update(self, base64_data):
+        """Update the base64 data for this profile picture."""
+        try:
+            self._base64_data = base64_data
+            db.session.commit()
+            return self
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error updating profile picture: {e}")
+            return None
+
+    def delete(self):
+        """Delete this profile picture from the database."""
+        try:
+            db.session.delete(self)
+            db.session.commit()
+            return True
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error deleting profile picture: {e}")
+            return False
+
+    def read(self):
+        """Return profile picture data as a dictionary."""
+        return {
+            'id': self.id,
+            'user_id': self._user_id,
+            'base64_data': self._base64_data
+        }
+
+    # ===== STATIC METHODS FOR QUERIES =====
+
+    @staticmethod
+    def get_by_user_id(user_id):
+        """
+        Get a profile picture by user ID.
+
+        Parameters:
+        - user_id (int): The user's database ID
+
+        Returns:
+        - ProfilePicture object or None
+        """
+        return ProfilePicture.query.filter_by(_user_id=user_id).first()
+
+    @staticmethod
+    def save_for_user(user_id, base64_data):
+        """
+        Save or update a profile picture for a user.
+        If user already has a PFP, update it. Otherwise, create new.
+
+        Parameters:
+        - user_id (int): The user's database ID
+        - base64_data (str): The base64 encoded image string
+
+        Returns:
+        - ProfilePicture object or None on error
+        """
+        existing = ProfilePicture.get_by_user_id(user_id)
+
+        if existing:
+            # Update existing PFP
+            return existing.update(base64_data)
+        else:
+            # Create new PFP
+            new_pfp = ProfilePicture(user_id, base64_data)
+            return new_pfp.create()
+
+    @staticmethod
+    def delete_for_user(user_id):
+        """
+        Delete a user's profile picture.
+
+        Parameters:
+        - user_id (int): The user's database ID
+
+        Returns:
+        - True if deleted, False if not found or error
+        """
+        existing = ProfilePicture.get_by_user_id(user_id)
+        if existing:
+            return existing.delete()
+        return False
+
+
+# ==============================================================================
+# HELPER FUNCTIONS (for backwards compatibility with api/pfp.py)
+# ==============================================================================
+
+def pfp_base64_decode(user_uid, user_pfp=None):
+    """
+    ===========================================================================
+    GET BASE64 FROM DATABASE (for sending to frontend)
+    ===========================================================================
+
+    Retrieves the base64 encoded profile picture from the database.
 
     Parameters:
-    - user_id (str): The unique identifier for the user.
-    - user_pfp (str): The filename of the user's profile picture.
+    - user_uid (str): The user's UID (username)
+    - user_pfp: IGNORED (kept for backwards compatibility)
 
     Returns:
-    - str: The base64 encoded image if the user has a profile picture; otherwise, None.
+    - str: The base64 encoded image string
+    - None: If user has no profile picture
+
+    CALLED BY:
+    - api/pfp.py → GET /api/id/pfp
+    - api/friend_api.py → when including pfp in friend data
+    ===========================================================================
     """
-    img_path = os.path.join(app.config['UPLOAD_FOLDER'], user_id, user_pfp)
-    try:
-        with open(img_path, 'rb') as img_file:
-            base64_encoded = base64.b64encode(img_file.read()).decode('utf-8')
-        return base64_encoded
-    except Exception as e:
-        print(f'An error occurred while reading the profile picture: {str(e)}')
+    from model.user import User
+
+    # Find the user by UID
+    user = User.query.filter_by(_uid=user_uid).first()
+    if not user:
+        print(f"User not found: {user_uid}")
         return None
+
+    # Get their profile picture from the database
+    pfp = ProfilePicture.get_by_user_id(user.id)
+    if pfp:
+        return pfp.base64_data
+
+    return None
+
 
 def pfp_base64_upload(base64_image, user_uid):
     """
-    Uploads a base64 encoded image as a profile picture for a user.
+    ===========================================================================
+    SAVE BASE64 TO DATABASE (from frontend upload)
+    ===========================================================================
 
-    This function decodes a base64 encoded image and saves it to a secure location on the server.
-    It organizes images by storing each user's image in a separate directory within the UPLOAD_FOLDER.
-    This approach helps to avoid filename conflicts and ensures better organization of files.
+    Saves the base64 encoded profile picture to the database.
 
     Parameters:
-    - base64_image (str): The base64 encoded image to be uploaded.
-    - user_uid (str): The unique identifier for the user.
+    - base64_image (str): The base64 encoded image string from frontend
+    - user_uid (str): The user's UID (username)
 
     Returns:
-    - str: The filename of the saved image if the upload is successful; otherwise, None.
+    - str: A success indicator (the user_uid) - for backwards compatibility
+    - None: If an error occurs
+
+    CALLED BY:
+    - api/pfp.py → PUT /api/id/pfp
+    ===========================================================================
     """
-    try:
-        image_data = base64.b64decode(base64_image)
-        filename = secure_filename(f'{user_uid}.png')
-        user_dir = os.path.join(app.config['UPLOAD_FOLDER'], user_uid)
-        if not os.path.exists(user_dir):
-            os.makedirs(user_dir)
-        file_path = os.path.join(user_dir, filename)
-        with open(file_path, 'wb') as img_file:
-            img_file.write(image_data)
-        return filename 
-    except Exception as e:
-        print (f'An error occurred while updating the profile picture: {str(e)}')
+    from model.user import User
+
+    # Find the user by UID
+    user = User.query.filter_by(_uid=user_uid).first()
+    if not user:
+        print(f"User not found: {user_uid}")
         return None
-    
-def pfp_file_delete(user_uid, filename):
-    """
-    Deletes the profile picture file from the server.
 
-    This function removes a file from the server's filesystem. It is typically used to delete profile pictures
-    when a user updates their image or removes it entirely.
+    # Save to database
+    result = ProfilePicture.save_for_user(user.id, base64_image)
+    if result:
+        # Also update the user's pfp field for backwards compatibility
+        user.pfp = f"{user_uid}.png"
+        db.session.commit()
+        return f"{user_uid}.png"
+
+    return None
+
+
+def pfp_file_delete(user_uid, filename=None):
+    """
+    ===========================================================================
+    DELETE BASE64 FROM DATABASE
+    ===========================================================================
+
+    Deletes the profile picture from the database.
 
     Parameters:
-    - user_uid (str): The unique identifier for the user.
-    - filename (str): The name of the file to be deleted.
+    - user_uid (str): The user's UID (username)
+    - filename: IGNORED (kept for backwards compatibility)
 
     Returns:
-    - bool: True if the file was deleted successfully; otherwise, False.
+    - True: Successfully deleted
+    - False: Error or not found
+
+    CALLED BY:
+    - api/pfp.py → DELETE /api/id/pfp
+    ===========================================================================
     """
-    try:
-        img_path = os.path.join(app.config['UPLOAD_FOLDER'], user_uid, filename)
-        if os.path.exists(img_path):
-            os.remove(img_path)
-        # Success is when the file does not exist after calling this function
-        return True 
-    except Exception as e:
-        print(f'An error occurred while deleting the profile picture: {str(e)}')
-        # Failure is when the file still existes, likely a permissions issue
+    from model.user import User
+
+    # Find the user by UID
+    user = User.query.filter_by(_uid=user_uid).first()
+    if not user:
+        print(f"User not found: {user_uid}")
         return False
+
+    # Delete from database
+    return ProfilePicture.delete_for_user(user.id)
+
+
+# ==============================================================================
+# INITIALIZE TABLE
+# ==============================================================================
+
+def init_pfp_table():
+    """
+    Create the pfps table in the database if it doesn't exist.
+    Call this once when setting up the application.
+    """
+    with app.app_context():
+        db.create_all()
+        print("ProfilePicture table (pfps) created/verified.")
+
+
+"""
+==============================================================================
+SUMMARY: DATABASE STORAGE
+==============================================================================
+
+TABLE: pfps (in user_management.db)
+┌────────────────┬─────────────────┬────────────────────────────────────────┐
+│ Column         │ Type            │ Description                            │
+├────────────────┼─────────────────┼────────────────────────────────────────┤
+│ id             │ INTEGER (PK)    │ Primary key                            │
+│ _user_id       │ INTEGER (FK)    │ Foreign key to users.id (UNIQUE)       │
+│ _base64_data   │ TEXT            │ The base64 encoded image string        │
+└────────────────┴─────────────────┴────────────────────────────────────────┘
+
+EXAMPLE DATA:
+┌────┬──────────┬─────────────────────────────────────────────────────────┐
+│ id │ _user_id │ _base64_data                                            │
+├────┼──────────┼─────────────────────────────────────────────────────────┤
+│ 1  │ 1        │ iVBORw0KGgoAAAANSUhEUgAAA... (thousands of characters) │
+│ 2  │ 5        │ /9j/4AAQSkZJRgABAQEASABIA... (thousands of characters) │
+└────┴──────────┴─────────────────────────────────────────────────────────┘
+
+==============================================================================
+"""

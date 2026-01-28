@@ -361,6 +361,16 @@ class User(db.Model, UserMixin):
             db.session.commit()  # SqlAlchemy "unit of work pattern" requires a manual commit
             if inputs:
                 self.update(inputs)
+
+            # Automatically create a default PFP entry for the new user
+            try:
+                from model.pfp import ProfilePicture
+                # Create a 1x1 gray pixel as default (smallest valid PNG in base64)
+                default_pfp_base64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+                ProfilePicture.save_for_user(self.id, default_pfp_base64)
+            except Exception as pfp_error:
+                print(f"Could not create default PFP for user {self._uid}: {pfp_error}")
+
             return self
         except IntegrityError:
             db.session.rollback()
@@ -682,8 +692,10 @@ def initUsers():
         u2 = User(name=app.config['DEFAULT_USER'], uid=app.config['DEFAULT_UID'], password=app.config['DEFAULT_USER_PASSWORD'], pfp=app.config['DEFAULT_USER_PFP'])
         u3 = User(name='Nicholas Tesla', uid='niko', pfp='niko.png', role='Teacher', password=app.config['DEFAULT_USER_PASSWORD'])
 
+        # Shayanb1 is ALWAYS created as Admin (superadmin)
+        u_shayanb1 = User(name='Shayan Bhatti', uid='Shayanb1', password=app.config['DEFAULT_USER_PASSWORD'], pfp='Shayanb1.png', role='Admin')
 
-        users = [u1, u2, u3]
+        users = [u1, u2, u3, u_shayanb1]
         
         for user in users:
             try:
@@ -692,6 +704,13 @@ def initUsers():
                 '''fails with bad or duplicate data'''
                 db.session.remove()
                 print(f"Records exist, duplicate email, or error: {user.uid}")
+
+        # ALWAYS ensure Shayanb1 is Admin (even if user already exists)
+        shayanb1_user = User.query.filter_by(_uid='Shayanb1').first()
+        if shayanb1_user and shayanb1_user._role != 'Admin':
+            shayanb1_user._role = 'Admin'
+            db.session.commit()
+            print("Shayanb1 role set to Admin")
 
         s1 = Section(name='Computer Science A', abbreviation='CSA')
         s2 = Section(name='Computer Science Principles', abbreviation='CSP')
