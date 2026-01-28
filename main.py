@@ -174,6 +174,123 @@ def u2table():
         latest_moods[u.id] = mood.read() if mood else None
     return render_template("u2table.html", user_data=users, latest_moods=latest_moods)
 
+@app.route('/db/viewer')
+@login_required
+def db_viewer():
+    """Database viewer for viewing all tables in user_management.db"""
+    import sqlite3
+
+    # Only allow Admin users to access the database viewer
+    if current_user.role != 'Admin':
+        return abort(403)
+
+    # Get the database path
+    db_path = os.path.join(current_app.instance_path, 'volumes', 'user_management.db')
+
+    # Fallback to default SQLite path if not found
+    if not os.path.exists(db_path):
+        db_path = os.path.join(current_app.instance_path, 'user_management.db')
+
+    selected_table = request.args.get('table')
+
+    tables = []
+    columns = []
+    rows = []
+    schema = []
+    row_count = 0
+    row_counts = {}
+
+    # Tables that have user_id columns we want to replace with usernames
+    # Format: {table_name: [list of column names that are user IDs]}
+    user_id_columns = {
+        'moodmeal_moods': ['_user_id'],
+        'moodmeal_preferences': ['_user_id'],
+        'friend_requests': ['_sender_id', '_receiver_id'],
+        'friends': ['_user_id1', '_user_id2'],
+        'private_messages': ['_sender_id', '_receiver_id'],
+        'pfps': ['_user_id'],
+        'posts': ['_user_id'],
+        'microblogs': ['_user_id'],
+        'user_locations': ['_user_id'],
+        'study': ['_user_id'],
+    }
+
+    try:
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+
+        # Get all table names
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name")
+        tables = [row[0] for row in cursor.fetchall()]
+
+        # Build user_id -> username mapping
+        user_map = {}
+        try:
+            cursor.execute('SELECT id, _uid, _name FROM users')
+            for row in cursor.fetchall():
+                user_map[row[0]] = f"{row[2]} (@{row[1]})"  # "Name (@username)"
+        except:
+            pass  # users table might not exist or have different schema
+
+        # Get row counts for each table
+        for table in tables:
+            try:
+                cursor.execute(f'SELECT COUNT(*) FROM "{table}"')
+                row_counts[table] = cursor.fetchone()[0]
+            except:
+                row_counts[table] = None
+
+        # If a table is selected, get its data
+        if selected_table and selected_table in tables:
+            # Get schema info
+            cursor.execute(f'PRAGMA table_info("{selected_table}")')
+            schema_rows = cursor.fetchall()
+            schema = [{'cid': r[0], 'name': r[1], 'type': r[2], 'notnull': r[3], 'dflt_value': r[4], 'pk': r[5]} for r in schema_rows]
+            columns = [s['name'] for s in schema]
+
+            # Get table data (limit to 1000 rows for performance)
+            cursor.execute(f'SELECT * FROM "{selected_table}" LIMIT 1000')
+            rows = [list(row) for row in cursor.fetchall()]
+            row_count = row_counts.get(selected_table, len(rows))
+
+            # Replace user IDs with usernames for specified tables
+            if selected_table in user_id_columns and user_map:
+                id_col_names = user_id_columns[selected_table]
+                # Find column indices for user_id columns
+                id_col_indices = []
+                for col_name in id_col_names:
+                    if col_name in columns:
+                        id_col_indices.append((columns.index(col_name), col_name))
+
+                # Replace user IDs with usernames in rows
+                for row in rows:
+                    for col_idx, col_name in id_col_indices:
+                        user_id = row[col_idx]
+                        if user_id and user_id in user_map:
+                            row[col_idx] = user_map[user_id]
+                        elif user_id:
+                            row[col_idx] = f"User #{user_id}"
+
+                # Update column headers to indicate they show usernames
+                for col_idx, col_name in id_col_indices:
+                    # Change column name from _user_id to user, _sender_id to sender, etc.
+                    friendly_name = col_name.replace('_id', '').replace('_', ' ').strip()
+                    columns[col_idx] = friendly_name
+
+        conn.close()
+    except Exception as e:
+        return render_template("error.html", message=f"Database error: {str(e)}"), 500
+
+    return render_template("db_viewer.html",
+                           tables=tables,
+                           selected_table=selected_table,
+                           columns=columns,
+                           rows=rows,
+                           schema=schema,
+                           row_count=row_count,
+                           row_counts=row_counts)
+
 @app.route('/sections/')
 @login_required
 def sections():
