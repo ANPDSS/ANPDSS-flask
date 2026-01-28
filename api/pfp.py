@@ -1,11 +1,47 @@
-from flask import Blueprint, g, request
+from flask import Blueprint, g, request, Response
 from flask_restful import Api, Resource
 from api.jwt_authorize import token_required
 from model.user import User
-from model.pfp import pfp_base64_decode, pfp_base64_upload, pfp_file_delete
+from model.pfp import pfp_base64_decode, pfp_base64_upload, pfp_file_delete, ProfilePicture
+import base64
 
 pfp_api = Blueprint('pfp_api', __name__, url_prefix='/api/id')
 api = Api(pfp_api)
+
+
+@pfp_api.route('/pfp/image/<uid>')
+def get_pfp_image(uid):
+    """
+    Serves the profile picture as an actual image file.
+    This endpoint can be used directly in <img src="..."> tags.
+
+    URL: /api/id/pfp/image/<uid>
+
+    Returns the image with proper content-type, or a default placeholder.
+    """
+    user = User.query.filter_by(_uid=uid).first()
+    if not user:
+        # Return a 1x1 transparent pixel as fallback
+        transparent_pixel = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==")
+        return Response(transparent_pixel, mimetype='image/png')
+
+    pfp = ProfilePicture.get_by_user_id(user.id)
+    if pfp and pfp.base64_data:
+        try:
+            # Decode the base64 data to binary
+            image_data = base64.b64decode(pfp.base64_data)
+            # Detect image type (basic detection)
+            if pfp.base64_data.startswith('/9j/'):
+                mimetype = 'image/jpeg'
+            else:
+                mimetype = 'image/png'
+            return Response(image_data, mimetype=mimetype)
+        except Exception as e:
+            print(f"Error decoding PFP for {uid}: {e}")
+
+    # Return a default gray pixel if no PFP
+    gray_pixel = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==")
+    return Response(gray_pixel, mimetype='image/png')
 
 class _PFP(Resource):
     """

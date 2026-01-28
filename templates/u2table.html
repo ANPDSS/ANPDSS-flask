@@ -27,17 +27,11 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.role }}</td>
                 <td>
-                    {% if user.pfp %}
-                    <img src="{{ url_for('uploaded_file', filename=user.uid + '/' + user.pfp) }}" 
-                         alt="Profile Picture" 
-                         class="img-thumbnail" 
-                         style="width: 50px; height: 50px;">
-                    {% else %}
-                    <img src="{{ url_for('static', filename='assets/pythondb.png') }}" 
-                         alt="Default Profile Picture" 
-                         class="img-thumbnail" 
-                         style="width: 50px; height: 50px;">
-                    {% endif %}
+                    <!-- PFP loaded from database via /api/id/pfp/image/<uid> -->
+                    <img src="{{ url_for('pfp_api.get_pfp_image', uid=user.uid) }}"
+                         alt="Profile Picture"
+                         class="img-thumbnail"
+                         style="width: 50px; height: 50px; object-fit: cover;">
                 </td>
                 <td>
                     {% for section in user.sections %}
