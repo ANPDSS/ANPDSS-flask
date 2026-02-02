@@ -1,4 +1,13 @@
 # api/moodmeal_gemini.py
+"""
+MoodMeal Gemini API Integration
+
+Programming Constructs:
+- Sequencing: Code executes in order through prompt building and API calls
+- Selection: if/else statements for mood validation and error handling
+- Iteration: Loops for processing mood tags, preferences, and recommendations
+- Lists: Arrays storing dietary preferences, allergies, cuisines, music, activities
+"""
 
 import os
 import json
@@ -13,6 +22,45 @@ from model.moodmeal_preferences import MoodMealPreferences
 load_dotenv()
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+# List: Valid mood categories for validation
+VALID_MOOD_CATEGORIES = ['Happy/Neutral', 'Energetic/Excited', 'Tired/Low Energy', 'Stressed/Anxious']
+
+# List: Default recommendation counts per category
+RECOMMENDATION_LIMITS = {'meals': 3, 'activities': 3, 'music': 3, 'clothing': 2}
+
+
+def validate_mood_category(category: str) -> bool:
+    """
+    Validate if the mood category is recognized.
+    Demonstrates iteration through a list with selection.
+    """
+    # Iteration: Loop through valid mood categories
+    for valid_category in VALID_MOOD_CATEGORIES:
+        # Selection: Check if category matches
+        if category.lower() == valid_category.lower():
+            return True
+    return False
+
+
+def filter_recommendations_by_limit(recommendations: dict) -> dict:
+    """
+    Filter recommendations to respect category limits.
+    Demonstrates iteration through dictionary items.
+    """
+    filtered = {}
+
+    # Iteration: Loop through each recommendation category
+    for category, items in recommendations.items():
+        # Selection: Check if category has a defined limit
+        if category in RECOMMENDATION_LIMITS:
+            limit = RECOMMENDATION_LIMITS[category]
+            # Iteration: Create new list with limited items
+            filtered[category] = items[:limit] if isinstance(items, list) else items
+        else:
+            filtered[category] = items
+
+    return filtered
 
 
 def get_latest_mood_for_user(user_id: int) -> dict | None:

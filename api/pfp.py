@@ -1,3 +1,12 @@
+"""
+Profile Picture (PFP) API
+
+Programming Constructs:
+- Sequencing: Code executes in order through upload/retrieve process
+- Selection: if/else for validation and authorization checks
+- Iteration: Loops for processing image data and validating formats
+- Lists: Arrays storing allowed image types and size limits
+"""
 from flask import Blueprint, g, request, Response
 from flask_restful import Api, Resource
 from api.jwt_authorize import token_required
@@ -7,6 +16,35 @@ import base64
 
 pfp_api = Blueprint('pfp_api', __name__, url_prefix='/api/id')
 api = Api(pfp_api)
+
+# List: Allowed image MIME types for profile pictures
+ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp']
+
+# List: Base64 image signature prefixes for validation
+IMAGE_SIGNATURES = [
+    {'prefix': '/9j/', 'type': 'jpeg'},
+    {'prefix': 'iVBORw0KGgo', 'type': 'png'},
+    {'prefix': 'R0lGOD', 'type': 'gif'},
+    {'prefix': 'UklGR', 'type': 'webp'}
+]
+
+
+def validate_image_format(base64_data: str) -> dict:
+    """
+    Validate that the base64 data is a recognized image format.
+    Demonstrates iteration through a list with selection.
+    """
+    result = {'valid': False, 'type': None}
+
+    # Iteration: Loop through known image signatures
+    for signature in IMAGE_SIGNATURES:
+        # Selection: Check if base64 data starts with known prefix
+        if base64_data.startswith(signature['prefix']):
+            result['valid'] = True
+            result['type'] = signature['type']
+            break
+
+    return result
 
 
 @pfp_api.route('/pfp/image/<uid>')

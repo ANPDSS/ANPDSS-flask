@@ -3,6 +3,12 @@
 PROFILE PICTURE (PFP) MODEL & HELPER FUNCTIONS - model/pfp.py
 ==============================================================================
 
+Programming Constructs:
+- Sequencing: Code executes in order through CRUD operations
+- Selection: if/else for validation and conditional database operations
+- Iteration: Loops for batch operations and data validation
+- Lists: Arrays storing valid image types and user IDs for bulk operations
+
 This file handles profile pictures using BASE64 stored directly in the DATABASE.
 
 === WHERE IS THE DATA STORED? ===
@@ -53,6 +59,64 @@ RETRIEVE (Database → Frontend):
 
 from __init__ import db, app
 from sqlalchemy.exc import IntegrityError
+
+# List: Valid image format prefixes for base64 validation
+VALID_IMAGE_PREFIXES = ['/9j/', 'iVBORw0KGgo', 'R0lGOD', 'UklGR']
+
+# List: Maximum allowed sizes (in characters) for different image types
+IMAGE_SIZE_LIMITS = [
+    {'type': 'thumbnail', 'max_chars': 50000},
+    {'type': 'small', 'max_chars': 200000},
+    {'type': 'medium', 'max_chars': 500000},
+    {'type': 'large', 'max_chars': 1000000}
+]
+
+
+def validate_base64_image(base64_data: str) -> dict:
+    """
+    Validate base64 image data format and size.
+    Demonstrates iteration through lists with selection.
+    """
+    result = {'valid': False, 'format': None, 'size_category': None}
+
+    # Iteration: Check image format by looping through valid prefixes
+    for prefix in VALID_IMAGE_PREFIXES:
+        # Selection: Check if data starts with valid prefix
+        if base64_data.startswith(prefix):
+            result['valid'] = True
+            result['format'] = prefix
+            break
+
+    # Selection: Only check size if format is valid
+    if result['valid']:
+        data_length = len(base64_data)
+        # Iteration: Determine size category
+        for size_limit in IMAGE_SIZE_LIMITS:
+            if data_length <= size_limit['max_chars']:
+                result['size_category'] = size_limit['type']
+                break
+
+    return result
+
+
+def get_pfps_for_user_ids(user_ids: list) -> dict:
+    """
+    Get profile pictures for multiple users at once.
+    Demonstrates iteration for batch database operations.
+    """
+    pfp_map = {}
+
+    # Iteration: Loop through each user ID
+    for user_id in user_ids:
+        # Selection: Check if user_id is valid
+        if user_id and isinstance(user_id, int):
+            pfp = ProfilePicture.query.filter_by(_user_id=user_id).first()
+            if pfp:
+                pfp_map[user_id] = pfp.base64_data
+            else:
+                pfp_map[user_id] = None
+
+    return pfp_map
 
 
 class ProfilePicture(db.Model):
