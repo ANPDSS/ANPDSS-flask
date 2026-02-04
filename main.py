@@ -69,12 +69,20 @@ app.config['KASM_API_KEY_SECRET'] = os.getenv('KASM_API_KEY_SECRET')
 
 
 
-# register URIs for api endpoints
+# =====================================================================
+# =====                     SEQUENCING                           =====
+# =====================================================================
+# Sequencing means executing statements one after another, in order.
+# Below, each blueprint is registered in a specific top-to-bottom
+# sequence. The order matters because Flask processes them linearly,
+# and each line depends on the previous imports completing first.
+# This entire block is a clear example of SEQUENCING in action.
+# =====================================================================
 app.register_blueprint(python_exec_api)
 app.register_blueprint(javascript_exec_api)
 app.register_blueprint(user_api)
 app.register_blueprint(section_api)
-app.register_blueprint(pfp_api) 
+app.register_blueprint(pfp_api)
 app.register_blueprint(stock_api)
 app.register_blueprint(groq_api)
 app.register_blueprint(gemini_api)
@@ -127,6 +135,16 @@ def is_safe_url(target):
     test_url = urlparse(urljoin(request.host_url, target))
     return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
+# =====================================================================
+# =====                     SELECTION                            =====
+# =====================================================================
+# Selection means choosing different paths of execution based on a
+# condition (if/elif/else). Below, the login route uses SELECTION
+# to check: (1) if the request method is POST, (2) if the user
+# exists AND the password is correct, and (3) if the redirect URL
+# is safe. Each condition branches the code into a different path.
+# This is a textbook example of SELECTION (conditional logic).
+# =====================================================================
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
@@ -193,6 +211,17 @@ def db_viewer():
 
     selected_table = request.args.get('table')
 
+    # =====================================================================
+    # =====                       LISTS                              =====
+    # =====================================================================
+    # Lists (and dictionaries) are data structures that store multiple
+    # values in a single variable. Below, 'tables', 'columns', 'rows',
+    # and 'schema' are all initialized as empty LISTS (using []).
+    # 'row_counts' and 'user_id_columns' are dictionaries (key-value
+    # pairs). These collections are used to gather and organize data
+    # retrieved from the database for display in the viewer.
+    # This is a clear example of LISTS being used in Python.
+    # =====================================================================
     tables = []
     columns = []
     rows = []
@@ -233,7 +262,15 @@ def db_viewer():
         except:
             pass  # users table might not exist or have different schema
 
-        # Get row counts for each table
+        # =====================================================================
+        # =====                    ITERATION                            =====
+        # =====================================================================
+        # Iteration means repeating a block of code for each item in a
+        # collection (looping). Below, the 'for' loop ITERATES over
+        # every table name in the 'tables' list. For EACH table, it
+        # executes a SQL COUNT query to determine how many rows exist.
+        # This is a textbook example of ITERATION (a for loop).
+        # =====================================================================
         for table in tables:
             try:
                 cursor.execute(f'SELECT COUNT(*) FROM "{table}"')
