@@ -1,11 +1,66 @@
 """
 MoodMeal Mood Data Model
 Stores user mood entries with scores, tags, and categories
+
+Programming Constructs:
+- Sequencing: Code executes in order through CRUD operations
+- Selection: if/elif/else for category calculation and validation
+- Iteration: Loops for tag validation and mood history processing
+- Lists: Arrays storing valid tags, mood categories, and score thresholds
 """
 from __init__ import db
 from sqlalchemy import Text
 from datetime import datetime
 import json
+
+# List: Valid mood categories with their score thresholds
+MOOD_CATEGORIES = [
+    {'name': 'Stressed/Anxious', 'min_score': 0, 'max_score': 40},
+    {'name': 'Tired/Low Energy', 'min_score': 41, 'max_score': 60},
+    {'name': 'Happy/Neutral', 'min_score': 61, 'max_score': 80},
+    {'name': 'Energetic/Excited', 'min_score': 81, 'max_score': 100}
+]
+
+# List: Valid mood tags that users can select
+VALID_MOOD_TAGS = [
+    'happy', 'sad', 'anxious', 'calm', 'energetic',
+    'tired', 'stressed', 'relaxed', 'focused', 'creative',
+    'social', 'lonely', 'grateful', 'frustrated', 'hopeful'
+]
+
+
+def validate_mood_tags(tags: list) -> list:
+    """
+    Validate and filter mood tags against the allowed list.
+    Demonstrates iteration through a list with selection.
+    """
+    validated_tags = []
+
+    # Iteration: Loop through each submitted tag
+    for tag in tags:
+        # Selection: Only keep tags that are in the valid list
+        if isinstance(tag, str) and tag.lower().strip() in VALID_MOOD_TAGS:
+            validated_tags.append(tag.lower().strip())
+
+    return validated_tags
+
+
+def get_category_from_score(score: int) -> str:
+    """
+    Determine mood category by iterating through category thresholds.
+    Demonstrates iteration through a list with selection.
+    """
+    category = 'Unknown'
+
+    # Iteration: Loop through mood categories list
+    for cat in MOOD_CATEGORIES:
+        # Selection: Check if score falls within this category's range
+        if cat['min_score'] <= score <= cat['max_score']:
+            category = cat['name']
+            break
+
+    return category
+
 
 class MoodMealMood(db.Model):
     """
@@ -52,15 +107,9 @@ class MoodMealMood(db.Model):
 
     @staticmethod
     def _calculate_category(score):
-        """Calculate mood category from score"""
-        if score <= 40:
-            return 'Stressed/Anxious'
-        elif score <= 60:
-            return 'Tired/Low Energy'
-        elif score <= 80:
-            return 'Happy/Neutral'
-        else:
-            return 'Energetic/Excited'
+        """Calculate mood category from score using iteration through categories list."""
+        # Iteration + Selection: Use the module-level function that loops through MOOD_CATEGORIES
+        return get_category_from_score(score)
 
     @property
     def user_id(self):
@@ -147,3 +196,35 @@ class MoodMealMood(db.Model):
             db.session.rollback()
             print(f"Error deleting mood entry: {e}")
             return False
+
+    @staticmethod
+    def get_mood_summary(user_id):
+        """
+        Get a summary of a user's mood history with category counts.
+        Demonstrates iteration through query results and list building.
+        """
+        moods = MoodMealMood.query.filter_by(_user_id=user_id).all()
+
+        # List: Collect all tags and category counts
+        all_tags = []
+        category_counts = {}
+
+        # Iteration: Loop through each mood entry
+        for mood in moods:
+            # Selection: Track category frequency
+            cat = mood.mood_category
+            if cat in category_counts:
+                category_counts[cat] += 1
+            else:
+                category_counts[cat] = 1
+
+            # Iteration: Loop through tags in each mood entry
+            for tag in mood.mood_tags:
+                if tag not in all_tags:
+                    all_tags.append(tag)
+
+        return {
+            'total_entries': len(moods),
+            'category_counts': category_counts,
+            'unique_tags': all_tags
+        }

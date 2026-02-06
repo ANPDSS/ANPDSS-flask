@@ -1,5 +1,11 @@
 """
 Message API - Endpoints for private messaging between friends
+
+Programming Constructs:
+- Sequencing: Code executes step by step through message send/retrieve flow
+- Selection: if/else for validation, authorization, and error handling
+- Iteration: Loops for processing message lists and validation rules
+- Lists: Arrays storing validation rules, message data, and conversation lists
 """
 
 from flask import Blueprint, request, g
@@ -11,6 +17,30 @@ from model.private_message import PrivateMessage
 
 message_api = Blueprint('message_api', __name__, url_prefix='/api/message')
 api = Api(message_api)
+
+# List: Validation rules for message content
+MESSAGE_VALIDATION_RULES = [
+    {'name': 'not_empty', 'check': lambda c: len(c.strip()) > 0, 'error': 'Message content cannot be empty'},
+    {'name': 'max_length', 'check': lambda c: len(c) <= 5000, 'error': 'Message exceeds maximum length of 5000 characters'},
+    {'name': 'not_whitespace_only', 'check': lambda c: not c.isspace(), 'error': 'Message cannot be only whitespace'}
+]
+
+
+def validate_message_content(content: str) -> dict:
+    """
+    Validate message content against all rules.
+    Demonstrates iteration through a validation rules list with selection.
+    """
+    result = {'valid': True, 'errors': []}
+
+    # Iteration: Loop through each validation rule
+    for rule in MESSAGE_VALIDATION_RULES:
+        # Selection: Check if the content passes this rule
+        if not rule['check'](content):
+            result['valid'] = False
+            result['errors'].append(rule['error'])
+
+    return result
 
 
 class SendMessageAPI(Resource):
@@ -32,8 +62,10 @@ class SendMessageAPI(Resource):
             except (ValueError, TypeError):
                 return {'message': 'Invalid receiver ID'}, 400
 
-            if not content:
-                return {'message': 'Message content cannot be empty'}, 400
+            # Iteration + Selection: Validate content against rules list
+            validation = validate_message_content(content if content else '')
+            if not validation['valid']:
+                return {'message': validation['errors'][0]}, 400
 
             # Verify receiver exists
             receiver = User.query.get(receiver_id)
@@ -87,7 +119,7 @@ class ConversationAPI(Resource):
             # Mark messages as read
             PrivateMessage.mark_conversation_as_read(current_user.id, friend_id)
 
-            # Convert to dict and reverse (oldest first)
+            # List + Iteration: Convert message objects to dict list (oldest first)
             messages_data = [msg.read() for msg in reversed(messages)]
 
             return {
