@@ -50,7 +50,7 @@ def get_outfit_for_temperature(temp):
 def weather_current():
     """Get current weather by coordinates or ZIP code"""
 
-    # grab location params from the request
+    # grab location params from the request (lat and lon are variables that will hold the values of the latitude and longitude coordinates)
     lat = request.args.get('lat')
     lon = request.args.get('lon')
     zip_code = request.args.get('zip')
