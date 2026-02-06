@@ -56,6 +56,7 @@ def filter_recommendations_by_limit(recommendations: dict) -> dict:
         if category in RECOMMENDATION_LIMITS:
             limit = RECOMMENDATION_LIMITS[category]
             # Iteration: Create new list with limited items
+            # Lists: slicing enforces limit on list-type recommendations
             filtered[category] = items[:limit] if isinstance(items, list) else items
         else:
             filtered[category] = items
@@ -67,12 +68,14 @@ def get_latest_mood_for_user(user_id: int) -> dict | None:
     """
     Returns the most recent mood entry as a dict using MoodMealMood.read().
     """
+    # Sequencing: build query then execute to retrieve the most recent mood
     mood = (
         MoodMealMood.query
         .filter_by(_user_id=user_id)
         .order_by(MoodMealMood._timestamp.desc())
         .first()
     )
+    # Selection: return result if found, otherwise None
     return mood.read() if mood else None
 
 
@@ -80,7 +83,9 @@ def get_mood_by_id_for_user(user_id: int, mood_id: int) -> dict | None:
     """
     Returns a specific mood entry for this user, or None.
     """
+    # Sequencing: query by id then return
     mood = MoodMealMood.query.filter_by(id=mood_id, _user_id=user_id).first()
+    # Selection: present or absent
     return mood.read() if mood else None
 
 
@@ -90,16 +95,18 @@ def get_preferences_for_user(user) -> dict:
     Always returns a plain dict (never jsonify).
     """
     prefs = MoodMealPreferences.query.filter_by(_user_id=user.id).first()
+    # Selection: if no prefs found, return default structure (lists)
     if not prefs:
         # match PreferencesAPI default structure
         return {
             "user_id": user.id,
-            "dietary": [],
-            "allergies": [],
-            "cuisines": [],
-            "music": [],
-            "activities": []
+            "dietary": [],  # List: dietary preferences
+            "allergies": [], # List: allergies
+            "cuisines": [],  # List: cuisines
+            "music": [],     # List: music preferences
+            "activities": [] # List: activity preferences
         }
+    # Sequencing: read DB object and return a dict
     return prefs.read()
 
 
@@ -112,10 +119,12 @@ def build_gemini_prompt(mood: dict, preferences: dict, weather: dict | None = No
     """
     import random
 
+    # Lists: mood_tags and preference lists are treated as lists
     mood_score = mood.get("mood_score")
     mood_category = mood.get("mood_category") or "Unknown"
     mood_tags = mood.get("mood_tags") or []
 
+    # Lists: extract preference lists (could be empty lists)
     dietary = preferences.get("dietary") or []
     allergies = preferences.get("allergies") or []
     cuisines = preferences.get("cuisines") or []
@@ -123,6 +132,7 @@ def build_gemini_prompt(mood: dict, preferences: dict, weather: dict | None = No
     activities = preferences.get("activities") or []
     # Normalize a short weather summary for the prompt
     if weather:
+        # Selection: different handling depending on weather structure
         # Try common OpenWeather keys if present
         w_main = weather.get('weather') or weather.get('weather_main')
         if isinstance(w_main, list) and w_main:
@@ -139,6 +149,7 @@ def build_gemini_prompt(mood: dict, preferences: dict, weather: dict | None = No
     # Add refresh instruction if user wants different recommendations
     refresh_instruction = ""
     if refresh:
+        # Selection: branch when refresh=True
         # Generate a random seed to force variety
         random_seed = random.randint(1000, 9999)
         refresh_instruction = (
@@ -151,6 +162,7 @@ def build_gemini_prompt(mood: dict, preferences: dict, weather: dict | None = No
     # Add user feedback if provided
     feedback_instruction = ""
     if feedback and feedback.strip():
+        # Selection: include user feedback when present
         feedback_instruction = (
             f"USER FEEDBACK: The user has provided specific feedback about what they want changed:\n"
             f"\"{feedback.strip()}\"\n\n"
@@ -158,7 +170,7 @@ def build_gemini_prompt(mood: dict, preferences: dict, weather: dict | None = No
             "Address their concerns and preferences directly.\n\n"
         )
 
-    # Build the prompt header with variable values (always executed)
+    # Sequencing: assemble header and schema into final prompt string
     header = (
         "You are MoodMeal, a helpful wellness assistant. Generate personalized recommendations based on the user's mood and preferences.\n\n"
         f"{refresh_instruction}"
@@ -218,7 +230,9 @@ def call_gemini_and_parse(prompt: str) -> dict:
     import httpx
     from google import genai
 
+    # Sequencing: check env, create client, call model
     api_key = os.getenv("GEMINI_API_KEY")
+    # Selection/error-handling: bail early if key missing
     if not api_key:
         raise RuntimeError("GEMINI_API_KEY is missing. Check your .env and load_dotenv().")
 
@@ -244,8 +258,10 @@ def call_gemini_and_parse(prompt: str) -> dict:
 
     # Parse JSON safely
     try:
+        # Selection: try direct JSON parse first
         return json.loads(text)
     except json.JSONDecodeError:
+        # Selection/fallback: attempt to extract first {...} block and parse
         start = text.find("{")
         end = text.rfind("}")
         if start == -1 or end == -1 or end <= start:
@@ -264,19 +280,20 @@ def generate_moodmeal_plan(user_id: int, mood_id: int | None = None, weather: di
     Returns a plain dict (JSON-serializable), never a Flask Response.
     """
 
-    # pick mood
+    # Selection: pick mood by id if provided, otherwise use latest
     if mood_id is not None:
         mood = get_mood_by_id_for_user(user_id, mood_id)
     else:
         mood = get_latest_mood_for_user(user_id)
 
+    # Selection/error: return structured error if no mood
     if mood is None:
-        # return JSON-serializable error object (your API can choose status code)
         return {
             "message": "No mood found. POST /api/moodmeal/mood first.",
             "user_id": user_id
         }
 
+    # Sequencing: get preferences then build prompt
     prefs = get_preferences_for_user(g.current_user)
 
     prompt = build_gemini_prompt(mood, prefs, weather, refresh=refresh, feedback=feedback)
