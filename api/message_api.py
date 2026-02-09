@@ -206,3 +206,4 @@ api.add_resource(ConversationAPI, '/conversation/<int:friend_id>')
 api.add_resource(ConversationsListAPI, '/conversations')
 api.add_resource(UnreadCountAPI, '/unread')
 api.add_resource(DeleteMessageAPI, '/delete/<int:message_id>')
+
