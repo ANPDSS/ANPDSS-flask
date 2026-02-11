@@ -107,94 +107,74 @@ class FriendRecommendationAlgorithm:
         user_moods = MoodMealMood.query.filter_by(_user_id=user_id).order_by(MoodMealMood._timestamp.desc()).limit(30).all()
         user_prefs = MoodMealPreferences.query.filter_by(_user_id=user_id).first()
 
-        # Get existing friends to exclude
-        friend_ids = Friend.get_friends_for_user(user_id)
+        # Only exclude self — friends and pending-request users still appear
+        # so the user can always see real accounts (button shows their status)
+        excluded_ids = {user_id}
 
-        # Get pending requests (both sent and received) to exclude
-        sent_requests = FriendRequest.get_sent_requests_for_user(user_id)
-        received_requests = FriendRequest.get_pending_requests_for_user(user_id)
+        # Get ALL users in the system (not just those with mood/pref data)
+        all_user_ids = [
+            uid[0] for uid in db.session.query(User.id).all()
+            if uid[0] not in excluded_ids
+        ]
 
-        excluded_ids = set(friend_ids)
-        excluded_ids.add(user_id)  # Exclude self
-
-        for req in sent_requests:
-            if req.status == 'pending':
-                excluded_ids.add(req.receiver_id)
-
-        for req in received_requests:
-            excluded_ids.add(req.sender_id)
-
-        # Get all users with mood data OR preferences
-        mood_user_ids = set([uid[0] for uid in db.session.query(MoodMealMood._user_id).distinct().all()])
-        pref_user_ids = set([uid[0] for uid in db.session.query(MoodMealPreferences._user_id).distinct().all()])
-        all_user_ids = mood_user_ids.union(pref_user_ids)
-        all_user_ids = [uid for uid in all_user_ids if uid not in excluded_ids]
-
-        # If user has no data, return users who do have data
-        if not user_moods and not user_prefs:
-            users = User.query.filter(User.id.in_(all_user_ids)).limit(limit).all()
-            return [{
-                'user': user,
-                'score': 0.0,
-                'shared_mood_categories': [],
-                'avg_mood_score': None,
-                'shared_music': [],
-                'shared_activities': [],
-                'shared_cuisines': []
-            } for user in users]
-
-        # Calculate similarity scores
+        # Calculate similarity scores for everyone
         recommendations = []
         for other_user_id in all_user_ids:
-            # Get other user's data
             other_moods = MoodMealMood.query.filter_by(_user_id=other_user_id).order_by(MoodMealMood._timestamp.desc()).limit(30).all()
             other_prefs = MoodMealPreferences.query.filter_by(_user_id=other_user_id).first()
 
-            # Skip if other user has no data at all
+            user = User.query.get(other_user_id)
+            if not user:
+                continue
+
+            # Users with no mood/pref data still appear with score 0
             if not other_moods and not other_prefs:
+                recommendations.append({
+                    'user': user,
+                    'score': 0.0,
+                    'score_breakdown': {},
+                    'shared_mood_categories': [],
+                    'avg_mood_score': None,
+                    'shared_music': [],
+                    'shared_activities': [],
+                    'shared_cuisines': []
+                })
                 continue
 
             score, score_breakdown = FriendRecommendationAlgorithm.calculate_similarity_score(
                 user_moods, other_moods, user_prefs, other_prefs
             )
 
-            # Include users with any similarity
-            if score > 0:
-                user = User.query.get(other_user_id)
-                if user:
-                    # Calculate shared mood categories
-                    shared_categories = []
-                    other_avg_mood = None
-                    if user_moods and other_moods:
-                        user_categories = set([m.mood_category for m in user_moods if m.mood_category])
-                        other_categories = set([m.mood_category for m in other_moods if m.mood_category])
-                        shared_categories = list(user_categories.intersection(other_categories))
-                        other_avg_mood = round(sum([m.mood_score for m in other_moods]) / len(other_moods), 1)
+            shared_categories = []
+            other_avg_mood = None
+            if user_moods and other_moods:
+                user_categories = set([m.mood_category for m in user_moods if m.mood_category])
+                other_categories = set([m.mood_category for m in other_moods if m.mood_category])
+                shared_categories = list(user_categories.intersection(other_categories))
+                other_avg_mood = round(sum([m.mood_score for m in other_moods]) / len(other_moods), 1)
 
-                    # Calculate shared preferences
-                    shared_music = []
-                    shared_activities = []
-                    shared_cuisines = []
-                    if user_prefs and other_prefs:
-                        shared_music = list(set(user_prefs.music or []).intersection(set(other_prefs.music or [])))
-                        shared_activities = list(set(user_prefs.activities or []).intersection(set(other_prefs.activities or [])))
-                        shared_cuisines = list(set(user_prefs.cuisines or []).intersection(set(other_prefs.cuisines or [])))
+            shared_music = []
+            shared_activities = []
+            shared_cuisines = []
+            if user_prefs and other_prefs:
+                shared_music = list(set(user_prefs.music or []).intersection(set(other_prefs.music or [])))
+                shared_activities = list(set(user_prefs.activities or []).intersection(set(other_prefs.activities or [])))
+                shared_cuisines = list(set(user_prefs.cuisines or []).intersection(set(other_prefs.cuisines or [])))
 
-                    recommendations.append({
-                        'user': user,
-                        'score': score,
-                        'score_breakdown': score_breakdown,
-                        'shared_mood_categories': shared_categories,
-                        'avg_mood_score': other_avg_mood,
-                        'shared_music': shared_music[:5],  # Limit to top 5
-                        'shared_activities': shared_activities[:5],
-                        'shared_cuisines': shared_cuisines[:5]
-                    })
+            recommendations.append({
+                'user': user,
+                'score': score,
+                'score_breakdown': score_breakdown,
+                'shared_mood_categories': shared_categories,
+                'avg_mood_score': other_avg_mood,
+                'shared_music': shared_music[:5],
+                'shared_activities': shared_activities[:5],
+                'shared_cuisines': shared_cuisines[:5]
+            })
 
-        # Sort by score (highest first)
+        # Sort by score descending — users with no data (score 0) appear last
         recommendations.sort(key=lambda x: x['score'], reverse=True)
 
-        # Return top matches
         return recommendations[:limit]
 
 
@@ -209,15 +189,18 @@ class FriendRecommendationsAPI(Resource):
                 current_user.id, limit
             )
 
+            friend_ids = Friend.get_friends_for_user(current_user.id)
+
             result = []
             for rec in recommendations:
+                other_id = rec['user'].id
                 user_data = {
-                    'id': rec['user'].id,
+                    'id': other_id,
                     'uid': rec['user']._uid,
                     'name': rec['user']._name,
                     'email': rec['user']._email,
                     'school': rec['user']._school,
-                    'similarity_score': round(rec['score'] * 100, 1),  # Convert to percentage
+                    'similarity_score': round(rec['score'] * 100, 1),
                     'mood_compatibility': {
                         'shared_mood_categories': rec['shared_mood_categories'],
                         'avg_mood_score': rec['avg_mood_score']
@@ -226,7 +209,9 @@ class FriendRecommendationsAPI(Resource):
                         'music': rec.get('shared_music', []),
                         'activities': rec.get('shared_activities', []),
                         'cuisines': rec.get('shared_cuisines', [])
-                    }
+                    },
+                    'is_friend': other_id in friend_ids,
+                    'has_pending_request': FriendRequest.has_pending_request(current_user.id, other_id)
                 }
                 result.append(user_data)
 
@@ -319,6 +304,16 @@ class FriendRequestAPI(Resource):
             # Check if request already exists
             if FriendRequest.has_pending_request(current_user.id, receiver_id):
                 return {'message': 'Friend request already pending'}, 400
+
+            # Remove any stale accepted/rejected request in this direction so
+            # we can create a fresh one (e.g. after unfriending and re-adding)
+            stale = FriendRequest.query.filter_by(
+                _sender_id=current_user.id, _receiver_id=receiver_id
+            ).first()
+            if stale and stale._status != 'pending':
+                from __init__ import db as _db
+                _db.session.delete(stale)
+                _db.session.flush()
 
             # Create friend request
             friend_request = FriendRequest(current_user.id, receiver_id)
