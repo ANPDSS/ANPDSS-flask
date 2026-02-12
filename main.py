@@ -111,6 +111,8 @@ app.register_blueprint(group_api)  # Register the group API blueprint
 with app.app_context():
     # Create tables if they don't exist
     db.create_all()
+    # Run group migrations (adds image_data / mood_snapshot columns if missing)
+    init_groups()
     print("Database tables created/verified")
 
     # Initialize jokes data

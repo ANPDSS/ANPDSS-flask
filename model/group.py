@@ -259,18 +259,23 @@ class GroupMessage(db.Model):
     _group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
     _sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     _content = db.Column(db.Text, nullable=False)
+    _image_data = db.Column(db.Text, nullable=True)       # base64 photo from webcam
+    _mood_snapshot = db.Column(db.String(500), nullable=True)  # JSON: {score, category, tags}
     _created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     sender = db.relationship('User', foreign_keys=[_sender_id])
 
-    def __init__(self, group_id, sender_id, content):
-        if not content or len(content.strip()) == 0:
+    def __init__(self, group_id, sender_id, content, image_data=None, mood_snapshot=None):
+        # Allow empty text content when an image is attached
+        if not image_data and (not content or len(content.strip()) == 0):
             raise ValueError("Message content cannot be empty")
-        if len(content) > 5000:
+        if content and len(content) > 5000:
             raise ValueError("Message exceeds maximum length of 5000 characters")
         self._group_id = group_id
         self._sender_id = sender_id
-        self._content = content
+        self._content = content or ''
+        self._image_data = image_data
+        self._mood_snapshot = mood_snapshot
 
     @property
     def group_id(self):
@@ -296,6 +301,8 @@ class GroupMessage(db.Model):
             "sender_name": self.sender._name if self.sender else None,
             "sender_uid": self.sender._uid if self.sender else None,
             "content": self._content,
+            "image_data": self._image_data,
+            "mood_snapshot": self._mood_snapshot,
             "created_at": self.created_at
         }
 
@@ -325,6 +332,15 @@ class GroupMessage(db.Model):
 
 
 def init_groups():
-    """Initialize the group tables"""
-    with db.session.begin():
-        db.create_all()
+    """Initialize the group tables, and add new columns to existing DBs if needed"""
+    db.create_all()
+    from sqlalchemy import text
+    for col, typedef in [
+        ('_image_data', 'TEXT'),
+        ('_mood_snapshot', 'VARCHAR(500)')
+    ]:
+        try:
+            db.session.execute(text(f'ALTER TABLE group_messages ADD COLUMN {col} {typedef}'))
+            db.session.commit()
+        except Exception:
+            db.session.rollback()

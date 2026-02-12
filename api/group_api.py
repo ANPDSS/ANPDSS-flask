@@ -296,7 +296,7 @@ class GroupRemoveMemberAPI(Resource):
 class GroupMessageAPI(Resource):
     @token_required()
     def post(self, group_id):
-        """Send a message to a group"""
+        """Send a message to a group (text, photo, or both)"""
         current_user = g.current_user
         try:
             group = Group.query.get(group_id)
@@ -308,11 +308,14 @@ class GroupMessageAPI(Resource):
 
             data = request.get_json()
             content = data.get('content', '').strip()
+            image_data = data.get('image_data')      # base64 webcam photo
+            mood_snapshot = data.get('mood_snapshot')  # JSON string with mood info
 
-            if not content:
-                return {'message': 'Message content is required'}, 400
+            if not content and not image_data:
+                return {'message': 'Message must have text or a photo'}, 400
 
-            message = GroupMessage(group_id, current_user.id, content)
+            message = GroupMessage(group_id, current_user.id, content,
+                                   image_data=image_data, mood_snapshot=mood_snapshot)
             result = message.create()
             if not result:
                 return {'message': 'Failed to send message'}, 500
