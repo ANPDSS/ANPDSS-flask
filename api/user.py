@@ -337,13 +337,17 @@ class UserAPI:
                 password = body.get('password')
                 if not password:
                     return {'message': f'Password is missing'}, 401
-                            
+
                 ''' Find user '''
-    
+                # First try to find by uid (GitHub username or generated uid)
                 user = User.query.filter_by(_uid=uid).first()
-                
+
+                # If not found, try to find a guest user by name
+                if user is None:
+                    user = User.query.filter_by(_name=uid, _is_guest=True).first()
+
                 if user is None or not user.is_password(password):
-                    
+
                     return {'message': f"Invalid user id or password"}, 401
                             
                 # Check if user is found
@@ -655,8 +659,9 @@ class UserAPI:
             """
             Create a new guest user account.
 
-            Accepts only username (uid) and password. Auto-generates required fields.
-            No GitHub validation required for guest accounts.
+            Accepts name (required), email (required), password (required), and github_id (optional).
+            If github_id is provided, it will be validated and used as uid.
+            Otherwise, a unique uid will be generated from the name.
 
             Returns:
                 JSON response with the created user details or an error message.
@@ -664,37 +669,63 @@ class UserAPI:
             # Read data from json body
             body = request.get_json()
 
-            # Validate uid (username)
-            uid = body.get('uid')
-            if uid is None or len(uid) < 2:
-                return {'message': 'Username is missing, or is less than 2 characters'}, 400
+            # Validate required fields
+            name = body.get('name')
+            if name is None or len(name) < 2:
+                return {'message': 'Name is missing, or is less than 2 characters'}, 400
 
-            # Validate password (relaxed requirement for guests)
+            email = body.get('email')
+            if email is None or len(email) < 3:
+                return {'message': 'Email is missing, or is less than 3 characters'}, 400
+
             password = body.get('password')
             if password is None or len(password) < 2:
                 return {'message': 'Password is missing, or is less than 2 characters'}, 400
 
-            # Auto-generate required fields for guest accounts
-            name = uid
-            email = "?"
-            sid = "?"
-            school = "?"
+            # Handle optional github_id
+            github_id = body.get('github_id')
 
-            # Create User object with auto-generated name
-            user_obj = User(name=name, uid=uid, password=password)
+            if github_id:
+                # If github_id is provided, validate it
+                if len(github_id) < 2:
+                    return {'message': 'GitHub ID must be at least 2 characters'}, 400
 
-            # Build cleaned body with all fields filled
+                # Check if it's a valid GitHub account
+                _, status = GitHubUser().get(github_id)
+                if status != 200:
+                    return {'message': f'GitHub ID {github_id} is not a valid GitHub account'}, 404
+
+                uid = github_id
+            else:
+                # Generate uid from name
+                # Convert to lowercase, replace spaces with underscores
+                base_uid = name.lower().replace(' ', '_').replace('-', '_')
+                # Remove any non-alphanumeric characters except underscore
+                base_uid = ''.join(c for c in base_uid if c.isalnum() or c == '_')
+
+                # Check if uid already exists, if so add a number suffix
+                uid = base_uid
+                counter = 1
+                while User.query.filter_by(_uid=uid).first() is not None:
+                    uid = f"{base_uid}_{counter}"
+                    counter += 1
+
+            # Create User object marked as guest
+            user_obj = User(name=name, uid=uid, password=password, is_guest=True)
+
+            # Build cleaned body with all fields
             cleaned_body = {
                 'name': name,
                 'uid': uid,
                 'password': password,
                 'email': email,
-                'sid': sid,
-                'school': school,
-                'kasm_server_needed': False
+                'sid': body.get('sid', '?'),
+                'school': body.get('school', '?'),
+                'kasm_server_needed': False,
+                'is_guest': True
             }
 
-            # Create the guest user (skip GitHub validation)
+            # Create the guest user
             try:
                 user = user_obj.create(cleaned_body)
 
@@ -702,9 +733,30 @@ class UserAPI:
                     # Check if user was actually created in database
                     db_user = User.query.filter_by(_uid=uid).first()
                     if db_user:
-                        return jsonify(db_user.read())
+                        user = db_user
                     else:
-                        return {'message': f'Failed to create guest account for {uid}, username may already exist'}, 400
+                        return {'message': f'Failed to create guest account for {name}, please try again'}, 400
+
+                # Auto-friend guest users with 'neilM-3' (or 'niko' as fallback)
+                try:
+                    from model.friend import Friend
+
+                    # Try to find neilM-3 first, then niko as fallback
+                    demo_user = User.query.filter_by(_uid='neilM-3').first()
+                    if not demo_user:
+                        demo_user = User.query.filter_by(_uid='niko').first()
+
+                    if demo_user:
+                        # Check if they're not already friends
+                        if not Friend.are_friends(user.id, demo_user.id):
+                            friendship = Friend(user.id, demo_user.id)
+                            friendship.create()
+                            print(f"Auto-friended guest user {user.uid} with {demo_user.uid}")
+                    else:
+                        print("Warning: Could not find 'neilM-3' or 'niko' user for auto-friending")
+                except Exception as friend_error:
+                    # Don't fail the signup if friending fails, just log it
+                    print(f"Error auto-friending guest user: {friend_error}")
 
                 # Return the created user details
                 return jsonify(user.read())

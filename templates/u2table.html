@@ -56,55 +56,81 @@
 
 {% if current_user.role == 'Admin' %}
 <div class="container mt-4">
-    <h2>API Tester (Admin)</h2>
+    <h2>MoodMeal API Tester (Admin)</h2>
     <div id="apiTester" class="card p-3">
+
+        <!-- Mood Entries -->
         <div>
-            <h4>Gemini</h4>
-            <textarea id="geminiText" class="form-control" rows="3" placeholder="Text for Gemini..."></textarea>
-            <button id="geminiSend" class="btn btn-primary mt-2">Send to /api/gemini</button>
-            <button id="geminiHealth" class="btn btn-secondary mt-2">Check /api/gemini/health</button>
-            <pre id="geminiResult" class="mt-2" style="background:#f8f9fa; padding:10px; max-height:200px; overflow:auto"></pre>
-        </div>
-
-        <hr />
-
-        <div>
-            <h4>Weather</h4>
-            <input id="weatherZip" class="form-control" placeholder="ZIP code (e.g., 94103)" />
-            <button id="weatherGet" class="btn btn-primary mt-2">Get /api/outfit/weather/current</button>
-            <pre id="weatherResult" class="mt-2" style="background:#f8f9fa; padding:10px; max-height:200px; overflow:auto"></pre>
-        </div>
-
-        <hr />
-
-        <div>
-            <h4>Friends</h4>
-            <input id="searchQ" class="form-control" placeholder="Search users (min 2 chars)" />
-            <button id="searchBtn" class="btn btn-primary mt-2">Search /api/friend/search?q=</button>
-            <div class="mt-2">
-                <input id="sendReceiverId" class="form-control" placeholder="Receiver user id (number)" />
-                <button id="sendRequestBtn" class="btn btn-success mt-2">Send Friend Request (/api/friend/request)</button>
+            <h4>Mood Entries</h4>
+            <div class="row">
+                <div class="col-md-4">
+                    <input id="moodScore" type="number" class="form-control" min="0" max="100" placeholder="Mood score (0-100)" />
+                </div>
+                <div class="col-md-4">
+                    <input id="moodTags" class="form-control" placeholder='Tags (comma-separated, e.g. happy,relaxed)' />
+                </div>
+                <div class="col-md-4">
+                    <select id="moodCategory" class="form-control">
+                        <option value="">Auto (from score)</option>
+                        <option value="Happy/Neutral">Happy/Neutral</option>
+                        <option value="Energetic/Excited">Energetic/Excited</option>
+                        <option value="Tired/Low Energy">Tired/Low Energy</option>
+                        <option value="Stressed/Anxious">Stressed/Anxious</option>
+                    </select>
+                </div>
             </div>
+            <button id="moodCreate" class="btn btn-primary mt-2">Create Mood (POST /api/moodmeal/mood)</button>
+            <button id="moodList" class="btn btn-secondary mt-2">List Moods (GET /api/moodmeal/mood)</button>
+            <button id="moodStats" class="btn btn-info mt-2">Get Stats (GET /api/moodmeal/mood/stats)</button>
             <div class="mt-2">
-                <button id="listRequestsBtn" class="btn btn-secondary">List My Friend Requests (/api/friend/request)</button>
-                <input id="actionRequestId" class="form-control mt-2" placeholder="Request id to accept/reject" />
-                <button id="acceptRequestBtn" class="btn btn-success mt-2">Accept (/api/friend/request/{id})</button>
-                <button id="rejectRequestBtn" class="btn btn-danger mt-2">Reject (/api/friend/request/{id})</button>
+                <input id="moodGetId" type="number" class="form-control" placeholder="Mood ID (for get/update/delete)" />
+                <button id="moodGetById" class="btn btn-outline-primary mt-2">Get by ID</button>
+                <button id="moodDeleteById" class="btn btn-outline-danger mt-2">Delete by ID</button>
             </div>
-            <pre id="friendsResult" class="mt-2" style="background:#f8f9fa; padding:10px; max-height:300px; overflow:auto"></pre>
+            <pre id="moodResult" class="mt-2" style="background:#f8f9fa; padding:10px; max-height:300px; overflow:auto"></pre>
         </div>
 
         <hr />
 
+        <!-- Preferences -->
         <div>
-            <h4>Messages</h4>
-            <input id="msgReceiverId" class="form-control" placeholder="Friend id to message" />
-            <textarea id="msgContent" class="form-control mt-2" rows="2" placeholder="Message content"></textarea>
-            <button id="sendMsgBtn" class="btn btn-primary mt-2">Send Message (/api/message/send)</button>
-            <input id="convFriendId" class="form-control mt-2" placeholder="Friend id to fetch conversation" />
-            <button id="getConvBtn" class="btn btn-secondary mt-2">Get Conversation (/api/message/conversation/{id})</button>
-            <pre id="messageResult" class="mt-2" style="background:#f8f9fa; padding:10px; max-height:300px; overflow:auto"></pre>
+            <h4>Preferences</h4>
+            <input id="prefDietary" class="form-control" placeholder='Dietary (comma-separated, e.g. vegetarian,gluten-free)' />
+            <input id="prefAllergies" class="form-control mt-1" placeholder='Allergies (comma-separated, e.g. peanuts,shellfish)' />
+            <input id="prefCuisines" class="form-control mt-1" placeholder='Cuisines (comma-separated, e.g. italian,japanese)' />
+            <input id="prefMusic" class="form-control mt-1" placeholder='Music (comma-separated, e.g. jazz,lo-fi)' />
+            <input id="prefActivities" class="form-control mt-1" placeholder='Activities (comma-separated, e.g. yoga,walking)' />
+            <button id="prefSave" class="btn btn-primary mt-2">Save Preferences (POST /api/moodmeal/preferences)</button>
+            <button id="prefGet" class="btn btn-secondary mt-2">Get Preferences (GET /api/moodmeal/preferences)</button>
+            <button id="prefDelete" class="btn btn-danger mt-2">Delete Preferences</button>
+            <pre id="prefResult" class="mt-2" style="background:#f8f9fa; padding:10px; max-height:300px; overflow:auto"></pre>
         </div>
+
+        <hr />
+
+        <!-- Mood Meal Plan (Gemini) -->
+        <div>
+            <h4>Mood Meal Plan (Gemini)</h4>
+            <input id="planMoodId" type="number" class="form-control" placeholder="Mood ID (optional, uses latest if empty)" />
+            <div class="form-check mt-2">
+                <input id="planRefresh" type="checkbox" class="form-check-input" />
+                <label class="form-check-label" for="planRefresh">Refresh (get different recommendations)</label>
+            </div>
+            <textarea id="planFeedback" class="form-control mt-2" rows="2" placeholder="Feedback for Gemini (optional, e.g. 'I want spicier food')"></textarea>
+            <button id="planGenerate" class="btn btn-success mt-2">Generate Plan (POST /api/moodmeal/plan)</button>
+            <pre id="planResult" class="mt-2" style="background:#f8f9fa; padding:10px; max-height:400px; overflow:auto"></pre>
+        </div>
+
+        <hr />
+
+        <!-- Admin -->
+        <div>
+            <h4>Admin</h4>
+            <button id="adminCheck" class="btn btn-secondary mt-2">Check Admin Status (GET /api/admin/check)</button>
+            <button id="adminUsers" class="btn btn-secondary mt-2">List All Users (GET /api/admin/users)</button>
+            <pre id="adminResult" class="mt-2" style="background:#f8f9fa; padding:10px; max-height:300px; overflow:auto"></pre>
+        </div>
+
     </div>
 </div>
 {% endif %}

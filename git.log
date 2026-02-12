@@ -1,0 +1,2889 @@
+commit 7e9f1c104426a104a3f3383dfd0a9a8059e99a2a
+Author: darshan <WKEYNOPING@GMAIL.com>
+Date:   Mon Feb 2 12:03:57 2026 -0800
+
+    Made sure to include iterations, sequincing, and lists for parts that are missing
+
+commit c4f60837fc738786131ef1d54377ec31e7ce93b2
+Author: AdityaS-2010 <adi4utube@gmail.com>
+Date:   Thu Jan 29 11:55:59 2026 -0800
+
+    Delete gemini fiel
+
+commit 894d2579fbb3b563dcf1b70dfcb4e7834337028b
+Author: AdityaS-2010 <adi4utube@gmail.com>
+Date:   Thu Jan 29 11:54:53 2026 -0800
+
+    delete Portfix explaination
+
+commit e9beb54937bc74cdcf3577d272666cc500c0269d
+Author: AdityaS-2010 <adi4utube@gmail.com>
+Date:   Thu Jan 29 11:47:41 2026 -0800
+
+    Delete authenticate explaining md
+
+commit 15830dd5dd7025197c7082012bfbcacbca591aa8
+Author: AdityaS-2010 <adi4utube@gmail.com>
+Date:   Thu Jan 29 11:45:30 2026 -0800
+
+    delete unneseary files
+
+commit 6d66fc48ef19b9f0aee5b163ec5dc68519bb9a21
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Wed Jan 28 12:45:00 2026 -0800
+
+    added database veiwer, and simplified database schema
+
+commit 9bbc2af519ceb9aad8c15448f1872be44336ae33
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Wed Jan 28 01:12:39 2026 -0800
+
+    Base64 complete & deleting messages function
+
+commit fd45b3bbaef63f000ce7c24412160cb631d6d36b
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Wed Jan 28 00:43:20 2026 -0800
+
+    base 64 in progress
+
+commit 40e61fc97cd859d85408dc9952254235db4139fc
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Wed Jan 28 00:41:16 2026 -0800
+
+    added excectuion ability to file
+
+commit b62234520875c78a01112116c91b093df98488b9
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Wed Jan 28 00:39:27 2026 -0800
+
+    created setup script for ease of deployment, and also made sure all databased are in gitignore file
+
+commit 356954742c7ba42a516cf6b326d6993f6eec29f0
+Author: AdityaS-2010 <adi4utube@gmail.com>
+Date:   Tue Jan 27 12:20:23 2026 -0800
+
+    give permissions to initialiaze
+
+commit c70461ea28114e403dd182299fd5f1018a03bd49
+Author: darshan <WKEYNOPING@GMAIL.com>
+Date:   Tue Jan 27 12:02:51 2026 -0800
+
+    Added Recommendation Feed back button
+
+commit 0a02eece68930579e56e77a406c683055e348eac
+Author: darshan <WKEYNOPING@GMAIL.com>
+Date:   Tue Jan 27 11:21:14 2026 -0800
+
+    Get new recommnedatiosn button
+
+commit 32cbf96c0e58d1474d3318564631bb91fdf1e1fb
+Author: AdityaS-2010 <adi4utube@gmail.com>
+Date:   Sat Jan 24 22:42:31 2026 -0800
+
+    test apis
+
+commit 8182ad86684af263114f4f86549b6443bb4757d7
+Author: AdityaS-2010 <adi4utube@gmail.com>
+Date:   Sat Jan 24 13:57:51 2026 -0800
+
+    hopefully fix
+
+commit 9ba9fe66dc728d875d1f8afc025b9ef99bbece3b
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Fri Jan 23 11:31:16 2026 -0800
+
+    microblog backend
+
+commit 4284151400a4ca0fe4bcd05df7c99562607af1ff
+Author: darshan <WKEYNOPING@GMAIL.com>
+Date:   Fri Jan 23 11:28:36 2026 -0800
+
+    fixed deployment issue
+
+commit 0e73620877870f7aaca4db131feac7050aa08992
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Fri Jan 23 01:52:08 2026 -0800
+
+    tried to fix jwt error
+
+commit 4132437600dbeded4238a9b12279b3c8c46f4896
+Merge: 0dca93b 1b8171c
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Thu Jan 22 18:55:26 2026 -0800
+
+    Merge branch 'main' of https://github.com/ANPDSS/ANPDSS-flask
+
+commit 0dca93b559aa2a11b7585972aa334d5074fd26a9
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Thu Jan 22 18:55:22 2026 -0800
+
+    changes to port
+
+commit 1b8171ce49bcc1f4378408fe95efe803aecdef64
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Thu Jan 22 15:26:27 2026 -0800
+
+    mood part of db
+
+commit e3dd16fee1f2e4ab18865216831068b69297e15a
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Tue Jan 20 12:40:28 2026 -0800
+
+    admin
+
+commit 8eb352cf9667bb5fee7739b8df09908472bdbfed
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Tue Jan 20 12:03:30 2026 -0800
+
+    3808 is crashing everythng, changed ports yet again
+
+commit e7840254af9d1643bb7e6f57fc2ab6fdf31752e1
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Fri Jan 16 12:15:40 2026 -0800
+
+    fixed typo
+
+commit 7fef5f475fbf4e571573481e5e90c84c1941cd53
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Fri Jan 16 12:01:07 2026 -0800
+
+    changed ports for deplopyment AGAIN
+
+commit 2947943ec5704df38eebdbff7341a676dfc0472d
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Wed Jan 14 12:55:17 2026 -0800
+
+    removed socket
+
+commit af0c83ff6b147c65eeeca4408c63a80403ae5a85
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Wed Jan 14 12:47:27 2026 -0800
+
+    deployment error
+
+commit 1a6f8898289e547fc3cba9d4959fa004d0f76a0a
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Wed Jan 14 12:31:15 2026 -0800
+
+    dockerfile fix
+
+commit a5fd574dbeb6a889c8585797014b915c98aef854
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Wed Jan 14 12:24:30 2026 -0800
+
+    8307 port change
+
+commit 79a72325f3d84b5ed02bf906c4320121c577f600
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Wed Jan 14 12:04:40 2026 -0800
+
+    ports again
+
+commit fadb9c402c4fe075490e12320b347904b25e6735
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Wed Jan 14 11:59:10 2026 -0800
+
+    fixed ports again
+
+commit 54a242b5a4b5b44562025b4ef0a611a1e864dcef
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Wed Jan 14 11:36:08 2026 -0800
+
+    fixed ports
+
+commit 101e0e6bf828bf12c3f502a73f78ef4bcc57e9e1
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Tue Jan 13 10:51:25 2026 -0800
+
+    deployment
+
+commit 37afef24aaa0d323afdb4b9966a9ad1c1ced342b
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Tue Jan 13 10:26:06 2026 -0800
+
+    Revert "changed ports for deployment"
+    
+    This reverts commit f6774d68a7ecc992dce1c67bdb78cb81b2b1a4c8.
+
+commit a2df8fb2347d92fda73ee363a63bca615b0c5035
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Tue Jan 13 09:59:39 2026 -0800
+
+    system reqs for deployment
+
+commit 91bbac1b5bc0f08d3f4c7c5bf700da2408e8b043
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Tue Jan 13 09:58:56 2026 -0800
+
+    changed dockerfile for deployment
+
+commit f6774d68a7ecc992dce1c67bdb78cb81b2b1a4c8
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Tue Jan 13 09:55:20 2026 -0800
+
+    changed ports for deployment
+
+commit cb0df292e42f4e1ce6b4c7f7686683d6676eed26
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Fri Jan 9 12:21:37 2026 -0800
+
+    more udpated
+
+commit a8f7a3137ce6ddd331e2fc0abd98c8c914d29b30
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Fri Jan 9 11:41:33 2026 -0800
+
+    cors match
+
+commit 99334adb0cda30f220da71d1e3d81de42739488b
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Fri Jan 9 05:52:32 2026 -0800
+
+    Fix CORS for weather API endpoints by removing hardcoded headers
+    
+    Removed manual CORS header settings from Outfit_location_api.py that were
+    overriding the global CORS configuration. The global CORS config in __init__.py
+    already includes https://anpdss.github.io in the allowed origins list.
+    
+    This fixes the CORS error when accessing weather endpoints from the GitHub Pages deployment.
+    
+    Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
+
+commit a1d362196efaad092c16ce254ca3e7bb93b2c2c0
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Fri Jan 9 05:43:59 2026 -0800
+
+    Add CORS support for https://anpdss.github.io in nginx config
+
+commit 7ad30879f76b4bd01211aacdd95afd315cd2f4a2
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Fri Jan 9 01:11:27 2026 -0800
+
+    updated ports for deployment
+
+commit 06382ff553512c49e6eee0305a62db43001bde34
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Thu Jan 8 15:25:31 2026 -0800
+
+    Stop tracking instance/volumes/user_management.db (keep local copy)
+
+commit 1001f154bd2f5a24d6e1964f73cba72951e69dd1
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Thu Jan 8 11:56:06 2026 -0800
+
+    clothing stuff
+
+commit 1507d2c5ea8e23477c34c9c433d6614f50362425
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Wed Jan 7 11:54:54 2026 -0800
+
+    friends stuff
+
+commit 9816e6e6b35ae0bea0558ea4eed293a62caa4e08
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Thu Dec 18 12:10:08 2025 -0800
+
+    deleted unused file
+
+commit dcea89f61dcee9856c887e0a6881220c759222db
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Thu Dec 18 11:50:58 2025 -0800
+
+    requirements.txt
+
+commit 7e67748501428ee92a20ad853e01eeb08a81dc6d
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Thu Dec 18 11:37:20 2025 -0800
+
+    fixed timestamps and jsonify errors
+
+commit 4ddbc06a1bafd37c8505d293cb307ce0e24b0156
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Thu Dec 18 10:44:33 2025 -0800
+
+    changed requirements.txt so the new code updates work
+
+commit 980037b8823033b96320fedd8f8f237a3bac7e96
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Thu Dec 18 02:41:04 2025 -0800
+
+    THANK GOD THIS WEATHER STUFF FINALLY WORKS(needed to fix cors errors when passing get request)
+
+commit a2966bda91634450fe6d26ce4ce2299db85ce0d5
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Thu Dec 18 01:49:16 2025 -0800
+
+    changed main.py to make sure endpoints work
+
+commit 443bf9d7da664b45996f6a8facd85bdc2d909b54
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Thu Dec 18 01:46:53 2025 -0800
+
+    added api endpoints for location
+
+commit eb36a3ba6b306c6fb5ba7dffae7fe955b0723fc3
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Mon Dec 15 12:29:40 2025 -0800
+
+    fixed adityas file
+
+commit fbd67c6ef155378de7b4880e45f900b3a9ce1216
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Mon Dec 15 12:29:15 2025 -0800
+
+    Revert "added api endpoints for the weather api"
+    
+    This reverts commit ebae215043e7e09d759a977440672fdd9d031282.
+
+commit 2444ea039f4fa293ed8639f9195e72015dbabf0a
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Tue Dec 16 12:33:23 2025 -0800
+
+    beep boop bop
+
+commit 6a53db623b9f7a448429359ba6a32d0c5335acf7
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Mon Dec 15 12:16:33 2025 -0800
+
+    Revert "gemini api"
+    
+    This reverts commit 164f76d3dea939c5eb4b217e834340ed257df5ed.
+
+commit ebae215043e7e09d759a977440672fdd9d031282
+Author: Wick2009 <sathwik.kintada@gmail.com>
+Date:   Mon Dec 15 09:51:17 2025 -0800
+
+    added api endpoints for the weather api
+
+commit 164f76d3dea939c5eb4b217e834340ed257df5ed
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sat Dec 13 20:57:44 2025 -0800
+
+    gemini api
+
+commit 3aec8686406f302e8c4511e3fe3c5e06b4f6ebef
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Fri Dec 12 12:23:58 2025 -0800
+
+    fixed gitignore
+
+commit cb5e9a56d61dabcc6badcb90625eb6ed72589d94
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Fri Dec 12 11:56:31 2025 -0800
+
+    data
+
+commit ef35f395f4b0b26a37b0c399c0354a5c9144236e
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Thu Dec 11 12:09:25 2025 -0800
+
+    Remove 'Guest_' prefix from new user names
+    
+    - Changed name generation from 'Guest_{uid}' to just '{uid}'
+    - New users will now show their GitHub ID directly in users table
+    - Teacher requested: cleaner user display without 'guest_' prefix
+    
+    🤖 Generated with Claude Code
+    
+    Co-Authored-By: Claude <noreply@anthropic.com>
+
+commit 6d459edf417ba1e6b8ba0ead484a8b55532d13ba
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Mon Dec 8 23:23:16 2025 -0800
+
+    stuff
+
+commit ffb658b84baef80edf66766c9ef67420d14f2014
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Mon Dec 8 11:41:56 2025 -0800
+
+    jokes progress
+
+commit 368bdf51ea29ba43f190942d231a66b19751eec3
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Sun Dec 7 22:28:38 2025 -0800
+
+    jokes
+
+commit a96ad8ed7b240ad0b86279a1b46a62d60330b298
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Fri Dec 5 11:55:17 2025 -0800
+
+    test commit
+
+commit 10ff7c2c1a4e364faf3bcdb1070fff51a53bb0ab
+Author: Shayanb1 <shayanb1245@gmail.com>
+Date:   Sun Nov 30 15:24:43 2025 -0800
+
+    woah
+
+commit ee7522eaca86f02668804af200c7c6368c965755
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Wed Nov 12 17:15:07 2025 -0800
+
+    fix instance path
+
+commit a16c7f8450bf6e92d0fd974260f7ae31497f37ec
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Wed Nov 12 16:01:08 2025 -0800
+
+    jokes rework
+
+commit 0ca02d9b2b9de8ee22363041fe5cdfeff0374d77
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Wed Nov 12 15:05:25 2025 -0800
+
+    minor change for initJokes
+
+commit 1ba0c7c9df567d52b30c489b4bbf44b1bb63d81e
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Wed Nov 12 08:28:26 2025 -0800
+
+    change to open
+
+commit 6b6c988e560d24824aba916848daf26ae4ccd2a5
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Wed Nov 12 08:07:14 2025 -0800
+
+    add trailing slash enpoints explicitly
+
+commit c671fce87dd9b910796b1b4dff3b3bcc5cd4bd3f
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Wed Nov 12 05:06:11 2025 -0800
+
+    update single file server
+
+commit 19edd3f83a91f57f3d3d41e601576624912546f0
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sun Nov 9 07:19:35 2025 -0800
+
+    README refresh
+
+commit 0a659ed62fbb15a5f3a9351f7a146eebf0252f65
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sat Nov 8 05:30:28 2025 -0800
+
+    Establish support for .env port change
+
+commit 7c4098ec03cfefa4a8047efb34efd92c402973f4
+Merge: 60986fa 7c930d3
+Author: John M <jmortensen@powayusd.com>
+Date:   Fri Oct 31 03:04:38 2025 -0700
+
+    Merge pull request #20 from ApplicatorsCSA/main
+    
+    Adding replies to microblogging - verified with Postman testing!
+
+commit 7c930d30065f79508edf29338ecb24c0a6a7bb27
+Author: Anvay Yadav <anvrakesh@gmail.com>
+Date:   Thu Oct 30 21:33:11 2025 -0700
+
+    backenddatabasefixes
+
+commit 7acf1de4d1fa2556ca63c6be982330f88cff051a
+Author: manas1279 <oko83322@gmail.com>
+Date:   Thu Oct 30 21:14:29 2025 -0700
+
+    fixing
+
+commit 2b734f2c7c9629d36da4f987d9608ac94c556c13
+Author: Anvay Yadav <anvrakesh@gmail.com>
+Date:   Thu Oct 30 20:02:32 2025 -0700
+
+    microblogging reaction count and rection function work
+
+commit 793114973311a9dffe72e45788fa13b48b268ebf
+Author: manas1279 <oko83322@gmail.com>
+Date:   Thu Oct 30 19:48:35 2025 -0700
+
+    making replies
+
+commit e308d9b665ce21a61f4fdd3702a814f2cb7cd8d5
+Author: manas1279 <oko83322@gmail.com>
+Date:   Thu Oct 30 18:41:39 2025 -0700
+
+    MicroBlog: add get_replies and enhance add_reply; ensure API reply endpoints align
+
+commit c90443dc51694baac81325d57d446dee934b724c
+Author: Gurbop <gurbop.ice@gmail.com>
+Date:   Thu Oct 30 19:44:09 2025 -0700
+
+    microblogmodel
+
+commit 60986fa8a1aa0b54865c5b7a470eb66c8ab54ffc
+Author: CyberLord09 <anvay.vahia@gmail.com>
+Date:   Thu Oct 30 10:13:34 2025 -0700
+
+    make RESTful
+
+commit 3621a33421502e88cebdac4957707331b98a2468
+Author: CyberLord09 <anvay.vahia@gmail.com>
+Date:   Wed Oct 29 08:55:11 2025 -0700
+
+    javascript and python compilers
+
+commit 460f8d7d5003a94cecd75a0465a9ca2332a69c50
+Author: illuminati1618 <yashpparikh@gmail.com>
+Date:   Mon Oct 27 22:04:56 2025 -0700
+
+    create a lightweight endpoint for guest user creation
+
+commit 39c07b79f48e0f111da7c3cfa573c907f43bccd7
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon Oct 27 14:24:12 2025 -0700
+
+    Up limit to 200
+
+commit c2b2baf989be13259ce49a76a6f4bea6dfa93f05
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon Oct 27 12:41:14 2025 -0700
+
+    Increase Docker workers and threads
+
+commit 9e0e0fdf8ffdbc6be911ae70c065f0c9bac07c4a
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon Oct 27 12:40:45 2025 -0700
+
+    preflight early abort
+
+commit 42d158b84b9954533122191983ba9c120e2cba6f
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sun Oct 26 16:46:20 2025 -0700
+
+    solving page_path lookup
+
+commit b0eeecfc2787fbffc42a76beaed878d4eae8ce83
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sat Oct 25 21:37:33 2025 -0700
+
+    make cookies longer and easy to see differences
+
+commit 1d0339051af79bebce4d4b0ff10829cd68d7177c
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sat Oct 25 21:37:04 2025 -0700
+
+    update confusion on l127.0.0.1 by displaying localhost
+
+commit 9f0b0951484be6151dc16e5745d456ad87447b93
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sat Oct 25 18:28:41 2025 -0700
+
+    remove emojis
+
+commit 85df99edaff5bc79b7933b54f08fd09d34a4ddf2
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sat Oct 25 17:38:29 2025 -0700
+
+    correct microblogs to be able to reference topics
+
+commit 028d8e0d2710470dcf1d4bb7a69ce539d8a96af4
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Tue Oct 21 05:53:06 2025 -0700
+
+    auto topics by topic_path
+
+commit 9ba0657265446580e54bd27cc4ae661c32c7d233
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon Oct 20 22:28:39 2025 -0700
+
+    micro blog starter code
+
+commit 7cd6bf00a400167b2c114ff1cb6afac831ab0f88
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon Oct 20 21:01:32 2025 -0700
+
+    post worksing
+
+commit 1af131b34efb2b621577ab366d49ca315f5aba35
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon Oct 20 20:48:13 2025 -0700
+
+    README updates
+
+commit 3c50e162d144ba6e24dba2c8d378cb811d35334e
+Merge: 09d6781 481e9e8
+Author: John M <jmortensen@powayusd.com>
+Date:   Fri Oct 17 11:01:48 2025 -0700
+
+    Merge pull request #19 from ApplicatorsCSA/main
+    
+    Social Media Post
+
+commit 481e9e876fd273c40b5925c17b4fbaf99c6a3629
+Author: akshaynagesh <akshayn1219@gmail.com>
+Date:   Fri Oct 17 00:36:28 2025 -0700
+
+    all backned
+
+commit 09d678144e0b16442a89fa2b731cf24247a16a03
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Thu Oct 9 08:40:14 2025 -0700
+
+    Gemini 1.0
+
+commit af79f61b30495a9a8b8bc8508a4a6e341b4e03d4
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Thu Oct 9 06:46:12 2025 -0700
+
+    1st pass on Gemini API
+
+commit b2be50a6d8f4339a2d70fb4170101d4a12177a88
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Fri Aug 8 09:17:16 2025 -0700
+
+    setup jokes in project
+
+commit 131177f332f09683e29f8ec912ad14ceae7e5076
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Fri Aug 8 06:09:36 2025 -0700
+
+    add jokes
+
+commit d1b9684ae2b1ca42cc94ace51616c9f3154faee8
+Author: Risha Guha <93551990+blackstar3092@users.noreply.github.com>
+Date:   Tue Aug 5 20:38:37 2025 -0700
+
+    Update Feedback API for New Storage Repository
+
+commit 106ca049dc9b564eeaa4cba7853a0bfc288de1de
+Merge: 65cd806 43d6d36
+Author: Yash Parikh <92490175+illuminati1618@users.noreply.github.com>
+Date:   Mon Aug 4 22:38:30 2025 -0700
+
+    Merge pull request #18 from Open-Coding-Society/main
+    
+    Temporarily revert announcement API imports and registrations
+
+commit 43d6d360fb81d62792376b1050c3d07c0e7bf065
+Author: illuminati1618 <yashpparikh@gmail.com>
+Date:   Mon Aug 4 22:37:59 2025 -0700
+
+    Temporarily revert announcement API imports and registrations
+
+commit 65cd806b55c09a227df64dadd4ad50ab171e4276
+Merge: 13d3932 4a57d6f
+Author: Yash Parikh <92490175+illuminati1618@users.noreply.github.com>
+Date:   Mon Aug 4 22:31:03 2025 -0700
+
+    Merge pull request #16 from blackstar3092/main (Risha's request)
+    
+    Feedback Form: Updated Backend for Enhanced User Experience
+
+commit 13d3932df79e3c1a21bf535c99e5204ce0bdb7cf
+Merge: 334ef07 4f8ab87
+Author: Yash Parikh <92490175+illuminati1618@users.noreply.github.com>
+Date:   Mon Aug 4 22:30:43 2025 -0700
+
+    Merge pull request #17 from Open-Coding-Society/main (Anusha's request)
+    
+    Pull Request: Expand Classroom API with Student Control and Permissions
+
+commit 4f8ab876f98bd5e7bcaf6006cfe1761e402f9b9e
+Merge: 80d5339 e057e21
+Author: Flying-Book <88862590+Flying-Book@users.noreply.github.com>
+Date:   Sat Aug 2 19:46:12 2025 -0700
+
+    Merge pull request #5 from Flying-Book/main
+    
+    Whitespace error fixed
+
+commit e057e213d93300091e43ff1cc838fad24e9e8dba
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Sat Aug 2 19:43:56 2025 -0700
+
+    Whitespace error fixed
+
+commit 4a57d6f2436edcdf264f9413bdbbb4af565373dc
+Author: 93551990 <blackstar3092@gmail.com>
+Date:   Fri Aug 1 20:54:12 2025 -0700
+
+    Add Dashboard Filters
+
+commit 73c435e8b718923530e02931387647f9d73f5f1e
+Author: 93551990 <blackstar3092@gmail.com>
+Date:   Fri Aug 1 20:36:01 2025 -0700
+
+    Feedback tracks usernames and URL
+
+commit 80d5339987f9597b673a1e997acecae1b36c35f2
+Merge: 43e9452 619c98c
+Author: Flying-Book <88862590+Flying-Book@users.noreply.github.com>
+Date:   Wed Jul 30 21:13:56 2025 -0700
+
+    Merge pull request #4 from Flying-Book/main
+    
+    permissions added to classroom_api
+
+commit 619c98cdf12b673e6befb8ced4a27605dce4c304
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Wed Jul 30 21:12:53 2025 -0700
+
+    added school verfication permission
+
+commit f0ca69e22195f0edcbbc40783712d8567cea8255
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Wed Jul 30 21:00:25 2025 -0700
+
+    permissions added to classroom_api
+
+commit 43e94522d8d178f373dd9f2b9c1445a928e373b6
+Merge: fb5c8f6 e7c606d
+Author: Flying-Book <88862590+Flying-Book@users.noreply.github.com>
+Date:   Wed Jul 30 20:44:22 2025 -0700
+
+    Merge pull request #3 from Flying-Book/main
+    
+    added put/update endpoint command
+
+commit e7c606d4603c21a99172b06e94822f13a80758f2
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Wed Jul 30 20:43:08 2025 -0700
+
+    added put/update endpoint command
+
+commit fb5c8f6f76a8cfaa36c1c051ce17bf837bb526fa
+Merge: 334ef07 573e0b9
+Author: Flying-Book <88862590+Flying-Book@users.noreply.github.com>
+Date:   Tue Jul 29 15:39:20 2025 -0700
+
+    Merge pull request #2 from Flying-Book/main
+    
+    Add student management endpoints to Classroom API
+
+commit 573e0b9f4b5af3ee9da5a6c2301e5b304c2b6ca6
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Tue Jul 29 15:34:29 2025 -0700
+
+    model changes to classroom for many to many student use
+
+commit 56b867e5bd81546991e3cbab89fd62564a022fda
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Tue Jul 29 15:34:13 2025 -0700
+
+    classroom api methods added for student control
+
+commit 334ef07d6f894df4ebd3a7dba1cf76a6dbb1824d
+Merge: 539b9c6 4875a68
+Author: John M <jmortensen@powayusd.com>
+Date:   Mon Jul 28 07:54:57 2025 -0700
+
+    Merge pull request #15 from Open-Coding-Society/main
+    
+    Repair and enhance user model
+
+commit 4875a68e566a8512f9a5ea89e1aa39aaa93d435a
+Merge: f7a62ab fd92162
+Author: Flying-Book <88862590+Flying-Book@users.noreply.github.com>
+Date:   Mon Jul 28 00:01:32 2025 -0700
+
+    Merge pull request #1 from Flying-Book/main
+    
+    Adding Classroom CRUD functions
+
+commit fd92162531e7461c47f513b0288f8580e453cd89
+Merge: cb267a1 f7a62ab
+Author: Flying-Book <88862590+Flying-Book@users.noreply.github.com>
+Date:   Sun Jul 27 23:59:51 2025 -0700
+
+    Merge branch 'main' into main
+
+commit f7a62abce5f4296b2b4afab210d9d5ca215d69fe
+Author: illuminati1618 <yashpparikh@gmail.com>
+Date:   Sun Jul 27 17:17:19 2025 -0700
+
+    ONLY change email if no email exists currently AND if the email is "?" (default value) - prevents github ID changes from changing email address too
+
+commit cef0b3f51c29d273ccc40b8718a3988349a5fe24
+Author: illuminati1618 <yashpparikh@gmail.com>
+Date:   Sun Jul 27 16:43:21 2025 -0700
+
+    Add email and student ID fields to User model properly. also, only look for email in github if the user does not provide their email manually
+
+commit 539b9c6c840f72c5564ac90167048c1f604d9ab8
+Merge: 3a2abdf 18d7c6d
+Author: Risha Guha <93551990+blackstar3092@users.noreply.github.com>
+Date:   Wed Jul 23 08:59:58 2025 -0700
+
+    Merge pull request #14 from blackstar3092/main
+    
+    Feedback API and Model creation
+
+commit cb267a14e1e3b710eda059093533ec3bbc20d8dc
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Tue Jul 22 18:26:56 2025 -0700
+
+    niko is a teacher
+
+commit c22f7d396593949b3e26d50b77079e9138c7ed96
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Tue Jul 22 18:26:12 2025 -0700
+
+    add model functions
+
+commit 2b8491ba9977dbb039d81f4a219aa064b9f764c7
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Tue Jul 22 18:26:04 2025 -0700
+
+    fix endpoints on classroom api
+
+commit 30a25cbefffd3f3c5581e50820e9920fa3f78c62
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Tue Jul 22 18:25:43 2025 -0700
+
+    add to main
+
+commit 8876fa868549614d954e6f4e98d35c9014a72514
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Mon Jul 21 20:38:56 2025 -0700
+
+    admin control
+
+commit 542c00b710848648e6f2b4b795de735dc0244fee
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Mon Jul 21 20:38:47 2025 -0700
+
+    classroom status
+
+commit f563a2ec9f84d5350c79ec2b183cfcb245d6a8ca
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Mon Jul 21 20:38:28 2025 -0700
+
+    student in classroom crud (enroll/add + get + delete)
+
+commit f32155960734b4df5eee2105cae6ab3d7b9e865d
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Mon Jul 21 20:37:24 2025 -0700
+
+    classroom crud
+
+commit bd85cb1dfa40fdc28512ca967b233e19dbfc2ac1
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Mon Jul 21 20:35:42 2025 -0700
+
+    many to many added to the model
+
+commit d9f3f449b4bcb3a9e08bc8bebf0c096391b1f641
+Author: Flying-Book <khobareanusha@gmail.com>
+Date:   Mon Jul 21 20:34:43 2025 -0700
+
+    og model
+
+commit 18d7c6d785528d4e8e95cae235eae9a744a938b2
+Author: 93551990 <blackstar3092@gmail.com>
+Date:   Sun Jul 20 12:17:00 2025 -0700
+
+    Add Issue Category
+
+commit 10e80c70922bdd2a5ace5d68765bb361551cb06d
+Author: 93551990 <blackstar3092@gmail.com>
+Date:   Fri Jul 18 00:10:54 2025 -0700
+
+    Github Issues Integration
+
+commit 3a2abdfa29f05d07719a3eca403371cd7640e969
+Merge: c5267be a3373ab
+Author: John M <jmortensen@powayusd.com>
+Date:   Tue Jul 15 21:34:51 2025 -0700
+
+    Merge pull request #13 from illuminati1618/main
+    
+    Remove debug print statements from user creation process
+
+commit a3373ab8314666c2681371130668851e65f7cf82
+Author: illuminati1618 <yashpparikh@gmail.com>
+Date:   Tue Jul 15 11:10:42 2025 -0700
+
+    Remove debug print statements from user creation process
+
+commit c5267be912141ed6f1ca6ce601e262fc1d27ccf5
+Merge: a26366e 027fdfd
+Author: John M <jmortensen@powayusd.com>
+Date:   Tue Jul 15 01:00:13 2025 -0700
+
+    Merge pull request #12 from illuminati1618/main
+    
+    Enhance User Creation Process with Improved Error Handling and Data Validation // Update CORS Settings to Include Pages Locally
+
+commit 027fdfdde88f5e59cf619d8f627b0798a111865c
+Author: illuminati1618 <yashpparikh@gmail.com>
+Date:   Mon Jul 14 23:34:02 2025 -0700
+
+    Update CORS settings to include additional local origins for testing for pages
+
+commit ef09d52f324ce9ab392cff01dca933b627657758
+Author: illuminati1618 <yashpparikh@gmail.com>
+Date:   Mon Jul 14 23:33:10 2025 -0700
+
+    Enhance user creation process with improved error handling and data validation
+
+commit a26366e8577bc14574961a6029b283d90becc077
+Merge: b0bb153 c1ebe52
+Author: John M <jmortensen@powayusd.com>
+Date:   Sun Jul 13 20:55:24 2025 -0700
+
+    Merge pull request #11 from illuminati1618/main
+    
+    Create school field in backend + create teacher role assignment
+
+commit c1ebe52754c67c9daca339b473b50fc401e942b1
+Author: illuminati1618 <yashpparikh@gmail.com>
+Date:   Sun Jul 13 18:47:58 2025 -0700
+
+    Add school data API operations for user management
+
+commit d0285b000a34c0bcba2c5b2a47cbb430cbf4f7f6
+Author: Flying-Book <88862590+Flying-Book@users.noreply.github.com>
+Date:   Sun Jul 13 14:48:43 2025 -0700
+
+    Update user.py
+
+commit d841cb6f5702bc92ec1b837033ac458445171f8a
+Author: Flying-Book <88862590+Flying-Book@users.noreply.github.com>
+Date:   Sun Jul 13 00:01:12 2025 -0700
+
+    Update user.py
+
+commit 94e8cdb95fc08bf18c891ad8de92e67a4dcd758f
+Author: Yash Parikh <92490175+illuminati1618@users.noreply.github.com>
+Date:   Fri Jul 11 19:21:25 2025 -0700
+
+    Add school to model for user accounts
+
+commit b0bb15330123501d84f4fda956034de09bf841fb
+Merge: 72e372e 9223afc
+Author: John M <jmortensen@powayusd.com>
+Date:   Tue Jun 17 16:39:06 2025 -0700
+
+    Merge pull request #9 from Hypernova101/main
+    
+    fix cors for game
+
+commit 9223afc7fd8cf6458f97fc02186204a536bf544a
+Author: Hypernova101 <mihirnbapat@gmail.com>
+Date:   Mon Jun 16 01:32:27 2025 -0700
+
+    integrate to .env
+
+commit 3fe61bb09e36371139e69c69f788adf787b466a2
+Merge: a88a206 72e372e
+Author: Mihir Bapat <92143167+Hypernova101@users.noreply.github.com>
+Date:   Mon Jun 16 00:58:29 2025 -0700
+
+    Merge branch 'Open-Coding-Society:main' into main
+
+commit 72e372ed50a5d12a4372f37639704e8a60aea57c
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sun Jun 15 18:56:28 2025 -0700
+
+    new script and rename
+
+commit 307d779ad1a548d15584cc0ea2359ac45c372d28
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sun Jun 15 17:57:54 2025 -0700
+
+    fix to use and properties to avoid null errors.
+
+commit 4cba87562587677f134906fe7162118d4af4ead0
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sun Jun 15 13:25:47 2025 -0700
+
+    Update migrate script for new .env vars.
+
+commit a88a206c364512c438d96cd015486547780dd9a2
+Author: Mihir Bapat <92143167+Hypernova101@users.noreply.github.com>
+Date:   Wed Jun 11 22:09:37 2025 -0700
+
+    fix cors
+
+commit 62cd12d6b93a4a36da4dac332cfe561d6f746361
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sun Jun 8 15:37:38 2025 -0700
+
+    missing comma
+
+commit 442f32016a1d015683997230a7474398f176d001
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sun Jun 8 14:28:07 2025 -0700
+
+    add alternate origin
+
+commit daaa7df505ed1ec26f0e40569810e78ed361d8c3
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sun Jun 8 14:08:41 2025 -0700
+
+    use official python add workders
+
+commit 9248e63c0ca8db707b604ab23923713cb93bbf8b
+Merge: b377d3c 5b88aee
+Author: John M <jmortensen@powayusd.com>
+Date:   Sun Jun 8 14:01:21 2025 -0700
+
+    Merge pull request #7 from iKAN2025/patch-1
+    
+    Update __init__.py
+
+commit 5b88aee0f1c1e73b2db38d1dc3e17ca6bf568c18
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Jun 8 12:35:25 2025 -0700
+
+    Update __init__.py
+
+commit b377d3c1c0b99fc21f1788a91f3853b98901170f
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sun Jun 8 08:23:14 2025 -0700
+
+    sytax error on merge
+
+commit 017f296700386e5086541c49568592f1ecde0eda
+Merge: 7ff5197 04a72bf
+Author: John M <jmortensen@powayusd.com>
+Date:   Sun Jun 8 08:17:30 2025 -0700
+
+    Merge pull request #5 from tarunrayavarapu/main
+    
+    Predicted Grade Api, updated User table with grade data and AP exam data
+
+commit 04a72bffc8c234ec1536e02f878d0964b4b155f3
+Merge: a63bc61 7ff5197
+Author: John M <jmortensen@powayusd.com>
+Date:   Sun Jun 8 08:17:20 2025 -0700
+
+    Merge branch 'main' into main
+
+commit 7ff5197b117ee3c3b5eeeb66e5059536f6eb266c
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sun Jun 8 07:01:42 2025 -0700
+
+    updates for better backup/restore
+
+commit 159fac23192de8a09d1c08db2b221a5a7773126f
+Merge: 032b71e 20520dd
+Author: John M <jmortensen@powayusd.com>
+Date:   Tue Jun 3 03:57:05 2025 -0700
+
+    Merge pull request #4 from aadibhat09/main
+    
+    Profile Github Analytics page contributions, CSP Period 1 Aadi, Derek, Rayhaan
+
+commit a63bc6151d34b7b4bb97a9c036e42cab0f88da28
+Author: luojonah <jonahluo22@gmail.com>
+Date:   Tue Jun 3 00:23:04 2025 -0700
+
+    added working get function to grade api
+
+commit 085ec700d2171c0ab93794f8eccaeecfa8451d0f
+Author: tarunrayavarapu <tarunsrayavarapu@gmail.com>
+Date:   Mon Jun 2 21:59:28 2025 -0700
+
+    study api and model
+
+commit 5b1965ed6233c01f4999e75c943749bd3dea17e4
+Author: tarunrayavarapu <tarunsrayavarapu@gmail.com>
+Date:   Mon Jun 2 21:35:43 2025 -0700
+
+    grade api and user.py api and user.py model fix
+
+commit 20520dd7647f7cf579360091bb237b8f883cf0bb
+Merge: 4a4ded6 032b71e
+Author: Aadi Bhat <114326116+aadibhat09@users.noreply.github.com>
+Date:   Sun Jun 1 20:42:37 2025 -0700
+
+    Merge branch 'Open-Coding-Society:main' into main
+
+commit 4a4ded6acd0cbf22899c2e5dd7d652dd044c8a7b
+Author: derekkang1 <derek.j.kang@gmail.com>
+Date:   Sun Jun 1 18:12:15 2025 -0700
+
+    api fixed from v1
+
+commit 906d7a57917fe3b4295ba3dbc52b68263cb76d12
+Author: derekkang1 <derek.j.kang@gmail.com>
+Date:   Sun Jun 1 18:10:02 2025 -0700
+
+    line changes v2 works
+
+commit 3529edb08cf3acfa90e0710e941449fec165b1fb
+Author: derekkang1 <derek.j.kang@gmail.com>
+Date:   Sun Jun 1 13:08:43 2025 -0700
+
+    v1 added line commits into model
+
+commit 032b71ed0a5f199670ea2b5539ea56be65b70b16
+Merge: ccad6b6 fa6aa07
+Author: John M <jmortensen@powayusd.com>
+Date:   Fri May 30 15:30:30 2025 -0700
+
+    Merge pull request #3 from Hypernova101/main
+    
+    nginx file
+
+commit fa6aa0785c34a908d4812161681391bef114cfc6
+Author: Hypernova101 <mihirnbapat@gmail.com>
+Date:   Fri May 30 15:28:16 2025 -0700
+
+    nginx file
+
+commit ccad6b60ea54fe4fe8f6ffe7b520c717e7996d78
+Merge: b0e7282 4f79d0f
+Author: John M <jmortensen@powayusd.com>
+Date:   Fri May 30 15:25:39 2025 -0700
+
+    Merge pull request #2 from Hypernova101/main
+    
+    update socket_server
+
+commit 4f79d0ff51357d5f7e5162ba696ddcc03dbbe864
+Author: Hypernova101 <mihirnbapat@gmail.com>
+Date:   Fri May 30 15:20:29 2025 -0700
+
+    update socket_server
+
+commit b0e7282cec3a51aaf5c7e99e25cb7d37eceb0ba0
+Merge: 2d6b51e 3c9b6ff
+Author: John M <jmortensen@powayusd.com>
+Date:   Fri May 30 14:52:11 2025 -0700
+
+    Merge pull request #1 from Hypernova101/main
+    
+    try socket.io deployment on flask backend
+
+commit 3c9b6ff93131de00e64a8ec29eb2cee5657e550b
+Author: Hypernova101 <mihirnbapat@gmail.com>
+Date:   Thu May 29 15:36:24 2025 -0700
+
+    update socket.py and requirements.txt
+
+commit 3ae633b39a07ef27525031d957085d638b0e1193
+Author: Hypernova101 <mihirnbapat@gmail.com>
+Date:   Thu May 29 15:33:48 2025 -0700
+
+    try merging for now
+
+commit 2d6b51eb59cba0929b28c04dbeba412b85d0f048
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon May 26 22:13:39 2025 -0700
+
+    help for debugging
+
+commit a38876e9f06f4293da64d8a11c2d917309a32d7c
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon May 26 20:33:21 2025 -0700
+
+    domain changes
+
+commit a0a2aaae5c93e3d6b1cb1bb5b84002276fff00b8
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon May 26 13:55:44 2025 -0700
+
+    port updates
+
+commit b88b1a25b2bc242199393c6cdd3868b89f0da8c5
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon May 26 13:48:02 2025 -0700
+
+    try to remove dependencies that may not be needed
+
+commit 6e21fcf4a90b12c27adb52f946f69b7b5c105a0a
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon May 26 13:33:20 2025 -0700
+
+    add cmake to apt-get
+
+commit 0eb2b63a2048b48f9e089523828e6d58a81657f6
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon May 26 13:29:00 2025 -0700
+
+    try without dlib explicity
+
+commit 5a1e06c1ee9243826acf29115a6517c655857229
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon May 26 13:26:29 2025 -0700
+
+    try version 3.12
+
+commit d3a472c98cd36fa79d99afef374a4a22e856e46a
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon May 26 13:23:09 2025 -0700
+
+    try new pip
+
+commit 6fca65f9aa84cf2c4025daa4c4fb56966c174777
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon May 26 13:17:27 2025 -0700
+
+    back to original
+
+commit ff47b20463123de058000a7bb0f520b6c9992d79
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon May 26 12:48:10 2025 -0700
+
+    try again
+
+commit 6c03baf8e170e50717de631c1e8aa99db5dcb38d
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon May 26 12:05:10 2025 -0700
+
+    try recommendation for upgrade
+
+commit 89c267b843de4dedf67df99ff793f91b2e2809a3
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon May 26 11:56:36 2025 -0700
+
+    up to 3.12
+
+commit 1685b3eb14b6922eff86a17688032209dfaeade9
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sat May 24 07:52:19 2025 -0700
+
+    open migration
+
+commit 6444c48e673bb366c8d92d7ea8df52e63fed3ecf
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sat May 24 07:52:07 2025 -0700
+
+    open migration changes
+
+commit 6c51ebef6846aeb8787938da755a73d9da99a19b
+Merge: 88c42fd f07c3bd
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Mon Apr 21 12:04:43 2025 -0700
+
+    Merge pull request #59 from iKAN2025/main
+    
+    sections
+
+commit f07c3bd3b745f9749ead1725efde9c0902e4791e
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Wed Apr 9 12:54:58 2025 -0700
+
+    sections
+
+commit 88c42fd13f5ba512560a61039405cbbd66449688
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Tue Apr 8 13:26:50 2025 -0700
+
+    add requirements for face recognition
+
+commit 38e45e5c26745309b5a860479ec468d6dc0b7312
+Merge: d01693d fb597d9
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Mon Mar 31 18:08:21 2025 -0700
+
+    Merge pull request #58 from iKAN2025/main
+    
+    Add utable
+
+commit fb597d9a4c99ec1ea0170ab2613a2fe7befd426b
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Mon Mar 31 18:05:25 2025 -0700
+
+    add speed up
+
+commit 01e367a8372125ef9b957ecf5643a07794e57bbe
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Mon Mar 31 18:04:28 2025 -0700
+
+    fix small issue
+
+commit 9a61eec8d0e8f82bc519e35347156f7e0d24d001
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Mon Mar 31 17:52:43 2025 -0700
+
+    reduce time delay
+
+commit 4bb1033db131fe7a0f87c5b7e090a81030dc9ba1
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Mon Mar 31 17:51:22 2025 -0700
+
+    add utable
+
+commit 2d49c178118924a8fc086dd54f78d468a8bea8d4
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Mon Mar 31 17:50:16 2025 -0700
+
+    save changes to navbar
+
+commit 36dfcc637488829e593ee5fbd564824550583e9c
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Mon Mar 31 17:48:22 2025 -0700
+
+    add u2table.html
+
+commit d01693d1193ac1e8842b5e364093ca535d39b76f
+Merge: f9d7e9a 51769ca
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sat Mar 29 19:54:54 2025 -0700
+
+    Merge pull request #57 from iKAN2025/main
+    
+    Batch Processing to Make Github Commits Faster
+
+commit 51769ca730fe85d1e3025ac20dbd948abbe5692a
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sat Mar 29 19:47:12 2025 -0700
+
+    add more efficient batch processing in for loop to prevent rate limiting
+
+commit 0a41f360884091d9c6539dfb89e1b0df7a2758e0
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sat Mar 29 19:41:06 2025 -0700
+
+    make commits a little faster
+
+commit f9d7e9ad6ad2089e5b7758bb67c423189889e308
+Merge: 1ea37ae c1eb2fe
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Wed Mar 19 12:02:38 2025 -0700
+
+    Merge pull request #56 from iKAN2025/main
+    
+    Not here
+
+commit c1eb2fedf2f6d89e6ba7d620be26c339cf83bbb4
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Wed Mar 19 12:00:36 2025 -0700
+
+    analytics
+
+commit 5dd4331174143181bec952d2787171bf679524be
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Wed Mar 19 11:52:16 2025 -0700
+
+    fix
+
+commit 1ea37aeb958d529f091a74900fd99b36e44c00a2
+Merge: aaba3a5 722bc96
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Thu Mar 13 12:32:37 2025 -0700
+
+    Merge pull request #55 from iKAN2025/main
+    
+    Fix Analytics
+
+commit 722bc96d45cd34d81b440edd18d31728527ed4ba
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Thu Mar 13 12:21:27 2025 -0700
+
+    fixed mort feature
+
+commit aaba3a59c0f810f31aa2441f66d963cf4f65569b
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Wed Feb 5 21:44:21 2025 -0800
+
+    prep for deployment
+
+commit 56c3694cccea69743502b65c34e7acbd21730465
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Tue Jan 28 05:54:08 2025 -0800
+
+    update config
+
+commit 55be32686d070333e485dc99de00cd260b46efd0
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Mon Jan 13 19:34:50 2025 -0800
+
+    Update CRUD comments
+
+commit 2b585629ddbad0b9f867a7f5593b165a2af10d38
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Jan 5 12:03:13 2025 -0800
+
+    utable
+
+commit 9e8cf27e5e4b70ec70794bfb040a170b35a4a592
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Jan 5 12:02:05 2025 -0800
+
+    add one back
+
+commit 8417e9056178dbca4d4b28c68b1fe8fb54fc3b71
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Jan 5 12:00:31 2025 -0800
+
+    utable
+
+commit 7cd03ee326425f8625e52612c2ebaab538c75a55
+Merge: 3752e37 963292f
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Jan 5 11:48:11 2025 -0800
+
+    Merge pull request #54 from iKAN2025/main
+    
+    Fix Jquery, Only add commits
+
+commit 963292fb8e854e4a7dd496a2c184147eadc30504
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Jan 5 11:47:56 2025 -0800
+
+    analytics
+
+commit 9b7c13052fd3aa0f103b72ed4836f1abf34dd7b7
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Jan 5 11:44:32 2025 -0800
+
+    only commits
+
+commit f15ab72908fda5bb7b6014e70d51567a6a5f7025
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Jan 5 11:43:07 2025 -0800
+
+    change u table
+
+commit 8ccbbbf877ad2fded6905d84fa413797d7f3557c
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Jan 5 11:39:50 2025 -0800
+
+    change utable
+
+commit 3752e37757fec4a24ad20815bc903384f9101ed0
+Merge: 14085be 5797e84
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Jan 5 11:29:07 2025 -0800
+
+    Merge pull request #53 from iKAN2025/main
+    
+    change u2table back
+
+commit 5797e84ce8954bdd83ea92e40cb8359d77cd11af
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Jan 5 11:27:27 2025 -0800
+
+    change u2table back
+
+commit 14085be8b35947b7733fb77715e6b8639626730b
+Merge: 3972d07 c46583c
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sat Jan 4 21:53:51 2025 -0800
+
+    Merge pull request #52 from iKAN2025/main
+    
+    add more changes
+
+commit c46583cd0cd41a9863ab9e46a355a18ad7e9436a
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sat Jan 4 21:53:06 2025 -0800
+
+    add more changes
+
+commit 3972d07b68607eed7f4d1e061cf80588b33a892e
+Merge: dbd2cdf d2793bc
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sat Jan 4 21:49:39 2025 -0800
+
+    Merge pull request #51 from iKAN2025/main
+    
+    Add Rate Limiting For Github API
+
+commit d2793bcf13918b047d7031771cc8b7814f48539b
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sat Jan 4 21:27:43 2025 -0800
+
+    new key. set a timeout
+
+commit 985de8bd765a8dbd498ef2c45712c3f43f24cef6
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sat Jan 4 20:03:06 2025 -0800
+
+    add github commits/gitbub id
+
+commit 2e6c6503f6b6b814078f121b18d21383d84d476f
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sat Jan 4 16:39:16 2025 -0800
+
+    analytics works now
+
+commit 4d28f2fd2cd164d1f84563a6f4e297b5d45e1146
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sat Jan 4 16:01:14 2025 -0800
+
+    change
+
+commit dbd2cdf9d7872ed5d49eaa7a00c66a84f2e97aec
+Merge: e8e950e 0405da8
+Author: John M <jmortensen@powayusd.com>
+Date:   Sat Dec 28 13:37:31 2024 -0800
+
+    Merge pull request #50 from iKAN2025/main
+    
+    Update KASM UI
+
+commit 0405da86f949f8181f7e03c15a790c4b6b086b5e
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Mon Dec 23 20:12:42 2024 -0800
+
+    fix trash can
+
+commit ab7ab302510a61b3517fe845ba9bb75d9daa66e0
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Mon Dec 23 17:04:40 2024 -0800
+
+    delete
+
+commit e8e950e6bc16502363d381da5153e1546b4559f3
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Tue Dec 17 10:37:10 2024 -0800
+
+    remove code
+
+commit 673672ca9e23b382139a5668fd2dbddbf98d4970
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Tue Dec 17 10:32:22 2024 -0800
+
+    adding basic API's
+
+commit 2347cd5fb336a0250b43ff06cc8b7f30897f1331
+Merge: ec727e9 87b6c1a
+Author: John M <jmortensen@powayusd.com>
+Date:   Sun Dec 1 20:28:54 2024 -0800
+
+    Merge pull request #49 from iKAN2025/main
+    
+    Finally works without extra delete!
+
+commit 87b6c1a844dfdafd970ccbc733537030489508bb
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Dec 1 20:26:56 2024 -0800
+
+    without db.session commit
+
+commit 0906cda1ddc9792a95c279bde60b352f494d4a4f
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Dec 1 20:23:59 2024 -0800
+
+    change
+
+commit e6f3b761d4114c5e17b2f2a2ae0021b97f866bf2
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Dec 1 19:33:52 2024 -0800
+
+    allow model to handle update
+
+commit ec727e9e699d424d29212770a898ad4776ffe7e6
+Merge: da8c0f8 41a4b00
+Author: John M <jmortensen@powayusd.com>
+Date:   Sun Dec 1 18:54:29 2024 -0800
+
+    Merge pull request #47 from iKAN2025/main
+    
+    update/delete kasm user
+
+commit 41a4b0083474c8719764f761fbf6646a1583e3bb
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sun Dec 1 11:53:36 2024 -0800
+
+    update/delete kasm user
+
+commit da8c0f86c12b32bc0445c376596925d9e5138f98
+Merge: 01de1fd 712e4ae
+Author: John M <jmortensen@powayusd.com>
+Date:   Sat Nov 30 17:14:33 2024 -0800
+
+    Merge pull request #46 from iKAN2025/main
+    
+    add delete user endpoint
+
+commit 712e4aee4d5396f9b2ee28fbfbb07435ce1c4667
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sat Nov 30 13:04:47 2024 -0800
+
+    kasm_user.htmtl
+
+commit 9949e3653599a7c5d34c1ebb69d8f17c794b0c2c
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Sat Nov 30 12:47:02 2024 -0800
+
+    add delete user endpoint
+
+commit 01de1fd8284724824b82f29228d381b97794eb06
+Merge: 8ab0ff3 432efb4
+Author: John M <jmortensen@powayusd.com>
+Date:   Sat Nov 30 06:20:15 2024 -0800
+
+    Merge pull request #45 from iKAN2025/main
+    
+    kasm user report
+
+commit 432efb4dea46346bd17763e50eedc6e1886b34c7
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Fri Nov 29 20:34:52 2024 -0800
+
+    kasm user report
+
+commit 8ab0ff3b5a7e6e3b01d3505690bc61f10d00322b
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Fri Nov 15 06:44:53 2024 -0800
+
+    starter for comments
+
+commit 3a0e1e7ee896cc077c987e792d7fb79af7e2fc56
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Fri Nov 15 05:31:16 2024 -0800
+
+    common start end dates
+
+commit 5c45e6d72db1dcb7ed1b5db1ab5bea18874eb6fc
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Fri Nov 15 04:41:15 2024 -0800
+
+    update analytics window
+
+commit 676a4add82853694dd6209607ca49611e2371c74
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Thu Oct 17 10:54:09 2024 -0700
+
+    typo
+
+commit 39dada2e7631b7f19528d560c197624d56231e6e
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Thu Oct 17 06:27:53 2024 -0700
+
+    minor edits for lecture
+
+commit 86b7a9d9ead683ec32a3691d4d0f21baee5e6c7b
+Author: John M <jmortensen@powayusd.com>
+Date:   Wed Oct 16 22:32:41 2024 -0700
+
+    Update README.md
+
+commit 079bcf2e4e57a66bb592065b0fbb8e5ad5dec716
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Wed Oct 16 22:06:39 2024 -0700
+
+    update readme with secrets
+
+commit bf4975260033e0534e7c6373817a155853d4b5cc
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Wed Oct 16 21:02:00 2024 -0700
+
+    python readme changes for venv and db updates
+
+commit 2b6281c47de35bc6b6716fdb7158f3f10e8c7bda
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Sat Sep 21 12:57:31 2024 -0700
+
+    add details to commits
+
+commit 46a94ca2095d37c6041e31a289acdd319ccdc1a9
+Author: jm1021 <jmort1021@gmail.com>
+Date:   Wed Sep 18 06:22:10 2024 -0700
+
+    Allow updates for Kasm
+
+commit 1bf6c9a69f37a9e7b26430d21540eb3cbd7c14f2
+Merge: d424ba2 9768464
+Author: John M <jmortensen@powayusd.com>
+Date:   Wed Sep 18 05:23:02 2024 -0700
+
+    Merge pull request #44 from iKAN2025/main
+    
+    Refactor kasm.py POST function
+
+commit 97684645b16ada48ea55e6337c4a3d8e7f998629
+Author: iKAN2025 <142475176+iKAN2025@users.noreply.github.com>
+Date:   Mon Sep 16 13:11:52 2024 -0700
+
+    user
+
+commit d424ba283fcff2e2c007a6c996f51b0df36757c2
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Aug 25 17:33:26 2024 -0700
+
+    add helper methods to reduce code.
+
+commit 91aa96dbac98a2635657b5c4b1ecb4f17eb1c01b
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Aug 25 17:32:39 2024 -0700
+
+    add venv to support Python 3.12
+
+commit 4e37ded129e57698a08ff8866854c549962bd451
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Aug 18 19:57:37 2024 -0700
+
+    logic to support on/off kasm server toggling
+
+commit c202cc150831912e09f407ae4105fc99c6552219
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sat Aug 17 17:19:54 2024 -0700
+
+    Kasm Group creation 1.0
+
+commit b97b8c0269a62b2fb5fb3cddfb37cf529e6d0d21
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sat Aug 17 09:29:03 2024 -0700
+
+    Added group api
+
+commit a39c59ea4c4bc60133f747d74e574331e493577c
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sat Aug 17 04:57:27 2024 -0700
+
+    add JSON Data logic
+
+commit 7f9e3fdbe8b19b891b55360791cdbdceb203a2ee
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sat Aug 17 04:54:27 2024 -0700
+
+    do not commit backup data
+
+commit 6309ee62d893c0535887c4bc38dc44c4208ac977
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Aug 12 22:16:41 2024 -0700
+
+    add Analytics for PR and Issues
+
+commit d4fc05ff52bb2fc6b52682f2418b2df041415120
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Aug 12 08:46:37 2024 -0700
+
+    json backup of user data
+
+commit 0a355f310cca62eadad85a16a02ed7cf52fd0f10
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Aug 12 08:03:08 2024 -0700
+
+    working version
+
+commit 97402bf9849f6a9b69c0d83c0b138e2af990e7c1
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Aug 12 07:29:27 2024 -0700
+
+    allow for temporary .env copies
+
+commit 8f9c603f764c8749a1929bac040a4c632d91d8a5
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Aug 12 07:28:37 2024 -0700
+
+    add init vars
+
+commit fb8679dd4794785c5ab756f9233e34e00f3712c8
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Aug 12 05:23:16 2024 -0700
+
+    backup for MySQL
+
+commit 64444cc336ccd39e4595226fbcc67484e32b3667
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Aug 12 04:28:49 2024 -0700
+
+    unused scripts in old directory
+
+commit c199421bcc291e31e43470ffe9c4347c114c7644
+Merge: b1f12c1 d9fe7f3
+Author: John M <jmortensen@powayusd.com>
+Date:   Sat Aug 10 21:19:54 2024 -0700
+
+    Merge pull request #40 from varunm532/main
+    
+    Initial stock buy transaction log time fix
+
+commit b1f12c1b4b7c47c470bc3f34b45505e62c0aa166
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sat Aug 10 11:44:54 2024 -0700
+
+    Ignore backup .env
+
+commit 3c58819c76faea3b2361e153ce40d6601126567c
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sat Aug 10 11:21:51 2024 -0700
+
+    prep for other using db scripts.
+
+commit e3074c91c5d258297f2623968fbd24e380f3c968
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sat Aug 10 11:21:24 2024 -0700
+
+    fix for backref changes
+
+commit b1622348c838934cdf81eac7ec1b207991fea0b9
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sat Aug 10 10:07:26 2024 -0700
+
+    backref corrections with new name
+
+commit 0e0572911cd1d9b3118d8a2e91d40a854955938d
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sat Aug 10 08:56:49 2024 -0700
+
+    trying to eliminate relation warnings
+
+commit 033d2636c25f784732e3f753769ab1760c105918
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sat Aug 10 05:46:46 2024 -0700
+
+    simple migrate schema with  test users only
+
+commit dd84a1ae20c47523772be65638ac2d4f996c1c51
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Fri Aug 9 18:44:58 2024 -0700
+
+    update docker version
+
+commit f1393a2a3ae053585bd6668abbfbc9cd4b87c554
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Fri Aug 9 18:20:06 2024 -0700
+
+    Migration updates to support Oregon database.  Migration add database creation, as well as former schema creation for tables.
+
+commit faee60dd195e174740a395639e73d78678c7eead
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Fri Aug 9 09:59:31 2024 -0700
+
+    Edits to support updated school year
+
+commit d9fe7f3fc5ff03f0321bc2c4c24d1a09465a013d
+Author: varunm532 <varundeep.pillai@gmail.com>
+Date:   Fri Aug 9 01:07:41 2024 -0700
+
+    seperate based on year bought
+
+commit 94e81aacbf5c35f4e3198fe880a60265bfcec771
+Author: varunm532 <varundeep.pillai@gmail.com>
+Date:   Fri Aug 9 00:14:34 2024 -0700
+
+    finiahws avaliabry quantity
+
+commit 44c97099a697e4d1bbbdb452da185937910de572
+Author: varunm532 <varundeep.pillai@gmail.com>
+Date:   Thu Aug 8 23:55:25 2024 -0700
+
+    some work on sell check_stock_quantity
+
+commit 0f866d1608e12018a3541f7504e453284cef07e4
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Thu Aug 8 15:45:37 2024 -0700
+
+    case typo fixes
+
+commit 637c080def1c903db169dfee8ba1674ee7442c05
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Thu Aug 8 15:17:08 2024 -0700
+
+    add new migration and consider production preparation
+
+commit 97aa1178c8f065cbda255867dbc3da5916f566fb
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Thu Aug 8 08:45:19 2024 -0700
+
+    better error messages
+
+commit 19d04577fbaf4172310ba2b80e773f628b3ef1b9
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Thu Aug 8 08:05:22 2024 -0700
+
+    restructured for add and delete working and less imports
+
+commit 6a7c598634dea55f92a97220be269ea0c74875f2
+Author: varunm532 <varundeep.pillai@gmail.com>
+Date:   Thu Aug 8 01:48:59 2024 -0700
+
+    initial time updated for many to many table
+
+commit 8fb966cc5e4d81d55f58af558773e500a727187e
+Author: varunm532 <varundeep.pillai@gmail.com>
+Date:   Thu Aug 8 01:34:29 2024 -0700
+
+    initial stock buy fixed
+
+commit 3329b9868575311ab0aa163937ddf3f9f628979d
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Wed Aug 7 20:48:28 2024 -0700
+
+    reviewed and lightly tested create and delete on postman
+
+commit 4c365b616c00fc2e00143f6658c839dea8a6bb6e
+Merge: 5814761 b0c194d
+Author: John M <jmortensen@powayusd.com>
+Date:   Wed Aug 7 20:42:38 2024 -0700
+
+    Merge pull request #39 from TDWolff/main
+    
+    Adding Kasm Delete, Kasm Create, and also tweaking names of Kasm modules to fit for future development
+
+commit b0c194daa010633e7fd58900895c588e65a28002
+Author: TDWolff <torin.dean.wolff@gmail.com>
+Date:   Wed Aug 7 15:13:57 2024 -0700
+
+    finishing touches on kasm delete and changing names of modules to fit proper description
+
+commit 7fff264921ee4e919306a53ac5abb8ef2052320b
+Merge: 921fd6e 5814761
+Author: TDWolff <torin.dean.wolff@gmail.com>
+Date:   Wed Aug 7 14:12:43 2024 -0700
+
+    Merge branch 'main' of https://github.com/TDWolff/kasmv2_flask
+
+commit 581476147adec02ffcfe5a5dc3c8dc0df8229b32
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Wed Aug 7 13:06:14 2024 -0700
+
+    adjust user to work on @token_required and default dates for commits.
+
+commit 5a95b160fee575676b5be0c373057ae9f790e19f
+Merge: 72207ea 00f5a19
+Author: John M <jmortensen@powayusd.com>
+Date:   Wed Aug 7 12:25:34 2024 -0700
+
+    Merge pull request #38 from tuckergol/main
+    
+    Implement current_user for analytics.py
+
+commit 00f5a1977db2eeaca02f081d4601ee8fe820e4d8
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Wed Aug 7 12:03:23 2024 -0700
+
+    implement current_user for analytics
+
+commit 72207ea23207a9e530cf3b48dd4f7d9c587fd225
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Wed Aug 7 04:09:02 2024 -0700
+
+    comment tabs correction
+
+commit 921fd6e7abafc43ae6c0576fcbd91f8999430461
+Author: TDWolff <torin.dean.wolff@gmail.com>
+Date:   Tue Aug 6 17:24:25 2024 -0700
+
+    Adding Kasmdeleteuser and modifications in preperation for new functions
+
+commit 624429dfae268315653c2050450b49553d61b23d
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Tue Aug 6 12:47:42 2024 -0700
+
+    Change api for commits to handle dates in simple format.  We may need to adjust for frontend.
+
+commit 76f0835a629f2b20c91a5752061b61c59e6dd00c
+Merge: 9a2e625 f2f1052
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Tue Aug 6 03:30:35 2024 -0700
+
+    Merge branch 'main' of https://github.com/nighthawkcoders/flask_2025
+
+commit 9a2e62524e51c34816108dea69b041a0eb0edca6
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Tue Aug 6 03:30:33 2024 -0700
+
+    remove space
+
+commit f2f1052b6057d445929e43d5afc0486646531947
+Merge: 65bd2cb d3fbfa5
+Author: John M <jmortensen@powayusd.com>
+Date:   Mon Aug 5 12:41:34 2024 -0700
+
+    Merge pull request #37 from tuckergol/main
+    
+    implement GitHub user information API requests
+
+commit d3fbfa5d5a15bd4841008136f4872e78055b5448
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Mon Aug 5 12:34:54 2024 -0700
+
+    implement GitHub user information API requests
+
+commit 65bd2cb9c216ca06192178ceb29d1cd5db4e8590
+Merge: 3d7055c 9ab4ecb
+Author: John M <jmortensen@powayusd.com>
+Date:   Thu Aug 1 17:26:14 2024 -0700
+
+    Merge pull request #36 from tuckergol/main
+    
+    Foundation for analytics.py
+
+commit 3d7055c81f99888e59145604578addb224a33aff
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Thu Aug 1 17:18:48 2024 -0700
+
+    adding GitHub checks for update
+
+commit 15d43bdce6fb73351a3526160113cdf8bbc23e8b
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Thu Aug 1 16:54:51 2024 -0700
+
+    fix pfp bug
+
+commit ddfca294fce6a1ffe74763d9311aeca0ccd0e65d
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Thu Aug 1 16:35:21 2024 -0700
+
+    fix kasm server bug
+
+commit 9ab4ecb3c93a581a385e98d1b323b3a91ff9da88
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Thu Aug 1 12:59:16 2024 -0700
+
+    beginning for analytics.py
+
+commit ed7ee554fff335c00dbfffc614ca849c27de70b1
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Thu Aug 1 12:35:24 2024 -0700
+
+    Rework to support increasing complexities around 3rd party APIs.  FYI, you will need a valid GitHub ID to make an account.
+
+commit 3b6f98027f115576e9816eb1ea45a9b0c7f22115
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Wed Jul 31 08:27:48 2024 -0700
+
+    Lots of rework on github api's
+
+commit 72becdc47cf119a383b2ceaa3d60f9dcd9f3c35c
+Merge: b79e1cb 2298ee9
+Author: John M <jmortensen@powayusd.com>
+Date:   Wed Jul 31 05:23:40 2024 -0700
+
+    Merge pull request #35 from tanishapatil1234/main
+    
+    Github API stuff
+
+commit 2298ee9450fecad920f30abc7645b5df41e35f11
+Author: tanishapatil1234 <tanishapatil07@gmail.com>
+Date:   Tue Jul 30 19:42:22 2024 -0700
+
+    Github API stuff
+
+commit f4ddb2c537e6857e6b7e0571d24500aa271b4347
+Merge: ac08498 b79e1cb
+Author: Torin Wolff <142455935+TDWolff@users.noreply.github.com>
+Date:   Tue Jul 30 19:26:53 2024 -0700
+
+    Merge branch 'nighthawkcoders:main' into main
+
+commit b79e1cba698d1e03a9ac59f404877747f2cbbd2e
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Tue Jul 30 09:48:44 2024 -0700
+
+    rework utable to u2table
+
+commit 0aa8b43c321244343ecb1eb3ad204c9e02ddc426
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jul 29 23:30:05 2024 -0700
+
+    rework these methods to call model/user.py, but they appear dormant.
+
+commit 2cd7b2dcdf7878bf38e4d45ebde858ed92198874
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jul 29 23:00:13 2024 -0700
+
+    reset working on localhost
+
+commit ac084980b0156d56bcb7d92737021b974c22b801
+Author: TDWolff <torin.dean.wolff@gmail.com>
+Date:   Mon Jul 29 18:38:17 2024 -0700
+
+    Adding clarity to distinguish create kasm from other future plans.
+
+commit 35da6b705f9b8004fd5361a8675fa42083dacc04
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jul 29 14:00:12 2024 -0700
+
+    update password reset to use .env hidden value
+
+commit 5a6d9bf8fd2780d2b32d06b3b2a8625cab211a4e
+Merge: 67a0112 1a9d8ae
+Author: John M <jmortensen@powayusd.com>
+Date:   Mon Jul 29 11:24:44 2024 -0700
+
+    Merge pull request #32 from tanishapatil1234/main
+    
+    Reset password on admin page
+
+commit 1a9d8aec5e06b309410ad6a87b82fdf748164d85
+Author: tanishapatil1234 <tanishapatil07@gmail.com>
+Date:   Mon Jul 29 11:09:17 2024 -0700
+
+    Reset password on admin page
+
+commit 67a0112ffee82c9f1b8129a01894ecfdfa297aaf
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jul 29 09:12:08 2024 -0700
+
+    code review and support for password
+
+commit 994611a0185214810e2b749c535af16b25d4cb00
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jul 29 07:16:45 2024 -0700
+
+    Logic to be closer to actual year
+
+commit 4f355c860089e4d2961abbce82e969384ae649e8
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jul 28 22:05:06 2024 -0700
+
+    initialize stock account rework
+
+commit 0657ed61bd469e40d59725882d78b81b425740ff
+Merge: 0f1f578 86c5764
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jul 28 19:45:05 2024 -0700
+
+    Merge branch 'main' of https://github.com/nighthawkcoders/flask_2025
+
+commit 0f1f5789b226b8e4bbfdceb15787060b9449ec9e
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jul 28 19:44:54 2024 -0700
+
+    remove dog hair
+
+commit 86c57646e9470a2b15802f51467f730df764b60f
+Merge: 621b2d3 eb143b7
+Author: John M <jmortensen@powayusd.com>
+Date:   Sun Jul 28 16:44:27 2024 -0700
+
+    Merge pull request #31 from TDWolff/main
+    
+    Adding if statement to user.py for if kasm needed
+
+commit eb143b70e3168f9dde96f932001c9af8aec541ed
+Author: TDWolff <torin.dean.wolff@gmail.com>
+Date:   Sun Jul 28 16:33:28 2024 -0700
+
+    Adding if statement to user.py for if kasm needed
+
+commit 621b2d3bd51404baf9ff0cac398995222e6b4c32
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jul 28 16:07:41 2024 -0700
+
+    change version
+
+commit 61dbb0bd4010cdf335cfc753f6c32772449a87a4
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jul 28 16:01:29 2024 -0700
+
+    .env add to docker-compose
+
+commit 700bb626e1a034b11328ea52fcd39ed896940d84
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jul 28 16:01:07 2024 -0700
+
+    better, standarized support for .env
+
+commit f9bbaa44fdf103656b02507828099d66d19e9eb1
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jul 28 07:45:25 2024 -0700
+
+    db_init.py does it all
+
+commit a169b149e9a6b9327ae9efc7cd9b3f9b840f03a1
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sat Jul 27 21:26:02 2024 -0700
+
+    moving in to tanisha's script directory
+
+commit b7632b113b4292944b7aea95d01b4e1bdde51d20
+Merge: 1675c64 e2debf4
+Author: John M <jmortensen@powayusd.com>
+Date:   Sat Jul 27 19:59:00 2024 -0700
+
+    Merge pull request #30 from tanishapatil1234/main
+    
+    db_init.py to import schema into a NEW db
+
+commit e2debf4cb1e77dfb85d2217ac5ecd8dd21dcc5d0
+Author: tanishapatil1234 <tanishapatil07@gmail.com>
+Date:   Sat Jul 27 16:24:59 2024 -0700
+
+    db_init.py to import schema into a NEW db
+
+commit 1675c64e575e3a794d8b0edcb894ac5b4ea2be73
+Merge: 0f989a4 cbb49b2
+Author: John M <jmortensen@powayusd.com>
+Date:   Sat Jul 27 13:53:40 2024 -0700
+
+    Merge pull request #29 from TDWolff/main
+    
+    Modifying small bits and pieces of kasm api and moving stuff around. Redo
+
+commit cbb49b2573f1cd4ed069e100cba6269393130da5
+Merge: 1280f49 0f989a4
+Author: John M <jmortensen@powayusd.com>
+Date:   Sat Jul 27 13:53:29 2024 -0700
+
+    Merge branch 'main' into main
+
+commit 1280f497ca023cbe1001d1133d408598642e7759
+Author: TDWolff <torin.dean.wolff@gmail.com>
+Date:   Sat Jul 27 11:28:04 2024 -0700
+
+    Update user.py
+
+commit 9ad645ee3155023b394de7d02872e21bac595269
+Author: TDWolff <torin.dean.wolff@gmail.com>
+Date:   Sat Jul 27 10:44:10 2024 -0700
+
+    Following Mort's changes from Slack.
+
+commit 0f989a406bc6a088735ca75a3dd66351c33eacea
+Merge: 8c9fd87 bc2e066
+Author: John M <jmortensen@powayusd.com>
+Date:   Fri Jul 26 11:56:38 2024 -0700
+
+    Merge pull request #27 from TDWolff/main
+    
+    Changes in my Create Kasm User program with final production support and api checks
+
+commit 8c9fd8734a3b52fdb81ce8a35ea58ee912f97dda
+Merge: 95f276f a4a6c29
+Author: John M <jmortensen@powayusd.com>
+Date:   Fri Jul 26 11:49:52 2024 -0700
+
+    Merge pull request #26 from varunm532/main
+    
+    buy feature done
+
+commit bc2e06601fcf54426ff0e2f28291fa5aae1562e9
+Author: TDWolff <torin.dean.wolff@gmail.com>
+Date:   Fri Jul 26 10:46:33 2024 -0700
+
+    Adding api code and checks for api key validity
+
+commit 2274228dd919aecd4bc2353abff68c29ab20314c
+Author: TDWolff <torin.dean.wolff@gmail.com>
+Date:   Fri Jul 26 10:44:44 2024 -0700
+
+    Revert "Adding my api and code to check validity of a environmental variable"
+    
+    This reverts commit 8367b8b68810729a1696e0e5e21b54ea9ca60ab5.
+
+commit 8367b8b68810729a1696e0e5e21b54ea9ca60ab5
+Author: TDWolff <torin.dean.wolff@gmail.com>
+Date:   Fri Jul 26 10:41:37 2024 -0700
+
+    Adding my api and code to check validity of a environmental variable
+
+commit a4a6c2995566f3e579be3c3a2f12a07489314773
+Author: varunm532 <varundeep.pillai@gmail.com>
+Date:   Thu Jul 25 17:59:01 2024 -0700
+
+    stock single update
+
+commit 3a55b53b982d81446fd4a3157a66b68b784efa0f
+Author: varunm532 <varundeep.pillai@gmail.com>
+Date:   Thu Jul 25 17:43:12 2024 -0700
+
+    small change is model/user and return json for /initilize and some work on initial stockbuy
+
+commit f4b518cd86f5324671101a193e3b9c89b1a9a7e3
+Author: varunm532 <varundeep.pillai@gmail.com>
+Date:   Thu Jul 25 16:45:46 2024 -0700
+
+    some work on sell feature but finished account-expirary
+
+commit f4d582323a202863b96306a93cdafe5eeda68d4a
+Author: varunm532 <varundeep.pillai@gmail.com>
+Date:   Thu Jul 25 15:51:25 2024 -0700
+
+    buy feature done
+
+commit 95f276fbf2778b03eac6f689807e849ab3f85037
+Merge: 80c1659 46c1986
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Thu Jul 25 12:49:42 2024 -0700
+
+    Merge branch 'main' of https://github.com/nighthawkcoders/flask_2025
+
+commit 80c1659f1ea4997c97d671af5b59b1ae54b49d70
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Thu Jul 25 12:48:56 2024 -0700
+
+    standardize names on db scripts,  now they work from main imports to ensure all models are found
+
+commit 46c19860cec99f47134518feef1294a565b3a83e
+Author: tanishapatil1234 <tanishapatil07@gmail.com>
+Date:   Thu Jul 25 00:31:24 2024 -0700
+
+    updates to requirements.txt
+
+commit 6d6edcb8a5f923f94aef4e204803f6aabe332322
+Author: tanishapatil1234 <tanishapatil07@gmail.com>
+Date:   Thu Jul 25 00:21:38 2024 -0700
+
+    updating data on rds from new sql
+
+commit 3d1c3d0bb0e48f78133350e6d5f22221ff3ff6ae
+Author: tanishapatil1234 <tanishapatil07@gmail.com>
+Date:   Thu Jul 25 00:19:42 2024 -0700
+
+    db and rds scripts
+
+commit 8eeb8cabc26c343c1bf9d4ef9a6d7dbe84e0b170
+Author: tanishapatil1234 <tanishapatil07@gmail.com>
+Date:   Wed Jul 24 23:41:36 2024 -0700
+
+    phase 1 script - fetch data
+
+commit 4dcdca3447ea5094bab7485e156df2120b6dbd97
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Wed Jul 24 21:36:25 2024 -0700
+
+    tweak code for better success for production
+
+commit b1fd8582271f842b2c64c899d18f09226b6fe1a9
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Wed Jul 24 20:43:55 2024 -0700
+
+    import from devops support
+
+commit f6ba46262f6d707884b985d2cae63163d0227b22
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Wed Jul 24 07:08:25 2024 -0700
+
+    supporting sections
+
+commit e22221d23f0e03b21a33aee480cf96167c03eb0e
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Wed Jul 24 06:41:11 2024 -0700
+
+    Adding bulk post for users
+
+commit c586c627b957bfcfbf608a236a6596c6118608f8
+Merge: e059ccf b05ce7c
+Author: John M <jmortensen@powayusd.com>
+Date:   Wed Jul 24 04:53:00 2024 -0700
+
+    Merge pull request #23 from varunm532/main
+    
+    db table new name
+
+commit e059ccf24d4376e01b991fdf69bb05a253282235
+Merge: 21da1c0 e637f4a
+Author: John M <jmortensen@powayusd.com>
+Date:   Wed Jul 24 04:49:44 2024 -0700
+
+    Merge pull request #24 from tuckergol/main
+    
+    Added comments to model/user.py and api/user.py
+
+commit e637f4abf794b32316a47292907f8ee10c9b56eb
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Tue Jul 23 11:11:18 2024 -0700
+
+    add comments to unexplained code in api/user.py
+
+commit a079074ee9c8ee654b51628d0d7f1ed8d93d2ac6
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Tue Jul 23 11:06:26 2024 -0700
+
+    add comments to unexplained code in model/user.py
+
+commit b05ce7c99e3c6b916e94be00990c3c57fdf2873c
+Author: varunm532 <varundeep.pillai@gmail.com>
+Date:   Tue Jul 23 02:23:31 2024 -0700
+
+    renamed tables
+
+commit 21da1c0771d3af657ad8b7b9fc9c326d177fb517
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jul 22 21:09:57 2024 -0700
+
+    add year of section to user read()
+
+commit 7ce6d7639d52a9ae89fe215c2108552f47a154e3
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jul 22 19:40:18 2024 -0700
+
+    add error checking
+
+commit d8197d2c5df4630a5a80e65b6054b5cf89d9fbd4
+Merge: 9a435ab d002c92
+Author: John M <jmortensen@powayusd.com>
+Date:   Mon Jul 22 18:08:51 2024 -0700
+
+    Merge pull request #22 from tuckergol/main
+    
+    API work for updating Section year
+
+commit d002c92f57229f2b82eaa7f6ae4686b2ef4125d9
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Mon Jul 22 17:37:23 2024 -0700
+
+    API for updating Section year
+
+commit 16152ad6e2416256a1284400d8102f1a7f2e4520
+Author: varunm532 <varundeep.pillai@gmail.com>
+Date:   Mon Jul 22 17:34:48 2024 -0700
+
+    renamed uid
+
+commit 4e9f47e3e35d9d6ebf78cd4541a2ce1831aef544
+Author: varunm532 <varundeep.pillai@gmail.com>
+Date:   Mon Jul 22 17:11:53 2024 -0700
+
+    Added all changes back
+
+commit 9a435aba4045754db5a4b5311af1e9110c2e6ccb
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jul 22 13:11:56 2024 -0700
+
+    supporting model operations for year of enrollement in section
+
+commit 7bff9678187554e620afbbc0bd66162b66df55f6
+Merge: b52427a 961c851
+Author: John M <jmortensen@powayusd.com>
+Date:   Sun Jul 21 13:06:48 2024 -0700
+
+    Merge pull request #17 from tuckergol/main
+    
+    [FIXED BASED ON FEEDBACK] rename user PFP directory upon user UID change
+
+commit 961c851015a1c3ab37c4c8988a1b84e4c55ad7d6
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Sun Jul 21 12:42:40 2024 -0700
+
+    moved code for directory rename to model (user.py)
+
+commit 72f174bb108eab1e0f40d52997add1ac712a2f9f
+Author: TDWolff <torin.dean.wolff@gmail.com>
+Date:   Sat Jul 20 17:14:39 2024 -0700
+
+    Updating the user.py to include kasm create user
+
+commit b52427a4a2ae063a5c617699a8a651d75c18e010
+Author: TDWolff <torin.dean.wolff@gmail.com>
+Date:   Sat Jul 20 17:12:52 2024 -0700
+
+    Revert "Update user.py"
+    
+    This reverts commit 55166468e87ca1fb9db223b461abbd9595c500c8.
+
+commit 55166468e87ca1fb9db223b461abbd9595c500c8
+Author: TDWolff <torin.dean.wolff@gmail.com>
+Date:   Sat Jul 20 17:12:20 2024 -0700
+
+    Update user.py
+
+commit ec450a30f5a84e312809d8934d67997819259f31
+Author: TDWolff <torin.dean.wolff@gmail.com>
+Date:   Sat Jul 20 17:10:17 2024 -0700
+
+    Testing kasm create user through api
+
+commit b7b6d07d7a4bb316602257163b458631d092e2db
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Sat Jul 20 13:57:16 2024 -0700
+
+    rename PFP directory upon user UID change
+
+commit c3dd2113e679f97b046ecf4002b28eb01957ef4a
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Thu Jul 18 20:09:50 2024 -0700
+
+    Fixed compare error, added clarity to names, added exceptions
+
+commit 9b58eef1cdb54fabb5f55e1c19000619023500a7
+Merge: cfd4da7 10d7838
+Author: John M <jmortensen@powayusd.com>
+Date:   Thu Jul 18 19:17:59 2024 -0700
+
+    Merge pull request #12 from tuckergol/main
+    
+    add delete request for sections (backend)
+
+commit 10d7838b95306786dce50368fd30939a4f79a808
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Thu Jul 18 18:07:33 2024 -0700
+
+    add delete request for sections (backend)
+
+commit cfd4da7fb3fde06f5448d4d1cece1898c32653be
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Tue Jul 16 14:45:02 2024 -0700
+
+    wrong port
+
+commit dc4d0c9dea7c4fe1d9665772cd38cc06b63f2d4c
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Wed Jul 10 20:01:30 2024 -0700
+
+    Add code for POST and PUT for kasm_server_needed
+
+commit 036e88745f88e16ae7fe617f0d02b0a08b4b80ed
+Author: rachit-j <rjaiswal.sd.77@gmail.com>
+Date:   Thu Jul 4 17:00:57 2024 -0700
+
+    added the nginx file (w/o certbot)
+
+commit 3feffb3ae4196475776eabe61a98addd35e7b679
+Merge: a079564 d27673b
+Author: rachit-j <rjaiswal.sd.77@gmail.com>
+Date:   Thu Jul 4 16:56:07 2024 -0700
+
+    Merge branch 'main' of https://github.com/nighthawkcoders/kasmv2_flask
+
+commit a07956466cfed254cce9b884c890bfbe48904b26
+Author: rachit-j <rjaiswal.sd.77@gmail.com>
+Date:   Thu Jul 4 16:55:54 2024 -0700
+
+    change docker port
+
+commit d27673bc15ab9591ddec32a9d2e154aff40ca398
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Tue Jul 2 19:55:05 2024 -0700
+
+    /api/authenticate with Delete method works as logout
+
+commit e198cb3a213710cd5709f0aa3294a07330617a34
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Tue Jul 2 19:28:14 2024 -0700
+
+    Oops removed delete and put it back
+
+commit 7408606ad6485ef269f08c00cf57276a6313d6c5
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Tue Jul 2 08:25:48 2024 -0700
+
+    Update definition for related table to support year of enrollment.  Style changed to Flask SQLAlchemy
+
+commit 820549c7db1e28e2aeb94960f31b99072d5b4f35
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Tue Jul 2 06:20:10 2024 -0700
+
+    Documentation of attributes in table
+
+commit 79ed8ba39862418ba951285a6b9d0ef0a8b25bfe
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jul 1 19:21:22 2024 -0700
+
+    add sections to user via API
+
+commit 6a5d025e747730333fbe5e6ddfe7f93c2d2c36d3
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jul 1 15:14:07 2024 -0700
+
+    Add section.py for CRUD
+
+commit cb251ed5895f0eaf112532db92533a6bba4ef86d
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jul 1 14:08:20 2024 -0700
+
+    rename file for clarity in naming
+
+commit bd4784d629343dd83af56fd6afdd7eb65adfa940
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jul 1 14:02:33 2024 -0700
+
+    rename users.py to user.py for consistency
+
+commit 0ee7c27bea97bc9c0d95d46c55d8408d126d142b
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jun 30 22:27:24 2024 -0700
+
+    remove unused imports
+
+commit 76bf796d595d67fdea300b753363fa5fd4ac060b
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jun 30 22:15:02 2024 -0700
+
+    pfp api and model refactor
+
+commit fe3f0a8a09d891ebb16772922789230a31e55dbb
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jun 30 22:14:03 2024 -0700
+
+    typo
+
+commit d7a51b7fb8bb122160924611d6d5ec757050c234
+Merge: 0a7b813 7756764
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jun 30 20:40:57 2024 -0700
+
+    Merge branch 'main' of https://github.com/nighthawkcoders/kasmv2_flask
+
+commit 0a7b813c388d8381a1a3fd69f3e913651aba6d4f
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jun 30 20:39:09 2024 -0700
+
+    Add vase64_upload
+
+commit 775676401c32d4feef089053be8a3f2fa4fc13bf
+Author: rachit-j <rjaiswal.sd.77@gmail.com>
+Date:   Sun Jun 30 17:03:47 2024 -0700
+
+    testing s3
+
+commit 82c99fa1fa44467f4057ca524dabbb23adcf7491
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jun 30 16:09:10 2024 -0700
+
+    Move fileio logic to model/pfp.  Test data modifications
+
+commit 3cc5a66ee986800b1ffe2bf986835ff5d44ba661
+Merge: 288bd75 f83781b
+Author: John M <54686997+jm1021@users.noreply.github.com>
+Date:   Fri Jun 28 04:25:48 2024 -0700
+
+    Merge pull request #9 from tuckergol/main
+    
+    Removed PFP API (pfp.py) db operations, added to model (users.py) accordingly
+
+commit f83781b167db1be8e0724e32ed581f45e5733462
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Thu Jun 27 16:02:53 2024 -0700
+
+    remove pfp.py db operations, add to model for PFP
+
+commit 288bd7562514f1bc18690c6876ee6841a428c10e
+Merge: 651c2e5 01d1b38
+Author: John M <54686997+jm1021@users.noreply.github.com>
+Date:   Tue Jun 25 19:32:01 2024 -0700
+
+    Merge pull request #8 from tuckergol/main
+    
+    Added PUT request for PFP, renamed PFP test data (also altered model users.py test data accordingly)
+
+commit 01d1b38ad6f5240bf208ebbdf4e56e8083b80acd
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Tue Jun 25 13:03:26 2024 -0700
+
+    add PUT request for PFP, rename PFP test data
+
+commit 651c2e5b8f51d968eee07252f3b4dc301067edac
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jun 24 18:09:26 2024 -0700
+
+    fix delete query
+
+commit 00a3337786969bd3aebc7d708b39a8d13ca420d0
+Merge: bc2e3b5 ce5d3d4
+Author: John M <54686997+jm1021@users.noreply.github.com>
+Date:   Mon Jun 24 15:51:07 2024 -0700
+
+    Merge pull request #6 from tuckergol/main
+    
+    Added DELETE request for PFP, added Fred Flintstone as
+
+commit ce5d3d4b907eef8129c6005a8a4de7842076211e
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Mon Jun 24 11:30:37 2024 -0700
+
+    minor change for error return on pfp.py
+
+commit e76644c155799d5264325276c4a939c8e8356b1e
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Mon Jun 24 11:22:19 2024 -0700
+
+    added DELETE for PFP, added Fred Flintstone
+
+commit bc2e3b5410d67eaf4e4c70a32957b0e16be8938a
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jun 23 07:54:12 2024 -0700
+
+    default picture
+
+commit f531a204a97153b726fad793348fc8fd0cd689e3
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jun 23 07:43:27 2024 -0700
+
+    remove recipe from this project
+
+commit 842ff1ee5687661ed38a0d7ae6b8c10a5153db7f
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jun 23 07:43:03 2024 -0700
+
+    restructure pfp.py get to work on logged in ID
+
+commit a4f8686d6ffc101548273e7569104a8fe644ba0d
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jun 23 07:42:06 2024 -0700
+
+    move token required to api
+
+commit 24dad5787c0b79b831d8ac98f4de5e4c4d42839d
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jun 23 07:01:29 2024 -0700
+
+    remove volumes
+
+commit 29fbae37d795ac1a9422aa0f6c9fdd102589d725
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sun Jun 23 07:01:08 2024 -0700
+
+    images extracted according to init location, removed old images
+
+commit d2caee45a9c71c077cd696a532fac63d13ed9f2e
+Merge: 3b587f6 ab782c8
+Author: John M <54686997+jm1021@users.noreply.github.com>
+Date:   Sun Jun 23 06:15:19 2024 -0700
+
+    Merge pull request #5 from tuckergol/main
+    
+    PFP POST requests now upload to instance
+
+commit ab782c8c825c0a45254934bfed671e5e965c59a7
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Sat Jun 22 23:07:35 2024 -0700
+
+    PFP POST requests now upload to instance
+
+commit 3b587f6da4d6a76d9ceaf6017ad602957147ff43
+Merge: 2bd4285 128950a
+Author: John M <54686997+jm1021@users.noreply.github.com>
+Date:   Sat Jun 22 17:53:18 2024 -0700
+
+    Merge pull request #4 from tuckergol/main
+    
+    Integrated UPLOAD variable(s) from init.py for PFP code
+
+commit 2bd42852c8cc132f83867932c8f4071005babeb1
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Sat Jun 22 17:52:04 2024 -0700
+
+    switch between local and production database
+
+commit bb336c4b2637d3c9f295028fcad7be385ad9ad04
+Author: tanishapatil1234 <tanishapatil07@gmail.com>
+Date:   Sat Jun 22 16:37:15 2024 -0700
+
+    add pymysql to requirements
+
+commit fcc99c2239b9bac4d94d94a8a379dd2d87066d6e
+Author: tanishapatil1234 <tanishapatil07@gmail.com>
+Date:   Sat Jun 22 16:15:21 2024 -0700
+
+    RDS Stuff
+
+commit 128950a8fe41b69ca3aa4c32efd2beb97fbfdaf3
+Merge: 73e3185 3664ea5
+Author: John M <54686997+jm1021@users.noreply.github.com>
+Date:   Sat Jun 22 16:05:51 2024 -0700
+
+    Merge branch 'main' into main
+
+commit 73e31856d75aab1eccc984acc8c0014eb0d04165
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Sat Jun 22 13:53:52 2024 -0700
+
+    integrated use of init.py UPLOAD variables for PFP
+
+commit 3664ea55d81bdbef367e4c624a0c4128664c58f7
+Author: tanishapatil1234 <tanishapatil07@gmail.com>
+Date:   Sat Jun 22 13:04:43 2024 -0700
+
+    edit modal - temporary
+
+commit 5e173810e2bb6f046949c37d2caa2210fb7f6180
+Author: tanishapatil1234 <tanishapatil07@gmail.com>
+Date:   Sat Jun 22 13:04:23 2024 -0700
+
+    remove status
+
+commit 5550004eb93a1dfcf97981ac3b025a977e5bb3b7
+Merge: 4500bb9 e38b78a
+Author: John M <54686997+jm1021@users.noreply.github.com>
+Date:   Fri Jun 21 19:56:28 2024 -0700
+
+    Merge pull request #3 from tuckergol/main
+    
+    Added user PFP display on user table in User Management; small resolution/thumbnail
+
+commit e38b78a63c57bee82d9b083ac256492660403aa7
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Fri Jun 21 19:18:58 2024 -0700
+
+    user PFP display on user table in User Management
+
+commit 4500bb928123119dda87dd23e76d524e3a2c2574
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Fri Jun 21 18:57:22 2024 -0700
+
+    Redirect to next page, session login only
+
+commit 3b8206bf565c85687f94954dad31931df146367c
+Merge: 1699345 d8dac52
+Author: John M <54686997+jm1021@users.noreply.github.com>
+Date:   Thu Jun 20 16:03:58 2024 -0700
+
+    Merge pull request #2 from tuckergol/main
+    
+    Organize test user PFP data, simplify PFP API file
+
+commit d8dac523c768997568d335a43dac0e2a22f24f5e
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Thu Jun 20 14:39:38 2024 -0700
+
+    organize test user pfp data, simplify pfp API file
+
+commit 1699345be1c0567b1394091f8df680a1c38b9088
+Merge: 1bd48de 8e04fb5
+Author: John M <54686997+jm1021@users.noreply.github.com>
+Date:   Wed Jun 19 16:49:22 2024 -0700
+
+    Merge pull request #1 from tuckergol/main
+    
+    Initial integration of PFP backend work (changes: new API file, users.py integration, main.py integration)
+
+commit 8e04fb5e37ae2e01b2b9ecc5e8ebb6932e009fd5
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Wed Jun 19 14:18:24 2024 -0700
+
+    completed PFP static data; updated api and model
+
+commit 706843818db31da7473be80948bc3faa092920db
+Author: tuckergol <golparianitucker@gmail.com>
+Date:   Tue Jun 18 13:11:06 2024 -0700
+
+    initial integration of PFP (API, model, main.py)
+
+commit 1bd48deedbe7859a9b57bb6971099193c94fe05c
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jun 17 22:41:12 2024 -0700
+
+    extra lines not needed
+
+commit 4f048161312c7f6673c6f0515a91d047cd67dd73
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jun 17 22:17:29 2024 -0700
+
+    update titles for User Management
+
+commit 22a4356fc1ffe39657c4f273e253bacdbc28a912
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jun 17 22:03:30 2024 -0700
+
+    rework to allow self edit
+
+commit 012cb315fb6d072b97e63dd6b0fc560edbca13e6
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Mon Jun 17 08:15:55 2024 -0700
+
+    Jinja2 page supported
+
+commit cb485ee3e80c88d6a417c5a5b273aa1ca3561f31
+Author: John M <54686997+jm1021@users.noreply.github.com>
+Date:   Mon Jun 17 07:40:15 2024 -0700
+
+    Update README.md
+
+commit f6034a4d9d73076f04c615ecb543e5269a8bcc16
+Author: tanishapatil1234 <tanishapatil07@gmail.com>
+Date:   Thu Jun 13 12:16:13 2024 -0700
+
+    fixing User class to account for sections instead of classes
+
+commit 9c9a11a26ab5ffd09c134dc5fe5da5093f4e5fc2
+Author: tanishapatil1234 <tanishapatil07@gmail.com>
+Date:   Thu Jun 13 12:15:51 2024 -0700
+
+    removing unecessary files
+
+commit d2dd38c67cdbe7ae12caa3de2a6efe63dc6609de
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Wed Jun 12 11:48:58 2024 -0700
+
+    relations to secton, class would be possibility later
+
+commit a39d3e4abeeab83787cb518415f8240a05b73d4b
+Author: jm1021 <jmortensen@powayusd.com>
+Date:   Wed Jun 12 10:22:17 2024 -0700
+
+    Ideas for redirection
+
+commit 06b015ddb641e19741e0f6f94846dee67d14a3ae
+Author: tanishapatil1234 <tanishapatil07@gmail.com>
+Date:   Mon Jun 10 10:48:37 2024 -0700
+
+    classes, roles, login
+
+commit 6d0ec046c9eababcac8410de81794c1a43e839c6
+Author: tanishapatil1234 <111611921+tanishapatil1234@users.noreply.github.com>
+Date:   Sun Jun 9 17:49:24 2024 -0700
+
+    Initial commit

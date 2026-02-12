@@ -156,6 +156,7 @@ class User(db.Model, UserMixin):
     _grade_data = db.Column(db.JSON, unique=False, nullable=True)
     _ap_exam = db.Column(db.JSON, unique=False, nullable=True)
     _school = db.Column(db.String(255), default="Unknown", nullable=True)
+    _is_guest = db.Column(db.Boolean, default=False, nullable=False)
 
     # Define many-to-many relationship with Section model through UserSection table 
     # Overlaps setting avoids cicular dependencies with UserSection class
@@ -165,7 +166,7 @@ class User(db.Model, UserMixin):
     # Define one-to-one relationship with StockUser model
     stock_user = db.relationship("StockUser", backref=db.backref("users", cascade="all"), lazy=True, uselist=False)
 
-    def __init__(self, name, uid, password=app.config["DEFAULT_PASSWORD"], kasm_server_needed=False, role="User", pfp='', grade_data=None, ap_exam=None, school="Unknown", sid=None):
+    def __init__(self, name, uid, password=app.config["DEFAULT_PASSWORD"], kasm_server_needed=False, role="User", pfp='', grade_data=None, ap_exam=None, school="Unknown", sid=None, is_guest=False):
         self._name = name
         self._uid = uid
         self._email = "?"
@@ -177,6 +178,7 @@ class User(db.Model, UserMixin):
         self._grade_data = grade_data if grade_data else {}
         self._ap_exam = ap_exam if ap_exam else {}
         self._school = school
+        self._is_guest = is_guest
 
     # UserMixin/Flask-Login requires a get_id method to return the id as a string
     def get_id(self):
@@ -334,6 +336,14 @@ class User(db.Model, UserMixin):
         self._school = school
 
     @property
+    def is_guest(self):
+        return self._is_guest
+
+    @is_guest.setter
+    def is_guest(self, is_guest):
+        self._is_guest = is_guest
+
+    @property
     def friends(self):
         """Get list of friends for this user"""
         try:
@@ -392,6 +402,7 @@ class User(db.Model, UserMixin):
             "ap_exam": self.ap_exam,
             "password": self._password,  # Only for internal use, not for API
             "school": self.school,
+            "is_guest": self.is_guest,
             "friends": self.friends  # List of friends
         }
         sections = self.read_sections()
@@ -414,6 +425,7 @@ class User(db.Model, UserMixin):
         grade_data = inputs.get("grade_data", None)
         ap_exam = inputs.get("ap_exam", None)
         school = inputs.get("school", None)
+        is_guest = inputs.get("is_guest", None)
         # States before update
         old_uid = self.uid
         old_kasm_server_needed = self.kasm_server_needed
@@ -439,6 +451,8 @@ class User(db.Model, UserMixin):
             self.ap_exam = ap_exam
         if school is not None:
             self.school = school
+        if is_guest is not None:
+            self.is_guest = bool(is_guest)
 
         # Check this on each update
         if not email:
