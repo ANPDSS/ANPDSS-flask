@@ -1,85 +1,46 @@
 """
 Profile Picture (PFP) API
 
-Programming Constructs:
-- Sequencing: Code executes in order through upload/retrieve process
-- Selection: if/else for validation and authorization checks
-- Iteration: Loops for processing image data and validating formats
-- Lists: Arrays storing allowed image types and size limits
+SRP Refactored:
+- Removed duplicate IMAGE_SIGNATURES list and validate_image_format() (dead code).
+  Validation and format detection now live in model/pfp.py (single source of truth).
+- get_pfp_image() now delegates MIME detection and base64 decoding to model methods
+  instead of doing it inline. API layer only builds HTTP responses.
 """
 from flask import Blueprint, g, request, Response
 from flask_restful import Api, Resource
 from api.jwt_authorize import token_required
 from model.user import User
-from model.pfp import pfp_base64_decode, pfp_base64_upload, pfp_file_delete, ProfilePicture
+from model.pfp import pfp_base64_decode, pfp_base64_upload, pfp_file_delete, ProfilePicture, _get_user_by_uid
 import base64
 
 pfp_api = Blueprint('pfp_api', __name__, url_prefix='/api/id')
 api = Api(pfp_api)
 
-# List: Allowed image MIME types for profile pictures
-ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp']
-
-# List: Base64 image signature prefixes for validation
-IMAGE_SIGNATURES = [
-    {'prefix': '/9j/', 'type': 'jpeg'},
-    {'prefix': 'iVBORw0KGgo', 'type': 'png'},
-    {'prefix': 'R0lGOD', 'type': 'gif'},
-    {'prefix': 'UklGR', 'type': 'webp'}
-]
-
-
-def validate_image_format(base64_data: str) -> dict:
-    """
-    Validate that the base64 data is a recognized image format.
-    Demonstrates iteration through a list with selection.
-    """
-    result = {'valid': False, 'type': None}
-
-    # Iteration: Loop through known image signatures
-    for signature in IMAGE_SIGNATURES:
-        # Selection: Check if base64 data starts with known prefix
-        if base64_data.startswith(signature['prefix']):
-            result['valid'] = True
-            result['type'] = signature['type']
-            break
-
-    return result
+# SRP: Fallback pixel lives here since it is an HTTP response concern
+FALLBACK_PIXEL = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==")
 
 
 @pfp_api.route('/pfp/image/<uid>')
 def get_pfp_image(uid):
     """
-    Serves the profile picture as an actual image file.
-    This endpoint can be used directly in <img src="..."> tags.
-
-    URL: /api/id/pfp/image/<uid>
-
-    Returns the image with proper content-type, or a default placeholder.
+    SRP: This function's only job is to build an HTTP Response.
+    User lookup delegates to _get_user_by_uid (model layer).
+    MIME detection and decoding delegate to ProfilePicture.get_image_binary (model layer).
     """
-    user = User.query.filter_by(_uid=uid).first()
+    user = _get_user_by_uid(uid)
     if not user:
-        # Return a 1x1 transparent pixel as fallback
-        transparent_pixel = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==")
-        return Response(transparent_pixel, mimetype='image/png')
+        return Response(FALLBACK_PIXEL, mimetype='image/png')
 
     pfp = ProfilePicture.get_by_user_id(user.id)
     if pfp and pfp.base64_data:
         try:
-            # Decode the base64 data to binary
-            image_data = base64.b64decode(pfp.base64_data)
-            # Detect image type (basic detection)
-            if pfp.base64_data.startswith('/9j/'):
-                mimetype = 'image/jpeg'
-            else:
-                mimetype = 'image/png'
+            image_data, mimetype = pfp.get_image_binary()
             return Response(image_data, mimetype=mimetype)
         except Exception as e:
             print(f"Error decoding PFP for {uid}: {e}")
 
-    # Return a default gray pixel if no PFP
-    gray_pixel = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==")
-    return Response(gray_pixel, mimetype='image/png')
+    return Response(FALLBACK_PIXEL, mimetype='image/png')
 
 class _PFP(Resource):
     """

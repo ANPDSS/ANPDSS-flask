@@ -59,9 +59,18 @@ RETRIEVE (Database → Frontend):
 
 from __init__ import db, app
 from sqlalchemy.exc import IntegrityError
+import base64
 
 # List: Valid image format prefixes for base64 validation
 VALID_IMAGE_PREFIXES = ['/9j/', 'iVBORw0KGgo', 'R0lGOD', 'UklGR']
+
+# List: Maps base64 prefixes to their MIME types (single source of truth for format detection)
+IMAGE_PREFIX_TO_MIME = [
+    {'prefix': '/9j/', 'mime': 'image/jpeg'},
+    {'prefix': 'iVBORw0KGgo', 'mime': 'image/png'},
+    {'prefix': 'R0lGOD', 'mime': 'image/gif'},
+    {'prefix': 'UklGR', 'mime': 'image/webp'}
+]
 
 # List: Maximum allowed sizes (in characters) for different image types
 IMAGE_SIZE_LIMITS = [
@@ -223,6 +232,27 @@ class ProfilePicture(db.Model):
             'base64_data': self._base64_data
         }
 
+    # ===== SRP: Image data methods (model owns image format knowledge) =====
+
+    def detect_mime_type(self):
+        """
+        Detect the MIME type of this profile picture from its base64 data.
+        SRP: This is the single source of truth for MIME detection.
+        """
+        for entry in IMAGE_PREFIX_TO_MIME:
+            if self._base64_data.startswith(entry['prefix']):
+                return entry['mime']
+        return 'image/png'
+
+    def get_image_binary(self):
+        """
+        Decode base64 data and return (binary_data, mime_type).
+        SRP: Model handles its own data conversion, API layer just builds the response.
+        """
+        image_data = base64.b64decode(self._base64_data)
+        mime_type = self.detect_mime_type()
+        return image_data, mime_type
+
     # ===== STATIC METHODS FOR QUERIES =====
 
     @staticmethod
@@ -279,39 +309,35 @@ class ProfilePicture(db.Model):
 
 
 # ==============================================================================
+# SRP: Single user lookup helper (replaces 3 duplicate blocks)
+# ==============================================================================
+
+def _get_user_by_uid(user_uid):
+    """
+    SRP: One function whose only job is to look up a user by UID.
+    Before this refactor, the same User.query.filter_by() call was
+    duplicated in pfp_base64_decode, pfp_base64_upload, and pfp_file_delete.
+    """
+    from model.user import User
+    user = User.query.filter_by(_uid=user_uid).first()
+    if not user:
+        print(f"User not found: {user_uid}")
+    return user
+
+
+# ==============================================================================
 # HELPER FUNCTIONS (for backwards compatibility with api/pfp.py)
 # ==============================================================================
 
 def pfp_base64_decode(user_uid, user_pfp=None):
     """
-    ===========================================================================
-    GET BASE64 FROM DATABASE (for sending to frontend)
-    ===========================================================================
-
-    Retrieves the base64 encoded profile picture from the database.
-
-    Parameters:
-    - user_uid (str): The user's UID (username)
-    - user_pfp: IGNORED (kept for backwards compatibility)
-
-    Returns:
-    - str: The base64 encoded image string
-    - None: If user has no profile picture
-
-    CALLED BY:
-    - api/pfp.py → GET /api/id/pfp
-    - api/friend_api.py → when including pfp in friend data
-    ===========================================================================
+    SRP Worker: Retrieves base64 profile picture from database.
+    Only job: look up user, return their image data.
     """
-    from model.user import User
-
-    # Find the user by UID
-    user = User.query.filter_by(_uid=user_uid).first()
+    user = _get_user_by_uid(user_uid)
     if not user:
-        print(f"User not found: {user_uid}")
         return None
 
-    # Get their profile picture from the database
     pfp = ProfilePicture.get_by_user_id(user.id)
     if pfp:
         return pfp.base64_data
@@ -321,36 +347,21 @@ def pfp_base64_decode(user_uid, user_pfp=None):
 
 def pfp_base64_upload(base64_image, user_uid):
     """
-    ===========================================================================
-    SAVE BASE64 TO DATABASE (from frontend upload)
-    ===========================================================================
-
-    Saves the base64 encoded profile picture to the database.
-
-    Parameters:
-    - base64_image (str): The base64 encoded image string from frontend
-    - user_uid (str): The user's UID (username)
-
-    Returns:
-    - str: A success indicator (the user_uid) - for backwards compatibility
-    - None: If an error occurs
-
-    CALLED BY:
-    - api/pfp.py → PUT /api/id/pfp
-    ===========================================================================
+    SRP Worker: Validates and saves base64 image to database.
+    Only job: validate image, save to DB, update legacy field.
     """
-    from model.user import User
-
-    # Find the user by UID
-    user = User.query.filter_by(_uid=user_uid).first()
+    user = _get_user_by_uid(user_uid)
     if not user:
-        print(f"User not found: {user_uid}")
         return None
 
-    # Save to database
+    # SRP: validate before saving (validate_base64_image was defined but never called before)
+    validation = validate_base64_image(base64_image)
+    if not validation['valid']:
+        print(f"Invalid image format for user {user_uid}")
+        return None
+
     result = ProfilePicture.save_for_user(user.id, base64_image)
     if result:
-        # Also update the user's pfp field for backwards compatibility
         user.pfp = f"{user_uid}.png"
         db.session.commit()
         return f"{user_uid}.png"
@@ -360,33 +371,13 @@ def pfp_base64_upload(base64_image, user_uid):
 
 def pfp_file_delete(user_uid, filename=None):
     """
-    ===========================================================================
-    DELETE BASE64 FROM DATABASE
-    ===========================================================================
-
-    Deletes the profile picture from the database.
-
-    Parameters:
-    - user_uid (str): The user's UID (username)
-    - filename: IGNORED (kept for backwards compatibility)
-
-    Returns:
-    - True: Successfully deleted
-    - False: Error or not found
-
-    CALLED BY:
-    - api/pfp.py → DELETE /api/id/pfp
-    ===========================================================================
+    SRP Worker: Deletes profile picture from database.
+    Only job: look up user, delete their image record.
     """
-    from model.user import User
-
-    # Find the user by UID
-    user = User.query.filter_by(_uid=user_uid).first()
+    user = _get_user_by_uid(user_uid)
     if not user:
-        print(f"User not found: {user_uid}")
         return False
 
-    # Delete from database
     return ProfilePicture.delete_for_user(user.id)
 
 
