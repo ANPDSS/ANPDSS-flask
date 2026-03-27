@@ -34,14 +34,24 @@ RECOMMENDATION_LIMITS = {'meals': 3, 'activities': 3, 'music': 3, 'clothing': 2}
 
 class MoodRepository:
     """
-    Specialist responsible for all database reads related to mood and preferences.
-    If the database ever changes, this is the only class that needs to be updated.
+    /**
+     * Data Layer — Single Responsibility: database access only.
+     *
+     * All queries to MoodMealMood and MoodMealPreferences live here.
+     * If the database schema or ORM ever changes, this is the only
+     * class that needs to be updated. It has no knowledge of the AI layer.
+     */
     """
 
     @staticmethod
     def get_latest_mood_for_user(user_id: int) -> dict | None:
         """
-        Returns the most recent mood entry as a dict using MoodMealMood.read().
+        /**
+         * Fetches the most recent mood entry for a given user.
+         *
+         * @param user_id  - the ID of the authenticated user
+         * @return dict with mood data, or None if no entry exists
+         */
         """
         # Sequencing: build query then execute to retrieve the most recent mood
         mood = (
@@ -56,7 +66,13 @@ class MoodRepository:
     @staticmethod
     def get_mood_by_id_for_user(user_id: int, mood_id: int) -> dict | None:
         """
-        Returns a specific mood entry for this user, or None.
+        /**
+         * Fetches a specific mood entry by ID for a given user.
+         *
+         * @param user_id  - the ID of the authenticated user
+         * @param mood_id  - the ID of the mood entry to retrieve
+         * @return dict with mood data, or None if not found
+         */
         """
         # Sequencing: query by id then return
         mood = MoodMealMood.query.filter_by(id=mood_id, _user_id=user_id).first()
@@ -66,8 +82,13 @@ class MoodRepository:
     @staticmethod
     def get_preferences_for_user(user) -> dict:
         """
-        Returns preferences JSON for the authenticated user.
-        Always returns a plain dict (never jsonify).
+        /**
+         * Fetches dietary, allergy, cuisine, music, and activity preferences
+         * for the authenticated user. Returns defaults if none are saved.
+         *
+         * @param user  - the authenticated user object
+         * @return dict of preferences (never a Flask Response)
+         */
         """
         prefs = MoodMealPreferences.query.filter_by(_user_id=user.id).first()
         # Selection: if no prefs found, return default structure (lists)
@@ -90,16 +111,24 @@ class MoodRepository:
 
 class GeminiService:
     """
-    Specialist responsible for all Gemini AI interactions.
-    It knows how to build a prompt and parse a response.
-    It does NOT know anything about the database.
+    /**
+     * AI Layer — Single Responsibility: Gemini API communication only.
+     *
+     * Handles prompt construction and response parsing for the Google Gemini API.
+     * Takes plain Python dicts in, returns parsed JSON out.
+     * Has no knowledge of the database or SQLAlchemy models.
+     */
     """
 
     @staticmethod
     def validate_mood_category(category: str) -> bool:
         """
-        Validate if the mood category is recognized.
-        Demonstrates iteration through a list with selection.
+        /**
+         * Checks whether a mood category string matches a known valid category.
+         *
+         * @param category  - mood category string to validate
+         * @return True if valid, False otherwise
+         */
         """
         # Iteration: Loop through valid mood categories
         for valid_category in VALID_MOOD_CATEGORIES:
@@ -111,8 +140,13 @@ class GeminiService:
     @staticmethod
     def filter_recommendations_by_limit(recommendations: dict) -> dict:
         """
-        Filter recommendations to respect category limits.
-        Demonstrates iteration through dictionary items.
+        /**
+         * Trims each recommendation category to its defined max count
+         * using the RECOMMENDATION_LIMITS constants.
+         *
+         * @param recommendations  - raw dict of AI-generated recommendations
+         * @return dict with each category capped at its limit
+         */
         """
         filtered = {}
 
@@ -132,10 +166,18 @@ class GeminiService:
     @staticmethod
     def build_prompt(mood: dict, preferences: dict, weather: dict | None = None, refresh: bool = False, feedback: str | None = None) -> str:
         """
-        Converts mood + preferences into a Gemini-ready prompt string.
-        Forces JSON-only output so we can parse reliably.
-        If refresh=True, instructs Gemini to provide different/alternative recommendations.
-        If feedback is provided, includes the user's specific feedback about what they want changed.
+        /**
+         * Builds the full prompt string to send to Gemini.
+         * Injects mood data, preferences, weather, and optional refresh/feedback
+         * instructions. Forces JSON-only output for reliable parsing.
+         *
+         * @param mood         - dict of the user's current mood data
+         * @param preferences  - dict of the user's saved preferences
+         * @param weather      - optional dict of current weather data
+         * @param refresh      - if True, instructs Gemini to vary its suggestions
+         * @param feedback     - optional user feedback string to guide new results
+         * @return prompt string ready to pass to call_and_parse()
+         */
         """
         # Lists: mood_tags and preference lists are treated as lists
         mood_score = mood.get("mood_score")
@@ -240,8 +282,14 @@ class GeminiService:
     @staticmethod
     def call_and_parse(prompt: str) -> dict:
         """
-        Calls Gemini with the given prompt and parses the JSON response.
-        Takes text in, gives JSON out — knows nothing about the database.
+        /**
+         * Sends a prompt to the Gemini API and parses the JSON response.
+         * Handles connection errors and malformed responses.
+         *
+         * @param prompt  - the fully built prompt string from build_prompt()
+         * @return parsed dict of AI recommendations
+         * @throws RuntimeError if the API is unreachable or returns non-JSON
+         */
         """
         import httpx
         from google import genai
@@ -288,13 +336,24 @@ class GeminiService:
 
 def generate_moodmeal_plan(user_id: int, mood_id: int | None = None, weather: dict | None = None, refresh: bool = False, feedback: str | None = None) -> dict:
     """
-    Orchestrator: coordinates MoodRepository (data) and GeminiService (AI).
-    It does not know HOW to query the DB or format a prompt — it just calls the specialists.
-
-    Flow:
-      1. Call MoodRepository  → get mood + preferences data
-      2. Call GeminiService   → build prompt and get AI plan
-      3. Return combined result
+    /**
+     * Logic Layer — Single Responsibility: orchestration only.
+     *
+     * Coordinates MoodRepository and GeminiService to produce a meal plan.
+     * Does not contain any database queries or prompt-building logic itself.
+     *
+     * Flow:
+     *   1. MoodRepository  → fetch mood + preferences from the database
+     *   2. GeminiService   → build prompt and get AI-generated recommendations
+     *   3. Return combined result as a plain dict
+     *
+     * @param user_id   - the ID of the authenticated user
+     * @param mood_id   - optional specific mood entry ID; uses latest if omitted
+     * @param weather   - optional weather dict to include in the prompt
+     * @param refresh   - if True, tells Gemini to vary recommendations
+     * @param feedback  - optional user feedback to guide new results
+     * @return dict containing mood, preferences, weather used, and generated plan
+     */
     """
 
     # Step 1 — Data Layer: get mood
