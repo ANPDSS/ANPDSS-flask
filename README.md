@@ -1,38 +1,43 @@
-# README
+# Moodlife – Backend (Flask)
 
-> This is a project to support AP Computer Science Principles (APCSP) as well as a UC articulated Data Structures course. It was crafted iteratively starting in 2020 to the present time.  The primary purposes are ...
+**Moodlife** is a mood and wellness tracking application built by the ANPDSS team. This repository contains the Flask backend that powers the Moodlife platform, providing REST APIs for user authentication, mood logging, meal/activity recommendations via AI, and social features.
 
-- Used as starter code for student projects for `AP CSP 1 and 2` and `Data Structures 1` curriculum.
-- Used to teach key principles in learning the Python Flask programming environment.
-- Used as a backend server to service API's in a frontend-to-backend pipeline. Review the `api` folder in the project for endpoints.
-- Contains a minimal frontend, mostly to support Administrative functionality using the `templates` folder and `Jinja2` to define UIs.
-- Contains SQL database code in the `model` folder to introduce concepts of persistent data and storage.  Perisistence folder is `instance/volumes` for generated SQLite3 db.
-- Contains capabilities for deployment and has been used with AWS, Ubuntu, Docker, docker-compose, and Nginx to `deploy a WSGI server`.
-- Contains APIs to support `user authentication and cookies`, a great deal of which was contributed by Aiden Wu a former student in CSP.  
+The backend pairs with the [Moodlife frontend](https://github.com/ANPDSS/ANPDSS-Pages) (GitHub Pages / Jekyll).
 
-## Flask Portfolio Starter
+## Project Overview
 
-Use this project to create a Flask Server.
+Moodlife helps users track and reflect on their emotional wellbeing over time. The backend is responsible for:
 
-- GitHub link: [flask](https://github.com/open-coding-society/flask), runtime link is published under the About on this same page.
-- `Use this as template` option is availble if you plan on making your instance of the repository.
-- `Fork` the repository if you plan to contribute though GitHub PRs.
+- User registration, login, and JWT-based authentication
+- Storing and retrieving mood entries and user preferences via SQLAlchemy
+- Generating personalized meal, activity, music, and clothing recommendations using the Google Gemini API (via `POST /api/moodmeal/plan`)
+- Serving a MicroBlog / social feed API for community interaction
+- Supporting deployment via AWS, Docker, docker-compose, and Nginx
 
-## The conventional way to get started
+## Tech Stack
 
-> Quick steps that can be used with MacOS, WSL Ubuntu, or Ubuntu; this uses Python 3.9 or later as a prerequisite.
+| Layer | Technology |
+|-------|-----------|
+| Web Framework | Flask (Python) |
+| Database ORM | SQLAlchemy (SQLite locally, AWS RDS in production) |
+| Authentication | JWT cookies |
+| AI Integration | Google Gemini API (`moodmeal_gemini.py`) |
+| Deployment | Docker, docker-compose, Nginx, WSGI |
 
-- Open a Terminal, clone a project and `cd` into the project directory.  Use a `different link` and name for `name` for clone to match your repo.
+---
+
+## Getting Started
+
+> Requires Python 3.9+. Works on macOS, WSL Ubuntu, and Ubuntu.
+
+### 1. Clone the repository
 
 ```bash
-mkdir -p ~/openccs; cd ~/opencs
-
-git clone https://github.com/open-coding-ocietyflask.git
-
-cd flask
+git clone https://github.com/ANPDSS/ANPDSS-flask.git
+cd ANPDSS-flask
 ```
 
-- Install python dependencies for Flask, etc.
+### 2. Set up a virtual environment and install dependencies
 
 ```bash
 python -m venv venv
@@ -40,169 +45,223 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Open project in VSCode
+### 3. Configure environment variables
 
-- Prepare VSCode and run
-  - From Terminal run VSCode
+Create a `.env` file in the project root:
 
-  ```bash
-  code .
-  ```
+```shell
+# Port configuration
+FLASK_PORT=8001
+# Admin user
+ADMIN_USER='Thomas Edison'
+ADMIN_UID='toby'
+ADMIN_PASSWORD='123Toby!'
+ADMIN_PFP='toby.png'
+# Default user
+DEFAULT_USER='Grace Hopper'
+DEFAULT_UID='hop'
+DEFAULT_USER_PASSWORD='123Hop!'
+DEFAULT_USER_PFP='hop.png'
+DEFAULT_PASSWORD='123Qwerty!'
+# Google Gemini AI (used by /api/moodmeal/plan)
+GEMINI_API_KEY=xxxxx
+GEMINI_API_BASE_URL=https://generativelanguage.googleapis.com/
+# GitHub
+GITHUB_TOKEN=ghp_xxx
+GITHUB_TARGET_TYPE=user
+GITHUB_TARGET_NAME=ANPDSS
+# DB (AWS RDS for production)
+DB_USERNAME='admin'
+DB_PASSWORD='xxxxx'
+```
 
-  - Open Setting: Ctrl-Shift P or Cmd-Shift
-    - Search Python: Select Interpreter.
-    - Match interpreter to `which python` from terminal.
-    - Shourd be ./venv/bin/python
+### 4. Initialize the database
 
-  - From Extensions Marketplace install `SQLite3 Editor`
-    - Open and view SQL database file `instance/volumes/user_management.db`
+```bash
+./scripts/db_init.py
+```
 
-  - Make a local `.env` file in root of project to contain your secret passwords
+### 5. Run the app
 
-  ```shell
-  # Port configuration
-  FLASK_PORT=8001
-  # Admin user reset password 
-  DEFAULT_PASSWORD='123Qwerty!'
-  # Admin user defaults
-  ADMIN_USER='Thomas Edison'
-  ADMIN_UID='toby'
-  ADMIN_PASSWORD='123Toby!'
-  ADMIN_PFP='toby.png'
-  # Create a default user for the system
-  DEFAULT_USER='Grace Hopper'
-  DEFAULT_UID='hop'
-  DEFAULT_USER_PASSWORD='123Hop!'
-  DEFAULT_USER_PFP='hop.png'
-  # Obtain key, [Google AI Studio](https://aistudio.google.com/api-keys)
-  GEMINI_API_KEY=xxxxx
-  GEMINI_SERVER=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent
-  # GitHub Configuation
-  GITHUB_TOKEN=ghp_xxx
-  GITHUB_TARGET_TYPE=user  # Use 'organization' or 'user'
-  GITHUB_TARGET_NAME=Open-Coding-Society
-  # KASM Configuration (server is defaulted)
-  KASM_SERVER=https://kasm.opencodingsociety.com
-  KASM_API_KEY_SECRET=xxxx
-  KASM_API_KEY=xxx
-  # DB Configuration, AWS RDS
-  DB_USERNAME='admin'
-  DB_PASSWORD='xxxxx'
-  ```
+Open `main.py` in VSCode and click the Play button, or:
 
-  - Make the database and init data.
-  
-  ```bash
-  ./scripts/db_init.py
-  ```
+```bash
+python main.py
+```
 
-  - Explore newly created SQL database
-    - Navigate too instance/volumes
-    - View/open `user_management.db`
-    - Loook at `users` table in viewer
+Click the localhost URL shown in the terminal to open the app.
 
-  - Run the Project
-    - Select/open `main.py` in VSCode
-    - Start with Play button
-      - Play button sub option contains Debug
-    - Click on localhost:8087 in terminal to launch
-      - Output window will contain page to launch http://localhost:8587
-    - Login using your secrets from env
+---
 
-  - Basic API test
-    - [Jokes](http://localhost:8587/api/jokes/)
+## API Reference
 
 ### User Operations
-| Purpose | Correct Endpoint | What It Does |
-|---------|-----------------|--------------|
-| **Login** | `/api/authenticate` | Authenticates user & sets cookie |
-| **Get User** | `/api/id` | Gets current logged-in user |
-| **Signup** | `/api/user` | Creates new user account |
-| **Posts** | `/api/post/all` | Gets all social media posts |
-| **Create Post** | `/api/post` | Creates a new post |
-| **Gemini AI** | `/api/gemini` | Chat with AI assistant |
 
-### MicroBlog Operations
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/microblog` | Create new post |
-| GET | `/api/microblog` | Get posts (with filters) |
-| PUT | `/api/microblog` | Update post |
-| DELETE | `/api/microblog` | Delete post |
+| POST | `/api/authenticate` | Log in — authenticates user and sets JWT cookie |
+| GET | `/api/id` | Get the currently logged-in user's profile |
+| POST | `/api/user` | Sign up — create a new user account |
 
-**Query Parameters for GET:**
-- `?topicId=1` - Posts for specific topic
-- `?userId=123` - Posts by specific user  
-- `?search=flask` - Search content
-- `?limit=20` - Limit results
+---
 
-### MicroBlog Interactions
+### MoodMeal – Mood Logging (`/api/moodmeal`)
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/microblog/reply` | Add reply to post |
-| POST | `/api/microblog/reaction` | Add reaction (👍, ❤️, etc.) |
-| DELETE | `/api/microblog/reaction` | Remove reaction |
+| GET | `/api/moodmeal/mood` | Get mood history (supports `?limit=N`) |
+| POST | `/api/moodmeal/mood` | Log a new mood entry |
+| GET | `/api/moodmeal/mood/<id>` | Get a specific mood entry by ID |
+| PUT | `/api/moodmeal/mood/<id>` | Update a specific mood entry |
+| DELETE | `/api/moodmeal/mood/<id>` | Delete a specific mood entry |
+| GET | `/api/moodmeal/mood/stats` | Get mood statistics (average, most common category/tags) |
 
-### Microblog Page Integration
+**POST `/api/moodmeal/mood` body:**
+```json
+{
+  "mood_score": 75,
+  "mood_category": "Happy/Neutral",
+  "mood_tags": ["relaxed", "focused"],
+  "timestamp": "2026-04-18 12:00:00"
+}
+```
+Valid `mood_category` values: `Happy/Neutral`, `Energetic/Excited`, `Tired/Low Energy`, `Stressed/Anxious`
+
+---
+
+### MoodMeal – User Preferences (`/api/moodmeal/preferences`)
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/microblog/page/<page_key>` | Get posts for specific page |
-| POST | `/api/microblog/topics/auto-create` | Auto-create topic for page |
+| GET | `/api/moodmeal/preferences` | Get the current user's saved preferences |
+| POST | `/api/moodmeal/preferences` | Create or update preferences |
+| DELETE | `/api/moodmeal/preferences` | Delete preferences |
+
+**POST `/api/moodmeal/preferences` body:**
+```json
+{
+  "dietary": ["vegetarian"],
+  "allergies": ["nuts"],
+  "cuisines": ["Italian", "Japanese"],
+  "music": ["lo-fi", "jazz"],
+  "activities": ["yoga", "walking"]
+}
+```
+
+---
+
+### MoodMeal – AI Recommendations (`/api/moodmeal/plan`)
+
+Calls `moodmeal_gemini.py` internally to generate personalized recommendations using the user's latest mood and saved preferences.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/moodmeal/plan` | Generate meal, activity, music & clothing recommendations |
+
+**POST body (all fields optional):**
+```json
+{
+  "mood_id": 42,
+  "weather": { "weather": [{"main": "Cloudy"}], "main": {"temp": 65} },
+  "refresh": true,
+  "feedback": "I don't want pasta suggestions"
+}
+```
+
+**Response shape:**
+```json
+{
+  "user_id": 1,
+  "mood_used": { "mood_score": 75, "mood_category": "Happy/Neutral", "mood_tags": ["relaxed"] },
+  "preferences_used": { "dietary": ["vegetarian"], "cuisines": ["Italian"] },
+  "weather_used": { ... },
+  "generated": {
+    "meals": [{ "title": "...", "why": "...", "time_minutes": 20, "difficulty": "easy" }],
+    "activities": [{ "name": "...", "why": "...", "energy": "medium" }],
+    "music": [{ "song": "...", "artist": "...", "why": "..." }],
+    "clothing": [{ "item": "...", "why": "...", "layers": "light" }]
+  }
+}
+```
+
+---
+
+### MicroBlog / Social Feed (`/api/microblog`)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/microblog` | Create a new post |
+| GET | `/api/microblog` | Get posts (supports `?topicId`, `?userId`, `?search`, `?limit`) |
+| PUT | `/api/microblog` | Update a post |
+| DELETE | `/api/microblog` | Delete a post |
+| POST | `/api/microblog/reply` | Add a reply to a post |
+| POST | `/api/microblog/reaction` | Add a reaction (👍, ❤️, etc.) |
+| DELETE | `/api/microblog/reaction` | Remove a reaction |
+| GET | `/api/microblog/page/<page_key>` | Get posts for a specific page |
+| POST | `/api/microblog/topics/auto-create` | Auto-create a topic for a page |
 | GET | `/api/microblog/topics?pagePath=X` | Get topic by page path |
 
-## Idea
+---
 
-### Files and Directories in this Project
+## Project Structure
 
-The key files and directories in this project are in these online articles.
+```
+ANPDSS-flask/
+├── main.py                    # Flask app entry point & blueprint registration
+├── api/
+│   ├── moodmeal_api.py        # /api/moodmeal/* — mood, preferences, plan endpoints
+│   ├── moodmeal_gemini.py     # Gemini AI integration for /api/moodmeal/plan
+│   ├── microblog_api.py       # /api/microblog/* — social feed
+│   ├── user.py                # /api/user, /api/authenticate, /api/id
+│   ├── gemini_api.py          # General-purpose Gemini chat endpoint
+│   ├── friend_api.py          # Friend requests and connections
+│   ├── message_api.py         # Private messaging
+│   ├── group_api.py           # Group management
+│   └── ...                    # Other feature APIs
+├── model/
+│   ├── moodmeal_mood.py       # MoodMealMood SQLAlchemy model
+│   ├── moodmeal_preferences.py# MoodMealPreferences SQLAlchemy model
+│   ├── user.py                # User model with JWT auth
+│   └── ...
+├── templates/                 # Jinja2 admin UI templates
+├── static/                    # Static assets
+├── scripts/                   # DB init and utility scripts
+└── instance/volumes/          # SQLite database (local dev)
+```
 
-[Python/Flask](https://pages.opencodingsociety.com/python/flask)
+---
 
-[Legacy - Flask Intro](https://pages.opencodingsociety.com/flask-overview)
+## Deployment
 
-### Implementation Summary
+The backend supports production deployment using Docker and Nginx as a WSGI server. See `docker-compose.yml` and the deployment scripts in the repository for details.
 
-#### Oct 2025
+---
 
-> Updates for 2025-2026 school year.  Focus on documentation and API functionality.
+## Related Repositories
 
-- Work to make documentation materials useful.
-- Add gemini API's
-- Add microblog API's, social medai support
+| Repository | Purpose |
+|------------|---------|
+| [ANPDSS-flask](https://github.com/ANPDSS/ANPDSS-flask) | This repo — Moodlife backend (Flask REST API) |
+| [ANPDSS-Pages](https://github.com/ANPDSS/ANPDSS-Pages) | Moodlife frontend (GitHub Pages / Jekyll) |
 
-#### July 2024
+---
 
-> Updates for 2024 too 2025 school year.  Primary addition is a fully functional backend for JWT login system.
+## Changelog
 
-- Full support for JWT cookies
-- The API's for CRUD methods
-- The model definition User Class and related tables
-- SQLite and RDS support
-- Minimal Server side UI in Jinja2
+### 2025–2026
+- Added `moodmeal_gemini.py` — AI-powered mood-based recommendations (meals, activities, music, clothing) via `/api/moodmeal/plan`
+- Added MicroBlog / social feed APIs
+- Added friend, messaging, and group APIs
 
-#### July 2023
+### 2024–2025
+- Full JWT cookie-based authentication
+- CRUD endpoints for users and posts
+- SQLite (dev) and AWS RDS (production) support
+- Minimal Jinja2 admin UI
 
-> Updates for 2023 to 2024 school year.
+### 2023–2024
+- JWT security hardening
+- SQLite schema migration support (`migrate.sh`)
 
-- Update README with File Descriptions (anatomy)
-- Add JWT and add security features using a SQLite user database
-- Add migrate.sh to support sqlite schema and data upgrade
-
-#### January 2023
-
-> This project focuses on being a Python backend server.  Intentions are to only have simple UIs an perhaps some Administrative UIs.
-
-#### September 2021
-
-> Basic UI elements were implemented showing server side Flask with Jinja 2 capabilities.
-
-- The Project entry point is main.py, this enables the Flask Web App and provides the capability to render templates (HTML files)
-- The main.py is the  Web Server Gateway Interface, essentially it contains an HTTP route and HTML file relationship.  The Python code constructs WSGI relationships for index, kangaroos, walruses, and hawkers.
-- The project structure contains many directories and files.  The template directory (containing HTML files) and static directory (containing JS files) are common standards for HTML coding.  Static files can be pictures and videos, in this project they are mostly javascript backgrounds.
-- WSGI templates: index.html, kangaroos.html, ... are aligned with routes in main.py.
-- Other templates support WSGI templates.  The base.html template contains common Head, Style, Body, and Script definitions.  WSGI templates often "include" or "extend" these templates.  This is a way to reuse code.
-- The VANTA javascript statics (backgrounds) are shown and defaulted in base.html (birds) but are block-replaced as needed in other templates (solar, net, ...)
-- The Bootstrap Navbar code is in navbar.html. The base.html code includes navbar.html.  The WSGI html files extend base.html files.  This is a process of management and correlation to optimize code management.  For instance, if the menu changes discovery of navbar.html is easy, one change reflects on all WSGI html files.
-- Jinja2 variables usage is to isolate data and allow redefinitions of attributes in templates.  Observe "{% set variable = %}" syntax for definition and "{{ variable }}" for reference.
-- The base.html uses a combination of Bootstrap grid styling and custom CSS styling.  Grid styling in observation with the "<Col-3>" markers.  A Bootstrap Grid has a width of 12, thus four "Col-3" markers could fit on a Grid row.
-- A key purpose of this project is to embed links to other content.  The "href=" definition embeds hyperlinks into the rendered HTML.  The base.html file shows usage of "href={{github}}", the "{{github}}" is a Jinja2 variable.  Jinja2 variables are pre-processed by Python, a variable swap with value, before being sent to the browser.
+### 2021–2022
+- Initial Flask / WSGI server with Jinja2 templates
